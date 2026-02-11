@@ -1,0 +1,55 @@
+name: supershot
+version: '1.0.0'
+summary: Screenshot tool with delay timer for GNOME
+description: |
+  SuperShot is a native GTK4/Libadwaita screenshot tool for GNOME desktops.
+  It provides a minimal, focused interface for taking screenshots with a
+  configurable delay timer, delegating capture to the GNOME Screenshot portal.
+
+  Features:
+  - Configurable delay (none, 3, 5, or 10 seconds) with visual countdown
+  - Automatic save to ~/Pictures/Screenshots/
+  - Automatic clipboard copy
+  - Desktop notifications after capture
+  - CLI headless mode (supershot --now --delay 5)
+  - Settings persistence via GSettings
+  - 14 language translations
+
+grade: stable
+confinement: strict
+base: core24
+license: GPL-3.0-or-later
+
+icon: data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
+
+apps:
+  supershot:
+    command: usr/bin/supershot
+    extensions: [gnome]
+    plugs:
+      - home
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+
+parts:
+  supershot:
+    plugin: rust
+    source: .
+    build-packages:
+      - libgtk-4-dev
+      - libadwaita-1-dev
+      - pkg-config
+      - libglib2.0-dev
+    stage-packages:
+      - libgtk-4-1
+      - libadwaita-1-0
+    override-build: |
+      craftctl default
+      install -Dm644 data/com.github.axpnet.SuperShot.desktop $CRAFT_PART_INSTALL/usr/share/applications/com.github.axpnet.SuperShot.desktop
+      install -Dm644 data/com.github.axpnet.SuperShot.gschema.xml $CRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/com.github.axpnet.SuperShot.gschema.xml
+      install -Dm644 data/com.github.axpnet.SuperShot.metainfo.xml $CRAFT_PART_INSTALL/usr/share/metainfo/com.github.axpnet.SuperShot.metainfo.xml
+      install -Dm644 data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg $CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
+      install -Dm644 data/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg $CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg
+      glib-compile-schemas $CRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/

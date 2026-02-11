@@ -9,20 +9,18 @@
   <description>
     <p>
       SuperShot is a native GTK4/Libadwaita screenshot tool for GNOME desktops.
-      It adds what the built-in screenshot tool is missing: configurable delay timers,
-      multiple capture modes, clipboard integration, shutter sound, and a clean
-      Adwaita-native interface.
+      It provides a minimal, focused interface for taking screenshots with a
+      configurable delay timer, delegating capture to the GNOME Screenshot portal.
     </p>
     <p>Features:</p>
     <ul>
       <li>Configurable delay: none, 3, 5, or 10 seconds with visual countdown</li>
-      <li>Three capture modes: selection, full screen, window</li>
       <li>Automatic save to ~/Pictures/Screenshots/</li>
-      <li>One-click clipboard copy</li>
+      <li>Automatic clipboard copy</li>
       <li>Desktop notifications after capture</li>
-      <li>Shutter sound feedback</li>
-      <li>CLI mode for scripting (--now --mode screen --delay 5)</li>
+      <li>CLI headless mode for scripting</li>
       <li>Settings persistence via GSettings</li>
+      <li>14 language translations</li>
     </ul>
   </description>
 
@@ -63,8 +61,8 @@
   <releases>
     <release version="1.0.0" date="2026-02-11">
       <description>
-        <p>First public release with English UI, i18n support, GSettings
-        persistence, desktop notifications, shutter sound, visual countdown,
+        <p>First public release with English UI, i18n support (14 languages),
+        GSettings persistence, desktop notifications, visual countdown,
         and CLI headless mode.</p>
       </description>
     </release>

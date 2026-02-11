@@ -1,0 +1,40 @@
+app-id: com.github.axpnet.SuperShot
+runtime: org.gnome.Platform
+runtime-version: '47'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: supershot
+
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --talk-name=org.freedesktop.portal.Desktop
+  - --talk-name=org.freedesktop.portal.Screenshot
+
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  env:
+    CARGO_HOME: /run/build/supershot/cargo
+    CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
+
+modules:
+  - name: supershot
+    buildsystem: simple
+    build-commands:
+      - cargo --offline fetch --manifest-path Cargo.toml --verbose
+      - cargo --offline build --release --verbose
+      - install -Dm755 target/release/supershot /app/bin/supershot
+      - install -Dm644 data/com.github.axpnet.SuperShot.desktop /app/share/applications/com.github.axpnet.SuperShot.desktop
+      - install -Dm644 data/com.github.axpnet.SuperShot.gschema.xml /app/share/glib-2.0/schemas/com.github.axpnet.SuperShot.gschema.xml
+      - install -Dm644 data/com.github.axpnet.SuperShot.metainfo.xml /app/share/metainfo/com.github.axpnet.SuperShot.metainfo.xml
+      - install -Dm644 data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg /app/share/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
+      - install -Dm644 data/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg /app/share/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg
+      - glib-compile-schemas /app/share/glib-2.0/schemas/
+    sources:
+      - type: git
+        url: https://github.com/axpnet/supershot.git
+        tag: v1.0.0
+      - cargo-sources.json
