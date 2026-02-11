@@ -1,0 +1,12 @@
+/target
+**/*.rs.bk
+*.swp
+*.swo
+*~
+*.deb
+pkg-deb/usr/bin/
+.flatpak-builder/
+.flatpak/
+.vscode/
+.idea/
+*.log

@@ -1,0 +1,82 @@
+# Hindi translation for SuperShot.
+# Copyright (C) 2026 axpnet
+# This file is distributed under the same license as the supershot package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: supershot 1.0.0\n"
+"Report-Msgid-Bugs-To: axp@pm.me\n"
+"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"PO-Revision-Date: 2026-02-11 00:00+0000\n"
+"Last-Translator: axpnet <axp@pm.me>\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/window.rs
+msgid "Capture Settings"
+msgstr "कैप्चर सेटिंग्स"
+
+#: src/window.rs
+msgid "Delay"
+msgstr "विलंब"
+
+#: src/window.rs
+msgid "None"
+msgstr "कोई नहीं"
+
+#: src/window.rs
+msgid "3 seconds"
+msgstr "3 सेकंड"
+
+#: src/window.rs
+msgid "5 seconds"
+msgstr "5 सेकंड"
+
+#: src/window.rs
+msgid "10 seconds"
+msgstr "10 सेकंड"
+
+#: src/window.rs
+msgid "Take screenshot"
+msgstr "स्क्रीनशॉट लें"
+
+#: src/window.rs
+#, c-format
+msgid "Capturing in %u…"
+msgstr "%u सेकंड में कैप्चर…"
+
+#: src/capture.rs
+msgid "Screenshot captured"
+msgstr "स्क्रीनशॉट कैप्चर हुआ"
+
+#: src/capture.rs
+#, c-format
+msgid "Saved to %s"
+msgstr "%s पर सहेजा गया"
+
+#: src/capture.rs
+msgid "Save Error"
+msgstr "सहेजने में त्रुटि"
+
+#: src/capture.rs
+msgid "Portal Error"
+msgstr "पोर्टल त्रुटि"
+
+#: src/capture.rs
+msgid "Request Error"
+msgstr "अनुरोध त्रुटि"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot tool with delay timer for GNOME"
+msgstr "GNOME के लिए विलंब टाइमर वाला स्क्रीनशॉट उपकरण"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot Tool"
+msgstr "स्क्रीनशॉट उपकरण"
+
+#: data/com.github.axpnet.SuperShot.metainfo.xml
+msgid "Screenshot tool with configurable delay for GNOME"
+msgstr "GNOME के लिए विन्यासयोग्य विलंब वाला स्क्रीनशॉट उपकरण"

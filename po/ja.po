@@ -1,0 +1,82 @@
+# Japanese translation for SuperShot.
+# Copyright (C) 2026 axpnet
+# This file is distributed under the same license as the supershot package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: supershot 1.0.0\n"
+"Report-Msgid-Bugs-To: axp@pm.me\n"
+"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"PO-Revision-Date: 2026-02-11 00:00+0000\n"
+"Last-Translator: axpnet <axp@pm.me>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/window.rs
+msgid "Capture Settings"
+msgstr "キャプチャ設定"
+
+#: src/window.rs
+msgid "Delay"
+msgstr "遅延"
+
+#: src/window.rs
+msgid "None"
+msgstr "なし"
+
+#: src/window.rs
+msgid "3 seconds"
+msgstr "3 秒"
+
+#: src/window.rs
+msgid "5 seconds"
+msgstr "5 秒"
+
+#: src/window.rs
+msgid "10 seconds"
+msgstr "10 秒"
+
+#: src/window.rs
+msgid "Take screenshot"
+msgstr "スクリーンショットを撮る"
+
+#: src/window.rs
+#, c-format
+msgid "Capturing in %u…"
+msgstr "%u 秒後にキャプチャ…"
+
+#: src/capture.rs
+msgid "Screenshot captured"
+msgstr "スクリーンショットを撮影しました"
+
+#: src/capture.rs
+#, c-format
+msgid "Saved to %s"
+msgstr "%s に保存しました"
+
+#: src/capture.rs
+msgid "Save Error"
+msgstr "保存エラー"
+
+#: src/capture.rs
+msgid "Portal Error"
+msgstr "ポータルエラー"
+
+#: src/capture.rs
+msgid "Request Error"
+msgstr "リクエストエラー"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot tool with delay timer for GNOME"
+msgstr "GNOME 向け遅延タイマー付きスクリーンショットツール"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot Tool"
+msgstr "スクリーンショットツール"
+
+#: data/com.github.axpnet.SuperShot.metainfo.xml
+msgid "Screenshot tool with configurable delay for GNOME"
+msgstr "GNOME 向け遅延設定可能なスクリーンショットツール"

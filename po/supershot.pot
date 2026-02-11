@@ -1,0 +1,99 @@
+# SuperShot translation template.
+# Copyright (C) 2026 axpnet
+# This file is distributed under the same license as the supershot package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: supershot 1.0.0\n"
+"Report-Msgid-Bugs-To: axp@pm.me\n"
+"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Preferences group heading
+#: src/window.rs
+msgid "Capture Settings"
+msgstr ""
+
+#. Delay combo row title
+#: src/window.rs
+msgid "Delay"
+msgstr ""
+
+#. Delay option: no delay
+#: src/window.rs
+msgid "None"
+msgstr ""
+
+#. Delay option: 3-second delay
+#: src/window.rs
+msgid "3 seconds"
+msgstr ""
+
+#. Delay option: 5-second delay
+#: src/window.rs
+msgid "5 seconds"
+msgstr ""
+
+#. Delay option: 10-second delay
+#: src/window.rs
+msgid "10 seconds"
+msgstr ""
+
+#. Tooltip for the capture button
+#: src/window.rs
+msgid "Take screenshot"
+msgstr ""
+
+#. Countdown overlay text; %u is replaced with the remaining seconds
+#: src/window.rs
+#, c-format
+msgid "Capturing in %u\u2026"
+msgstr ""
+
+#. Desktop notification title after successful capture
+#: src/capture.rs
+msgid "Screenshot captured"
+msgstr ""
+
+#. Desktop notification body; %s is replaced with the file path
+#: src/capture.rs
+#, c-format
+msgid "Saved to %s"
+msgstr ""
+
+#. Error dialog heading: file save failure
+#: src/capture.rs
+msgid "Save Error"
+msgstr ""
+
+#. Error dialog heading: XDG portal response failure
+#: src/capture.rs
+msgid "Portal Error"
+msgstr ""
+
+#. Error dialog heading: XDG portal request failure
+#: src/capture.rs
+msgid "Request Error"
+msgstr ""
+
+#. Desktop file: short application description
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot tool with delay timer for GNOME"
+msgstr ""
+
+#. Desktop file: generic application category name
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot Tool"
+msgstr ""
+
+#. AppStream: one-line summary shown in software centres
+#: data/com.github.axpnet.SuperShot.metainfo.xml
+msgid "Screenshot tool with configurable delay for GNOME"
+msgstr ""

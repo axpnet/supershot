@@ -1,0 +1,4 @@
+src/window.rs
+src/capture.rs
+data/com.github.axpnet.SuperShot.desktop
+data/com.github.axpnet.SuperShot.metainfo.xml

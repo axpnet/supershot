@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="com.github.axpnet.SuperShot" path="/com/github/axpnet/SuperShot/">
+    <key name="delay" type="u">
+      <default>0</default>
+      <summary>Delay index</summary>
+      <description>Index of the delay combo box: 0 = none, 1 = 3 seconds, 2 = 5 seconds, 3 = 10 seconds.</description>
+      <range min="0" max="3"/>
+    </key>
+  </schema>
+</schemalist>

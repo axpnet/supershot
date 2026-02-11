@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.github.axpnet.SuperShot</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>SuperShot</name>
+  <summary>Screenshot tool with configurable delay for GNOME</summary>
+
+  <description>
+    <p>
+      SuperShot is a native GTK4/Libadwaita screenshot tool for GNOME desktops.
+      It adds what the built-in screenshot tool is missing: configurable delay timers,
+      multiple capture modes, clipboard integration, shutter sound, and a clean
+      Adwaita-native interface.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Configurable delay: none, 3, 5, or 10 seconds with visual countdown</li>
+      <li>Three capture modes: selection, full screen, window</li>
+      <li>Automatic save to ~/Pictures/Screenshots/</li>
+      <li>One-click clipboard copy</li>
+      <li>Desktop notifications after capture</li>
+      <li>Shutter sound feedback</li>
+      <li>CLI mode for scripting (--now --mode screen --delay 5)</li>
+      <li>Settings persistence via GSettings</li>
+    </ul>
+  </description>
+
+  <keywords>
+    <keyword>screenshot</keyword>
+    <keyword>capture</keyword>
+    <keyword>screen</keyword>
+    <keyword>delay</keyword>
+    <keyword>timer</keyword>
+    <keyword>snip</keyword>
+    <keyword>gnome</keyword>
+  </keywords>
+
+  <launchable type="desktop-id">com.github.axpnet.SuperShot.desktop</launchable>
+
+  <url type="homepage">https://github.com/axpnet/supershot</url>
+  <url type="bugtracker">https://github.com/axpnet/supershot/issues</url>
+  <url type="vcs-browser">https://github.com/axpnet/supershot</url>
+
+  <developer id="com.github.axpnet">
+    <name>axpnet</name>
+  </developer>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#3584e4</color>
+    <color type="primary" scheme_preference="dark">#1c71d8</color>
+  </branding>
+
+  <content_rating type="oars-1.1" />
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main application window with capture settings</caption>
+      <image type="source" width="360" height="520">https://raw.githubusercontent.com/axpnet/supershot/main/docs/screenshots/main-window.png</image>
+    </screenshot>
+  </screenshots>
+
+  <releases>
+    <release version="1.0.0" date="2026-02-11">
+      <description>
+        <p>First public release with English UI, i18n support, GSettings
+        persistence, desktop notifications, shutter sound, visual countdown,
+        and CLI headless mode.</p>
+      </description>
+    </release>
+  </releases>
+
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+</component>

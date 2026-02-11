@@ -1,0 +1,82 @@
+# Turkish translation for SuperShot.
+# Copyright (C) 2026 axpnet
+# This file is distributed under the same license as the supershot package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: supershot 1.0.0\n"
+"Report-Msgid-Bugs-To: axp@pm.me\n"
+"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"PO-Revision-Date: 2026-02-11 00:00+0000\n"
+"Last-Translator: axpnet <axp@pm.me>\n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/window.rs
+msgid "Capture Settings"
+msgstr "Yakalama Ayarları"
+
+#: src/window.rs
+msgid "Delay"
+msgstr "Gecikme"
+
+#: src/window.rs
+msgid "None"
+msgstr "Yok"
+
+#: src/window.rs
+msgid "3 seconds"
+msgstr "3 saniye"
+
+#: src/window.rs
+msgid "5 seconds"
+msgstr "5 saniye"
+
+#: src/window.rs
+msgid "10 seconds"
+msgstr "10 saniye"
+
+#: src/window.rs
+msgid "Take screenshot"
+msgstr "Ekran görüntüsü al"
+
+#: src/window.rs
+#, c-format
+msgid "Capturing in %u…"
+msgstr "%u saniye sonra yakalanacak…"
+
+#: src/capture.rs
+msgid "Screenshot captured"
+msgstr "Ekran görüntüsü alındı"
+
+#: src/capture.rs
+#, c-format
+msgid "Saved to %s"
+msgstr "%s konumuna kaydedildi"
+
+#: src/capture.rs
+msgid "Save Error"
+msgstr "Kaydetme Hatası"
+
+#: src/capture.rs
+msgid "Portal Error"
+msgstr "Portal Hatası"
+
+#: src/capture.rs
+msgid "Request Error"
+msgstr "İstek Hatası"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot tool with delay timer for GNOME"
+msgstr "GNOME için gecikmeli ekran görüntüsü aracı"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot Tool"
+msgstr "Ekran Görüntüsü Aracı"
+
+#: data/com.github.axpnet.SuperShot.metainfo.xml
+msgid "Screenshot tool with configurable delay for GNOME"
+msgstr "GNOME için yapılandırılabilir gecikmeli ekran görüntüsü aracı"

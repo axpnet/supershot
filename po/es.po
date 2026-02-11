@@ -1,0 +1,82 @@
+# Spanish translation for SuperShot.
+# Copyright (C) 2026 axpnet
+# This file is distributed under the same license as the supershot package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: supershot 1.0.0\n"
+"Report-Msgid-Bugs-To: axp@pm.me\n"
+"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"PO-Revision-Date: 2026-02-11 00:00+0000\n"
+"Last-Translator: axpnet <axp@pm.me>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/window.rs
+msgid "Capture Settings"
+msgstr "Ajustes de captura"
+
+#: src/window.rs
+msgid "Delay"
+msgstr "Retardo"
+
+#: src/window.rs
+msgid "None"
+msgstr "Ninguno"
+
+#: src/window.rs
+msgid "3 seconds"
+msgstr "3 segundos"
+
+#: src/window.rs
+msgid "5 seconds"
+msgstr "5 segundos"
+
+#: src/window.rs
+msgid "10 seconds"
+msgstr "10 segundos"
+
+#: src/window.rs
+msgid "Take screenshot"
+msgstr "Tomar captura"
+
+#: src/window.rs
+#, c-format
+msgid "Capturing in %u…"
+msgstr "Capturando en %u…"
+
+#: src/capture.rs
+msgid "Screenshot captured"
+msgstr "Captura de pantalla realizada"
+
+#: src/capture.rs
+#, c-format
+msgid "Saved to %s"
+msgstr "Guardado en %s"
+
+#: src/capture.rs
+msgid "Save Error"
+msgstr "Error al guardar"
+
+#: src/capture.rs
+msgid "Portal Error"
+msgstr "Error del portal"
+
+#: src/capture.rs
+msgid "Request Error"
+msgstr "Error de solicitud"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot tool with delay timer for GNOME"
+msgstr "Herramienta de capturas de pantalla con temporizador para GNOME"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot Tool"
+msgstr "Herramienta de capturas"
+
+#: data/com.github.axpnet.SuperShot.metainfo.xml
+msgid "Screenshot tool with configurable delay for GNOME"
+msgstr "Herramienta de capturas de pantalla con retardo configurable para GNOME"

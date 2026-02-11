@@ -1,0 +1,82 @@
+# Simplified Chinese translation for SuperShot.
+# Copyright (C) 2026 axpnet
+# This file is distributed under the same license as the supershot package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: supershot 1.0.0\n"
+"Report-Msgid-Bugs-To: axp@pm.me\n"
+"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"PO-Revision-Date: 2026-02-11 00:00+0000\n"
+"Last-Translator: axpnet <axp@pm.me>\n"
+"Language-Team: Chinese (Simplified)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/window.rs
+msgid "Capture Settings"
+msgstr "截图设置"
+
+#: src/window.rs
+msgid "Delay"
+msgstr "延迟"
+
+#: src/window.rs
+msgid "None"
+msgstr "无"
+
+#: src/window.rs
+msgid "3 seconds"
+msgstr "3 秒"
+
+#: src/window.rs
+msgid "5 seconds"
+msgstr "5 秒"
+
+#: src/window.rs
+msgid "10 seconds"
+msgstr "10 秒"
+
+#: src/window.rs
+msgid "Take screenshot"
+msgstr "截取屏幕"
+
+#: src/window.rs
+#, c-format
+msgid "Capturing in %u…"
+msgstr "%u 秒后截图…"
+
+#: src/capture.rs
+msgid "Screenshot captured"
+msgstr "截图已完成"
+
+#: src/capture.rs
+#, c-format
+msgid "Saved to %s"
+msgstr "已保存至 %s"
+
+#: src/capture.rs
+msgid "Save Error"
+msgstr "保存错误"
+
+#: src/capture.rs
+msgid "Portal Error"
+msgstr "门户错误"
+
+#: src/capture.rs
+msgid "Request Error"
+msgstr "请求错误"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot tool with delay timer for GNOME"
+msgstr "适用于 GNOME 的延时截图工具"
+
+#: data/com.github.axpnet.SuperShot.desktop
+msgid "Screenshot Tool"
+msgstr "截图工具"
+
+#: data/com.github.axpnet.SuperShot.metainfo.xml
+msgid "Screenshot tool with configurable delay for GNOME"
+msgstr "适用于 GNOME 的可配置延时截图工具"
