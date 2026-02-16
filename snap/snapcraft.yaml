@@ -1,5 +1,6 @@
 name: supershot
 version: '1.1.0'
+title: SuperShot
 summary: Native GTK4 screenshot tool for GNOME with watermark and crop
 description: |
   SuperShot is a native GTK4/Libadwaita screenshot tool for GNOME desktops.
@@ -23,11 +24,16 @@ confinement: strict
 base: core24
 license: GPL-3.0-or-later
 
+contact: https://github.com/axpnet/supershot/issues
+issues: https://github.com/axpnet/supershot/issues
+source-code: https://github.com/axpnet/supershot
+website: https://github.com/axpnet/supershot
+
 icon: data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
 
 apps:
   supershot:
-    command: usr/bin/supershot
+    command: bin/supershot
     extensions: [gnome]
     plugs:
       - home
@@ -35,6 +41,7 @@ apps:
       - desktop-legacy
       - wayland
       - x11
+      - audio-playback
 
 parts:
   supershot:
