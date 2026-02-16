@@ -1,19 +1,17 @@
 Package: supershot
-Version: 1.0.0
+Version: 1.1.0
 Section: graphics
 Priority: optional
 Architecture: amd64
-Installed-Size: 4072
+Installed-Size: 4248
 Depends: libgtk-4-1 (>= 4.14), libadwaita-1-0 (>= 1.5), xdg-desktop-portal-gnome, libglib2.0-bin
-Recommends: libcanberra0
-Maintainer: axpnet <axp@pm.me>
+Maintainer: axpnet <https://github.com/axpnet>
 Homepage: https://github.com/axpnet/supershot
 Vcs-Git: https://github.com/axpnet/supershot.git
 Vcs-Browser: https://github.com/axpnet/supershot
-Description: GTK4/Libadwaita screenshot tool for GNOME with delay timer
- SuperShot is a native screenshot tool for GNOME desktops that adds
- configurable delay timers, multiple capture modes (selection, screen,
- window), clipboard integration, shutter sound feedback, visual countdown,
- desktop notifications, and CLI headless mode. Settings are persisted
- via GSettings. Built with GTK4 and Libadwaita for a native Adwaita
- experience.
+Description: GTK4/Libadwaita screenshot tool for GNOME
+ SuperShot is a native screenshot tool for GNOME desktops with configurable
+ delay timer, PNG/JPEG format selection, date/time watermark, preview window
+ with crop support, custom save directory, automatic clipboard copy,
+ clickable desktop notifications, CLI headless mode, and 14 language
+ translations. Built with GTK4 and Libadwaita.

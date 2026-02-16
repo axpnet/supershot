@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: supershot 1.0.0\n"
+"Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
 "POT-Creation-Date: 2026-02-11 00:00+0000\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"

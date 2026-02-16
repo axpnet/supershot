@@ -1,6 +1,21 @@
 # SuperShot
 
-A native GTK4/Libadwaita screenshot tool for GNOME desktops, written in Rust.
+<p align="center">
+  <img src="data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg" width="128" height="128" alt="SuperShot icon" />
+</p>
+
+<p align="center">
+  <strong>A native GTK4/Libadwaita screenshot tool for GNOME desktops, written in Rust.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/axpnet/supershot/releases"><img src="https://img.shields.io/github/v/release/axpnet/supershot" alt="Release" /></a>
+  <a href="https://snapcraft.io/supershot"><img src="https://img.shields.io/badge/snap-supershot-blue?logo=snapcraft" alt="Snap" /></a>
+  <img src="https://img.shields.io/github/license/axpnet/supershot" alt="License" />
+  <img src="https://img.shields.io/badge/rust-edition%202021-orange?logo=rust" alt="Rust" />
+</p>
+
+---
 
 SuperShot provides a minimal, focused interface for taking screenshots with a
 configurable delay timer. It delegates capture to the GNOME Screenshot portal,
@@ -9,14 +24,44 @@ Screenshots are automatically saved and copied to the clipboard.
 
 ## Features
 
+### Capture
 - **Configurable delay** -- None, 3, 5, or 10 seconds with a visual countdown
-  overlay displayed in the application window.
+  displayed inside the capture button.
+- **Format selection** -- Save as PNG (lossless) or JPEG (quality 90).
+- **Preview and crop** -- Optional post-capture preview window with
+  drag-to-select crop region. The watermark is rendered as a live overlay in
+  the preview, showing exactly how the final image will appear.
+- **Duplicate prevention** -- The portal's original file is automatically
+  removed after processing, preventing duplicate screenshots in the system
+  default folder.
+
+### Watermark
+- **Customizable watermark** -- Optional text overlay rendered via Cairo with
+  configurable date format, custom text, corner position, and color.
+- **5 date format presets** -- `YYYY-MM-DD HH:MM:SS`, `DD/MM/YYYY HH:MM`,
+  `Mon DD, YYYY HH:MM`, `YYYY-MM-DD` (date only), `HH:MM:SS` (time only).
+- **Custom text** -- Prepend a brand name or label to the date stamp
+  (e.g., `MyBrand | 2026-02-16 14:30:25`).
+- **4 corner positions** -- Bottom-right, bottom-left, top-right, top-left.
+- **Color selection** -- White text with dark shadow (default) or black text
+  with light shadow, for optimal legibility on any background.
+
+### Output
+- **Custom save directory** -- Choose where screenshots are saved via folder
+  picker. Defaults to `~/Pictures/Screenshots/`.
+- **Open screenshots folder** -- One-click access to the save directory in the
+  file manager.
 - **Automatic clipboard copy** -- The captured image is copied to the system
   clipboard immediately after saving.
 - **Desktop notifications** -- Posts a GNOME notification with the file path
-  after each successful capture.
-- **Settings persistence** -- The delay preference is stored via GSettings and
-  restored on subsequent launches.
+  after each successful capture. Clicking the notification opens the screenshot
+  in the default image viewer.
+
+### General
+- **Tabbed interface** -- Clean two-tab layout: Shot (capture controls) and
+  Settings (watermark, format, output configuration).
+- **Settings persistence** -- All preferences stored via GSettings and restored
+  on launch.
 - **CLI headless mode** -- Capture screenshots from the command line without
   displaying the GUI, suitable for scripting and automation.
 - **14 languages** -- Translations via GNU gettext for the most widely spoken
@@ -64,14 +109,25 @@ so `cargo run` works without a system-wide installation step.
 
 ## Installation
 
-### From .deb package
+### From Snap Store (recommended)
 
 ```sh
-sudo dpkg -i supershot_1.0.0_amd64.deb
+sudo snap install supershot
+```
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/supershot)
+
+### From .deb package
+
+Download the latest `.deb` from the
+[Releases](https://github.com/axpnet/supershot/releases) page:
+
+```sh
+sudo dpkg -i supershot_1.1.0_amd64.deb
 ```
 
 The package installs the binary to `/usr/bin/supershot`, the GSettings schema,
-the `.desktop` launcher, the AppStream metadata, and an application icon.
+the `.desktop` launcher, the AppStream metadata, and the application icon.
 Post-installation scripts compile the GSettings schema and update the icon
 cache automatically.
 
@@ -94,10 +150,13 @@ sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 supershot
 ```
 
-Opens the main application window. Set the delay if desired, then press the
-capture button. The GNOME Screenshot portal opens, allowing you to select an
-area, window, or full screen. The screenshot is saved to
-`~/Pictures/Screenshots/` and copied to the clipboard.
+Opens the main application window with two tabs:
+
+- **Shot** -- Configure delay and preview toggle, then press the circular
+  capture button. The GNOME Screenshot portal opens, allowing you to select
+  an area, window, or full screen.
+- **Settings** -- Configure watermark (enable, date format, custom text,
+  position, color), output format (PNG/JPEG), and save directory.
 
 ### CLI headless mode
 
@@ -142,21 +201,25 @@ for the translation workflow.
 
 ## Architecture
 
-SuperShot is structured as a standard GLib/GTK4 application:
+SuperShot is structured as a standard GLib/GTK4 application using the
+object-subclassing pattern with inline composite templates:
 
 ```
 src/
-  main.rs      Entry point, CLI parsing (clap), dispatch
-  app.rs       AdwApplication subclass, lifecycle management
+  main.rs      Entry point, CLI argument parsing (clap), dispatch
+  app.rs       AdwApplication subclass, lifecycle and action management
   config.rs    Application constants (APP_ID, gettext domain)
   i18n.rs      GNU gettext initialization
-  window.rs    AdwApplicationWindow subclass, UI template, GSettings bindings
-  capture.rs   Screenshot pipeline: countdown, portal, save, clipboard, notify
+  window.rs    Main window with tabbed UI (AdwViewStack), GSettings bindings
+  capture.rs   Capture pipeline: countdown, portal, watermark, crop, save, clipboard, notify
+  preview.rs   Preview/crop window with Cairo rendering and live watermark overlay
+  sound.rs     Shutter sound playback via canberra-gtk-play
 ```
 
 Screenshot capture is performed through the XDG Desktop Portal (`ashpd` crate),
 which communicates with the compositor via D-Bus. The portal's interactive UI
-handles area, window, and full-screen selection natively.
+handles area, window, and full-screen selection natively. Post-capture
+processing (watermark, crop, format conversion) uses Cairo and GdkPixbuf.
 
 ## Contributing
 
@@ -178,6 +241,6 @@ See the [LICENSE](LICENSE) file for details.
 
 ## Author
 
-axpnet -- [axp@pm.me](mailto:axp@pm.me)
+axpnet -- [github.com/axpnet](https://github.com/axpnet)
 
 Repository: [https://github.com/axpnet/supershot](https://github.com/axpnet/supershot)

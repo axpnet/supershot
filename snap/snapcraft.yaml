@@ -1,6 +1,6 @@
 name: supershot
-version: '1.0.0'
-summary: Screenshot tool with delay timer for GNOME
+version: '1.1.0'
+summary: Native GTK4 screenshot tool for GNOME with watermark and crop
 description: |
   SuperShot is a native GTK4/Libadwaita screenshot tool for GNOME desktops.
   It provides a minimal, focused interface for taking screenshots with a
@@ -8,9 +8,12 @@ description: |
 
   Features:
   - Configurable delay (none, 3, 5, or 10 seconds) with visual countdown
-  - Automatic save to ~/Pictures/Screenshots/
-  - Automatic clipboard copy
-  - Desktop notifications after capture
+  - PNG and JPEG format selection
+  - Customizable watermark: 5 date formats, custom text, 4 corners, white/black
+  - Preview window with live watermark overlay and drag-to-crop
+  - Custom save directory with one-click folder access
+  - Automatic clipboard copy and clickable desktop notifications
+  - Keyboard shortcut: Ctrl+Enter to capture
   - CLI headless mode (supershot --now --delay 5)
   - Settings persistence via GSettings
   - 14 language translations

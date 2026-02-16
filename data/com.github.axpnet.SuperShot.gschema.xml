@@ -7,5 +7,49 @@
       <description>Index of the delay combo box: 0 = none, 1 = 3 seconds, 2 = 5 seconds, 3 = 10 seconds.</description>
       <range min="0" max="3"/>
     </key>
+    <key name="format" type="u">
+      <default>0</default>
+      <summary>Image format index</summary>
+      <description>Output format: 0 = PNG, 1 = JPEG.</description>
+      <range min="0" max="1"/>
+    </key>
+    <key name="watermark" type="b">
+      <default>false</default>
+      <summary>Enable date/time watermark</summary>
+      <description>When true, overlay a date/time stamp on the screenshot before saving.</description>
+    </key>
+    <key name="save-directory" type="s">
+      <default>''</default>
+      <summary>Custom save directory</summary>
+      <description>Absolute path for saving screenshots. Empty string means the default ~/Pictures/Screenshots/.</description>
+    </key>
+    <key name="preview" type="b">
+      <default>false</default>
+      <summary>Show preview window after capture</summary>
+      <description>When true, show a preview window with crop support before saving.</description>
+    </key>
+    <key name="watermark-format" type="u">
+      <default>0</default>
+      <summary>Watermark date format preset</summary>
+      <description>Date format: 0 = YYYY-MM-DD HH:MM:SS, 1 = DD/MM/YYYY HH:MM, 2 = Mon DD, YYYY HH:MM, 3 = YYYY-MM-DD, 4 = HH:MM:SS.</description>
+      <range min="0" max="4"/>
+    </key>
+    <key name="watermark-text" type="s">
+      <default>''</default>
+      <summary>Custom watermark text</summary>
+      <description>Optional text prepended to the date stamp (e.g. brand name). Shown as "Text | date" when non-empty.</description>
+    </key>
+    <key name="watermark-position" type="u">
+      <default>0</default>
+      <summary>Watermark corner position</summary>
+      <description>Position: 0 = bottom-right, 1 = bottom-left, 2 = top-right, 3 = top-left.</description>
+      <range min="0" max="3"/>
+    </key>
+    <key name="watermark-color" type="u">
+      <default>0</default>
+      <summary>Watermark text color</summary>
+      <description>Text color: 0 = white (with dark shadow), 1 = black (with light shadow).</description>
+      <range min="0" max="1"/>
+    </key>
   </schema>
 </schemalist>

@@ -24,22 +24,24 @@ services, or third-party endpoints.
 
 ### Clipboard
 
-When the "Copy to clipboard" option is enabled, the captured image is placed
-on the local system clipboard via the GDK clipboard API. This operation is
-confined to the local desktop session and does not involve network transfer.
+The captured image is automatically copied to the local system clipboard via
+the GDK clipboard API. This operation is confined to the local desktop
+session and does not involve network transfer.
 
 ### GSettings
 
-User preferences (capture mode, delay, clipboard toggle, sound toggle) are
-stored locally via the GNOME GSettings subsystem, backed by the dconf
-database on the user's machine. No preference data leaves the local system.
+User preferences (delay, format, watermark, preview, save directory) are stored
+locally via the GNOME GSettings subsystem, backed by the dconf database on the
+user's machine. No preference data leaves the local system.
 
 ### Desktop Notifications
 
 Capture success notifications are delivered through the local GNOME
 notification daemon (via the GIO Notification API). Notification content
-consists solely of the file path of the saved screenshot. No notification
-data is sent to external services.
+consists solely of the file path of the saved screenshot. Clicking a
+notification opens the screenshot file using the system's default image
+viewer via `g_app_info_launch_default_for_uri`, which is a local operation.
+No notification data is sent to external services.
 
 ### XDG Desktop Portal
 
@@ -67,4 +69,4 @@ and noted in the project changelog.
 ### Contact
 
 For questions regarding this privacy policy:
-axpnet -- axp@pm.me
+axpnet -- https://github.com/axpnet

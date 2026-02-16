@@ -11,6 +11,58 @@ Version numbering adheres to [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.1.0] -- 2026-02-16
+
+### Added
+
+- **Tabbed interface**: Two-tab layout (Shot / Settings) using AdwViewStack and
+  AdwViewSwitcher with rounded tab buttons matching the content block radius.
+- **Format selection**: Choose between PNG and JPEG output with quality 90 for
+  JPEG. Persisted via GSettings.
+- **Customizable watermark**: Fully configurable text overlay rendered via Cairo.
+  - 5 date format presets (ISO, European, English, date-only, time-only).
+  - Optional custom text prefix with pipe separator (e.g., `Brand | 2026-02-16`).
+  - 4 corner positions (bottom-right, bottom-left, top-right, top-left).
+  - Color selection: white text with dark shadow or black text with light shadow.
+  - Responsive font size that scales with image dimensions (2% of height,
+    clamped to 14--36 px).
+- **Preview/crop window**: Optional post-capture preview with drag-to-crop
+  selection. Crop region highlighted with dimmed overlay and dashed border.
+  Save or discard from the preview header bar. Live watermark overlay in the
+  preview shows the exact final appearance before saving.
+- **Custom save directory**: Choose a save location via GTK FileDialog, persisted
+  in GSettings. Defaults to ~/Pictures/Screenshots/.
+- **Open screenshots folder**: One-click button to open the save directory in the
+  system file manager.
+- **Clickable notifications**: Clicking a capture notification opens the
+  screenshot in the default image viewer via `gio::AppInfo::launch_default_for_uri`.
+- **Notification history**: Each capture produces a unique notification ID,
+  preserving all notifications in the GNOME notification center.
+- **Duplicate prevention**: The XDG portal's original file is automatically
+  deleted after SuperShot processes and saves its own copy, preventing duplicate
+  screenshots in the system default folder.
+- **Branded filenames**: Output files use the pattern
+  `Screenshot_YYYY-MM-DD_HH-MM-SS.fff_supershot.ext` for unambiguous
+  identification.
+- **Keyboard shortcut**: `Ctrl+Enter` accelerator to trigger capture from the
+  main window. Shortcut hint displayed below the capture button.
+
+### Changed
+
+- **Countdown display**: Moved from a separate label to inside the capture
+  button, eliminating window resize during countdown.
+- **Post-processing pipeline**: New `process_and_save()` replaces the old
+  `save_screenshot_to_disk()`, supporting crop, watermark, and format conversion.
+
+### Dependencies
+
+| Crate | Version | Purpose |
+|---|---|---|
+| cairo-rs | 0.21 | Watermark text rendering (PNG feature) |
+| gdk-pixbuf | 0.21 | Format conversion and crop |
+
+---
+
 ## [1.0.0] -- 2026-02-11
 
 First public release.
@@ -21,20 +73,15 @@ First public release.
   XDG Desktop Portal screenshot interface (`ashpd` 0.12).
 - **Configurable delay**: None, 3, 5, and 10-second delay options with a visual
   countdown overlay displayed in the main window.
-- **Clipboard integration**: Optional one-click copy of the captured image to
-  the system clipboard via the GDK Texture/Clipboard API.
-- **Shutter sound**: Audible camera shutter feedback using `canberra-gtk-play`
-  (GNOME sound event system) with a `paplay` fallback for systems without
-  libcanberra. Executes asynchronously in a dedicated thread.
+- **Clipboard integration**: Automatic copy of the captured image to the system
+  clipboard via the GDK Texture/Clipboard API.
 - **Desktop notifications**: GNOME notification posted after each successful
   capture, displaying the saved file path.
-- **Settings persistence**: All user preferences (capture mode, delay, clipboard
-  toggle, sound toggle) stored via GSettings with bidirectional widget bindings.
-  Schema auto-installed to `~/.local/share/glib-2.0/schemas/` during development
-  builds by `build.rs`.
+- **Settings persistence**: Delay preference stored via GSettings with
+  bidirectional widget binding. Schema auto-installed to
+  `~/.local/share/glib-2.0/schemas/` during development builds by `build.rs`.
 - **CLI headless mode**: `--now` flag for scriptable capture without GUI.
-  Supports `--mode`, `--delay`, and `--clipboard` arguments. CLI mode validates
-  capture modes via `ValueEnum` at parse time.
+  Supports `--delay` argument.
 - **Internationalization infrastructure**: GNU gettext initialization via
   `gettext-rs`. English UI strings as source language. Translation-ready `po/`
   directory structure.
@@ -73,5 +120,6 @@ First public release.
 
 ---
 
-[Unreleased]: https://github.com/axpnet/supershot/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/axpnet/supershot/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/axpnet/supershot/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/axpnet/supershot/releases/tag/v1.0.0

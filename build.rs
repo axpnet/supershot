@@ -1,5 +1,5 @@
 // SuperShot - Build script
-// Copyright (c) 2026 axpnet <axp@pm.me>
+// Copyright (c) 2026 axpnet <https://github.com/axpnet>
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Automatically installs the GSettings XML schema into the user's local

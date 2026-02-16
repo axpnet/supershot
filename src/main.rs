@@ -1,5 +1,5 @@
 // SuperShot - Screenshot tool for GNOME
-// Copyright (c) 2026 axpnet <axp@pm.me>
+// Copyright (c) 2026 axpnet <https://github.com/axpnet>
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Application entry point. Parses CLI arguments and dispatches
@@ -9,6 +9,7 @@ mod app;
 mod capture;
 mod config;
 mod i18n;
+mod preview;
 mod window;
 
 use app::SuperShotApp;

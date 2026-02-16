@@ -15,9 +15,13 @@
     <p>Features:</p>
     <ul>
       <li>Configurable delay: none, 3, 5, or 10 seconds with visual countdown</li>
-      <li>Automatic save to ~/Pictures/Screenshots/</li>
+      <li>PNG and JPEG format selection</li>
+      <li>Customizable watermark: 5 date formats, custom text, 4 corner positions, white/black color</li>
+      <li>Preview window with drag-to-crop and live watermark overlay</li>
+      <li>Custom save directory</li>
       <li>Automatic clipboard copy</li>
-      <li>Desktop notifications after capture</li>
+      <li>Clickable desktop notifications (opens image in default viewer)</li>
+      <li>Keyboard shortcut: Ctrl+Enter to capture</li>
       <li>CLI headless mode for scripting</li>
       <li>Settings persistence via GSettings</li>
       <li>14 language translations</li>
@@ -59,6 +63,16 @@
   </screenshots>
 
   <releases>
+    <release version="1.1.0" date="2026-02-16">
+      <description>
+        <p>Tabbed interface (Shot/Settings). Customizable watermark with 5 date
+        formats, custom text prefix, 4 corner positions, and white/black color
+        selection. Preview window with live watermark overlay and drag-to-crop.
+        PNG/JPEG format selection, custom save directory, Ctrl+Enter keyboard
+        shortcut. Clickable notifications, duplicate file prevention, and
+        branded filenames.</p>
+      </description>
+    </release>
     <release version="1.0.0" date="2026-02-11">
       <description>
         <p>First public release with English UI, i18n support (14 languages),

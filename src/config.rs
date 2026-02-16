@@ -1,5 +1,5 @@
 // SuperShot - Application constants
-// Copyright (c) 2026 axpnet <axp@pm.me>
+// Copyright (c) 2026 axpnet <https://github.com/axpnet>
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Centralizes identifiers and paths used across the application.
