@@ -8,6 +8,7 @@
 mod app;
 mod capture;
 mod config;
+mod editing;
 mod i18n;
 mod preview;
 mod window;

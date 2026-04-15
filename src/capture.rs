@@ -21,6 +21,66 @@ use chrono::Local;
 use gettextrs::gettext;
 use std::path::PathBuf;
 
+// ---------------------------------------------------------------------------
+// Display backend detection & X11 fallback
+// ---------------------------------------------------------------------------
+
+/// Check if the current session is running on Wayland.
+fn is_wayland() -> bool {
+    std::env::var("WAYLAND_DISPLAY").is_ok()
+        || std::env::var("XDG_SESSION_TYPE")
+            .map(|v| v == "wayland")
+            .unwrap_or(false)
+}
+
+/// Attempt an X11 screenshot using available CLI tools.
+/// Tries in order: gnome-screenshot, xfce4-screenshooter, scrot, maim,
+/// flameshot, and finally ImageMagick's `import` (full-screen capture).
+/// Returns the file:// URI of the captured screenshot on success.
+fn x11_screenshot_sync(tmp_path: &str) -> Result<String, String> {
+    // Interactive CLI tools (ESC supported by gnome-screenshot, scrot, maim, flameshot)
+    let interactive_tools: &[(&str, &[&str])] = &[
+        ("gnome-screenshot", &["-a", "-f", tmp_path]),
+        ("xfce4-screenshooter", &["-r", "-s", tmp_path]),
+        ("scrot", &["-s", tmp_path]),
+        ("maim", &["-s", tmp_path]),
+        ("flameshot", &["gui", "--raw"]),
+    ];
+
+    for (cmd, args) in interactive_tools {
+        if *cmd == "flameshot" {
+            if let Ok(output) = std::process::Command::new(cmd).args(*args).output() {
+                if output.status.success() && !output.stdout.is_empty() {
+                    if std::fs::write(tmp_path, &output.stdout).is_ok() {
+                        return Ok(format!("file://{}", tmp_path));
+                    }
+                }
+            }
+            continue;
+        }
+        match std::process::Command::new(cmd).args(*args).status() {
+            Ok(status) if status.success() && std::path::Path::new(tmp_path).exists() => {
+                return Ok(format!("file://{}", tmp_path));
+            }
+            Ok(_) => continue,
+            Err(_) => continue,
+        }
+    }
+
+    // Last resort: ImageMagick `import` (right-click to cancel, ESC not supported)
+    match std::process::Command::new("import")
+        .arg(tmp_path)
+        .status()
+    {
+        Ok(status) if status.success() && std::path::Path::new(tmp_path).exists() => {
+            return Ok(format!("file://{}", tmp_path));
+        }
+        _ => {}
+    }
+
+    Err("No screenshot tool available. Install gnome-screenshot: sudo apt install gnome-screenshot".to_string())
+}
+
 /// Aggregates user-configurable capture settings.
 ///
 /// Constructed from widget state in `window.rs` and threaded through the
@@ -173,9 +233,18 @@ pub fn start_headless(delay_seconds: u32) {
     }
 }
 
-/// Execute the portal screenshot request in headless mode.
-/// Saves the result to disk and terminates the application.
+/// Execute the screenshot request in headless mode.
+/// Detects Wayland vs X11 and uses the appropriate backend.
 fn perform_headless_screenshot() {
+    if is_wayland() {
+        perform_headless_wayland();
+    } else {
+        perform_headless_x11();
+    }
+}
+
+/// Headless Wayland: use the XDG Desktop Portal.
+fn perform_headless_wayland() {
     glib::spawn_future_local(async move {
         let request_result = Screenshot::request()
             .interactive(true)
@@ -209,6 +278,35 @@ fn perform_headless_screenshot() {
     });
 }
 
+/// Headless X11: fall back to CLI screenshot tools.
+fn perform_headless_x11() {
+    let tmp_path = format!("/tmp/supershot_{}.png", std::process::id());
+    let tmp_clone = tmp_path.clone();
+
+    glib::spawn_future_local(async move {
+        let result = tokio::task::spawn_blocking(move || {
+            x11_screenshot_sync(&tmp_clone)
+        }).await;
+
+        match result {
+            Ok(Ok(uri_string)) => {
+                match process_and_save(&uri_string, &CaptureOptions::default()) {
+                    Ok(dest_path) => {
+                        eprintln!("Screenshot saved to: {}", dest_path.display());
+                    }
+                    Err(e) => eprintln!("Error: {}", e),
+                }
+            }
+            Ok(Err(e)) => eprintln!("Screenshot error: {}", e),
+            Err(e) => eprintln!("Screenshot tool failed: {}", e),
+        }
+
+        if let Some(app) = gio::Application::default() {
+            app.quit();
+        }
+    });
+}
+
 /// Present a modal error dialog using AdwAlertDialog.
 /// The dialog is non-blocking; the GLib main loop continues while it is shown.
 pub(crate) fn show_error_dialog(window: &crate::window::SuperShotWindow, heading: &str, body: &str) {
@@ -219,13 +317,22 @@ pub(crate) fn show_error_dialog(window: &crate::window::SuperShotWindow, heading
     dialog.present(Some(window));
 }
 
-/// Execute the portal screenshot request in GUI mode.
+/// Execute the screenshot request in GUI mode.
 ///
-/// Spawns an async future on the GLib main loop. On success, either shows the
-/// preview window (if enabled) or saves directly. On failure, presents an
-/// error dialog. The window is re-shown and the capture button re-enabled
-/// after the operation completes, unless the preview window takes ownership.
+/// Always tries the XDG Desktop Portal first (works on both Wayland and X11
+/// with a portal backend). Falls back to CLI tools on X11 only if the portal
+/// is unavailable.
 fn perform_screenshot(
+    window: crate::window::SuperShotWindow,
+    _hold: Option<gio::ApplicationHoldGuard>,
+    options: CaptureOptions,
+) {
+    perform_screenshot_portal(window, _hold, options);
+}
+
+/// Try the XDG Desktop Portal first, fall back to X11 CLI tools if the portal
+/// is not available (request error). User cancellation is not a fallback trigger.
+fn perform_screenshot_portal(
     window: crate::window::SuperShotWindow,
     _hold: Option<gio::ApplicationHoldGuard>,
     options: CaptureOptions,
@@ -242,37 +349,23 @@ fn perform_screenshot(
                     Ok(response) => {
                         let uri = response.uri();
                         let uri_string = uri.as_str().to_string();
-
-                        if options.show_preview {
-                            // Preview mode: hand off to the preview window.
-                            // It owns the hold guard and re-shows the main window on completion.
-                            crate::preview::PreviewWindow::present_for(
-                                uri_string, options, window, _hold,
-                            );
-                            return;
-                        }
-
-                        // Direct save mode.
-                        match process_and_save(&uri_string, &options) {
-                            Ok(dest_path) => {
-                                if let Err(e) = copy_to_clipboard(&window, &dest_path) {
-                                    eprintln!("Clipboard error: {}", e);
-                                }
-                                send_notification(&dest_path.to_string_lossy());
-                            },
-                            Err(e) => {
-                                show_error_dialog(&window, "Save Error",
-                                    &format!("Failed to save screenshot:\n{}", e));
-                            }
-                        }
+                        handle_screenshot_result(&window, uri_string, options, _hold);
+                        return;
                     },
                     Err(ashpd::Error::Response(ashpd::desktop::ResponseError::Cancelled))
-                    | Err(ashpd::Error::Response(ashpd::desktop::ResponseError::Other)) => {},
+                    | Err(ashpd::Error::Response(ashpd::desktop::ResponseError::Other)) => {
+                        // User cancelled — just re-show the window, no fallback.
+                    },
                     Err(e) => {
                         show_error_dialog(&window, "Portal Error",
                             &format!("Screenshot failed:\n{}", e));
                     }
                 }
+            },
+            Err(_) if !is_wayland() => {
+                // Portal unavailable on X11 — fall back to CLI tools.
+                perform_screenshot_x11_inner(&window, _hold, options).await;
+                return;
             },
             Err(e) => {
                 show_error_dialog(&window, "Request Error",
@@ -283,10 +376,74 @@ fn perform_screenshot(
         window.set_capture_sensitive(true);
         gtk4::prelude::WidgetExt::set_visible(&window, true);
         gtk4::prelude::GtkWindowExt::present(&window);
-
-        // _hold guard is dropped here, automatically calling g_application_release().
         drop(_hold);
     });
+}
+
+/// X11 fallback: use CLI screenshot tools. Called as async inner function
+/// from the portal path when the portal is unavailable on X11.
+async fn perform_screenshot_x11_inner(
+    window: &crate::window::SuperShotWindow,
+    _hold: Option<gio::ApplicationHoldGuard>,
+    options: CaptureOptions,
+) {
+    let tmp_path = format!("/tmp/supershot_{}.png", std::process::id());
+    let tmp_clone = tmp_path.clone();
+
+    let result = tokio::task::spawn_blocking(move || {
+        x11_screenshot_sync(&tmp_clone)
+    }).await;
+
+    match result {
+        Ok(Ok(uri_string)) => {
+            handle_screenshot_result(window, uri_string, options, _hold);
+            return;
+        }
+        Ok(Err(e)) => {
+            show_error_dialog(window, "Screenshot Error", &e);
+        }
+        Err(e) => {
+            show_error_dialog(window, "Screenshot Error",
+                &format!("Screenshot tool failed:\n{}", e));
+        }
+    }
+
+    window.set_capture_sensitive(true);
+    gtk4::prelude::WidgetExt::set_visible(window, true);
+    gtk4::prelude::GtkWindowExt::present(window);
+    drop(_hold);
+}
+
+/// Common handler for a successful screenshot URI (shared by Wayland and X11 paths).
+fn handle_screenshot_result(
+    window: &crate::window::SuperShotWindow,
+    uri_string: String,
+    options: CaptureOptions,
+    _hold: Option<gio::ApplicationHoldGuard>,
+) {
+    if options.show_preview {
+        crate::preview::PreviewWindow::present_for(
+            uri_string, options, window.clone(), _hold,
+        );
+        return;
+    }
+
+    match process_and_save(&uri_string, &options) {
+        Ok(dest_path) => {
+            if let Err(e) = copy_to_clipboard(window, &dest_path) {
+                eprintln!("Clipboard error: {}", e);
+            }
+            send_notification(&dest_path.to_string_lossy());
+        },
+        Err(e) => {
+            show_error_dialog(window, "Save Error",
+                &format!("Failed to save screenshot:\n{}", e));
+        }
+    }
+
+    window.set_capture_sensitive(true);
+    gtk4::prelude::WidgetExt::set_visible(window, true);
+    gtk4::prelude::GtkWindowExt::present(window);
 }
 
 /// Send a desktop notification indicating a successful capture.
@@ -350,6 +507,84 @@ pub(crate) fn process_and_save(
     //    The XDG Screenshot portal saves its own copy (e.g. ~/Pictures/Screenshots/
     //    or the locale-specific equivalent). Since we have already saved a processed
     //    copy to our target directory, the portal's original is redundant.
+    if src_path != dest_path {
+        let _ = std::fs::remove_file(&src_path);
+    }
+
+    Ok(dest_path)
+}
+
+/// Process and save a screenshot with editing operations applied.
+///
+/// Used by the preview window when edits (rotate, flip, brightness, etc.)
+/// have been made. The pipeline: load → edit → crop → watermark → save.
+pub(crate) fn process_and_save_edited(
+    uri_str: &str,
+    options: &CaptureOptions,
+    edits: &crate::editing::EditState,
+    crop: Option<(i32, i32, i32, i32)>,
+) -> Result<PathBuf, Box<dyn std::error::Error>> {
+    // 1. Resolve source file path.
+    let src_path = gio::File::for_uri(uri_str)
+        .path()
+        .ok_or("Cannot convert URI to local path")?;
+
+    // 2. Determine save directory.
+    let save_dir = match &options.save_dir {
+        Some(dir) => dir.clone(),
+        None => {
+            let user_dirs = dirs::picture_dir().ok_or("Cannot find Pictures directory")?;
+            user_dirs.join("Screenshots")
+        }
+    };
+    if !save_dir.exists() {
+        std::fs::create_dir_all(&save_dir)?;
+    }
+
+    // 3. Build filename.
+    let now = Local::now();
+    let ext = if options.format_idx == 1 { "jpg" } else { "png" };
+    let filename = format!("Screenshot_{}_supershot.{}", now.format("%Y-%m-%d_%H-%M-%S%.3f"), ext);
+    let dest_path = save_dir.join(&filename);
+
+    // 4. Load and apply edits using the `image` crate.
+    let mut img = crate::editing::apply_edits_to_file(uri_str, edits)?;
+
+    // 5. Apply crop on the edited image.
+    if let Some((x, y, w, h)) = crop {
+        img = img.crop_imm(x as u32, y as u32, w as u32, h as u32);
+    }
+
+    // 6. Apply watermark if enabled.
+    //    Convert the edited image to a Cairo surface for text rendering,
+    //    then save the result.
+    if options.watermark {
+        // Save edited image to a temp PNG, load as Cairo surface, draw watermark.
+        let tmp = dest_path.with_extension("tmp.png");
+        img.save(&tmp)?;
+
+        let mut reader = std::io::BufReader::new(std::fs::File::open(&tmp)?);
+        let surface = cairo::ImageSurface::create_from_png(&mut reader)?;
+        apply_watermark(&surface, options)?;
+
+        if options.format_idx == 1 {
+            let mut png_buf: Vec<u8> = Vec::new();
+            surface.write_to_png(&mut png_buf)?;
+            let loader = gdk_pixbuf::PixbufLoader::new();
+            loader.write(&png_buf)?;
+            loader.close()?;
+            let pixbuf = loader.pixbuf().ok_or("Failed to decode image")?;
+            pixbuf.savev(&dest_path, "jpeg", &[("quality", "90")])?;
+        } else {
+            let mut writer = std::io::BufWriter::new(std::fs::File::create(&dest_path)?);
+            surface.write_to_png(&mut writer)?;
+        }
+        let _ = std::fs::remove_file(&tmp);
+    } else {
+        crate::editing::save_edited_image(&img, &dest_path, options.format_idx)?;
+    }
+
+    // 7. Remove original portal file.
     if src_path != dest_path {
         let _ = std::fs::remove_file(&src_path);
     }
