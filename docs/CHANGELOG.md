@@ -11,6 +11,35 @@ Version numbering adheres to [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.2.0] -- 2026-04-16
+
+### Added
+
+- **Image editor**: Full editing sidebar with rotate, flip, brightness,
+  contrast, blur, sharpen, grayscale, and invert controls. All transforms
+  applied live via the `image` crate with non-destructive `EditState`.
+- **Apply Crop**: Button in sidebar and click-to-crop inside the selected area
+  to confirm the crop and preview the result before saving.
+- **Undo Crop**: Restores the pre-crop state (original image and all edit
+  values) so the user can redo the selection.
+- **Portal-first capture**: The XDG Desktop Portal is now tried first on both
+  Wayland and X11. CLI tools (gnome-screenshot, scrot, maim, flameshot, etc.)
+  are used as fallback only when the portal is unavailable on X11.
+
+### Fixed
+
+- **Stale screenshot on discard**: The portal's temp file is now deleted in
+  `do_discard()`, preventing the previous screenshot from reappearing on the
+  next capture.
+
+### Dependencies
+
+| Crate | Version | Purpose |
+|---|---|---|
+| image | 0.25 | Pixel-level image editing transforms |
+
+---
+
 ## [1.1.0] -- 2026-02-16
 
 ### Added
@@ -120,6 +149,7 @@ First public release.
 
 ---
 
-[Unreleased]: https://github.com/axpnet/supershot/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/axpnet/supershot/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/axpnet/supershot/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/axpnet/supershot/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/axpnet/supershot/releases/tag/v1.0.0

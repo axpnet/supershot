@@ -29,11 +29,18 @@ Screenshots are automatically saved and copied to the clipboard.
   displayed inside the capture button.
 - **Format selection** -- Save as PNG (lossless) or JPEG (quality 90).
 - **Preview and crop** -- Optional post-capture preview window with
-  drag-to-select crop region. The watermark is rendered as a live overlay in
-  the preview, showing exactly how the final image will appear.
+  drag-to-select crop region, click inside selection to apply, and undo crop
+  to retry. The watermark is rendered as a live overlay in the preview, showing
+  exactly how the final image will appear.
+- **Image editor** -- Full editing sidebar with rotate, flip, brightness,
+  contrast, blur, sharpen, grayscale, and invert controls. All edits are
+  applied live in the preview before saving.
 - **Duplicate prevention** -- The portal's original file is automatically
   removed after processing, preventing duplicate screenshots in the system
   default folder.
+- **Portal-first capture** -- Uses the XDG Desktop Portal on both Wayland and
+  X11 (with GNOME portal backend), falling back to CLI tools only when the
+  portal is unavailable.
 
 ### Watermark
 - **Customizable watermark** -- Optional text overlay rendered via Cairo with
@@ -123,7 +130,7 @@ Download the latest `.deb` from the
 [Releases](https://github.com/axpnet/supershot/releases) page:
 
 ```sh
-sudo dpkg -i supershot_1.1.0_amd64.deb
+sudo dpkg -i supershot_1.2.0_amd64.deb
 ```
 
 The package installs the binary to `/usr/bin/supershot`, the GSettings schema,
@@ -213,13 +220,15 @@ src/
   window.rs    Main window with tabbed UI (AdwViewStack), GSettings bindings
   capture.rs   Capture pipeline: countdown, portal, watermark, crop, save, clipboard, notify
   preview.rs   Preview/crop window with Cairo rendering and live watermark overlay
-  sound.rs     Shutter sound playback via canberra-gtk-play
+  editing.rs   Non-destructive image editing (rotate, flip, brightness, contrast, blur, sharpen, grayscale, invert)
 ```
 
 Screenshot capture is performed through the XDG Desktop Portal (`ashpd` crate),
-which communicates with the compositor via D-Bus. The portal's interactive UI
-handles area, window, and full-screen selection natively. Post-capture
-processing (watermark, crop, format conversion) uses Cairo and GdkPixbuf.
+which communicates with the compositor via D-Bus. The portal is tried first on
+both Wayland and X11; CLI tools (gnome-screenshot, scrot, etc.) are used as
+fallback only when the portal is unavailable on X11. Post-capture processing
+(editing, watermark, crop, format conversion) uses the `image` crate, Cairo,
+and GdkPixbuf.
 
 ## Contributing
 
