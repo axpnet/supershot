@@ -41,6 +41,7 @@ jobs:
 
       - name: Build .deb package
         run: |
+          mkdir -p pkg-deb/usr/bin
           cp target/release/supershot pkg-deb/usr/bin/supershot
           chmod 755 pkg-deb/usr/bin/supershot
           dpkg-deb --build pkg-deb "supershot_${{ steps.version.outputs.version }}_amd64.deb"
