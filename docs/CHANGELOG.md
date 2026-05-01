@@ -11,6 +11,26 @@ Version numbering adheres to [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.2.1] -- 2026-05-01
+
+### Changed
+
+- **Updated dependencies**: Bumped Rust crates to their latest compatible versions.
+- **Security maintenance**: Added `liblcms2-2` to snap stage packages to resolve security vulnerabilities in the build environment.
+- **Fixed deprecations**: Migrated from `CssProvider::load_from_data` to `load_from_string` for GTK 4.12+ compatibility.
+
+### Dependencies
+
+| Crate | Version | Purpose |
+|---|---|---|
+| gtk4 | 0.11 | UI toolkit |
+| libadwaita | 0.9 | Adwaita design system |
+| ashpd | 0.13 | XDG Desktop Portal client |
+| cairo-rs | 0.22 | Watermark rendering |
+| gdk-pixbuf | 0.22 | Image processing |
+
+---
+
 ## [1.2.0] -- 2026-04-16
 
 ### Added
@@ -149,7 +169,8 @@ First public release.
 
 ---
 
-[Unreleased]: https://github.com/axpnet/supershot/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/axpnet/supershot/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/axpnet/supershot/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/axpnet/supershot/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/axpnet/supershot/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/axpnet/supershot/releases/tag/v1.0.0

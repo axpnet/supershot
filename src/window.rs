@@ -332,7 +332,7 @@ mod imp {
 
             // Increase internal padding of the tab buttons.
             let css = gtk::CssProvider::new();
-            css.load_from_data("viewswitcher button { padding: 10px 14px; margin: 0 5px; border-radius: 12px; }");
+            css.load_from_string("viewswitcher button { padding: 10px 14px; margin: 0 5px; border-radius: 12px; }");
             if let Some(display) = gtk::gdk::Display::default() {
                 gtk::style_context_add_provider_for_display(
                     &display,

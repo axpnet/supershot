@@ -1,5 +1,5 @@
 name: supershot
-version: '1.2.0'
+version: '1.2.1'
 title: SuperShot
 summary: Native GTK4 screenshot tool for GNOME with watermark and crop
 description: |
@@ -55,6 +55,7 @@ parts:
     stage-packages:
       - libgtk-4-1
       - libadwaita-1-0
+      - liblcms2-2
     override-build: |
       craftctl default
       install -Dm644 data/com.github.axpnet.SuperShot.desktop $CRAFT_PART_INSTALL/usr/share/applications/com.github.axpnet.SuperShot.desktop
