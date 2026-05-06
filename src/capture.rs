@@ -50,10 +50,11 @@ fn x11_screenshot_sync(tmp_path: &str) -> Result<String, String> {
     for (cmd, args) in interactive_tools {
         if *cmd == "flameshot" {
             if let Ok(output) = std::process::Command::new(cmd).args(*args).output() {
-                if output.status.success() && !output.stdout.is_empty() {
-                    if std::fs::write(tmp_path, &output.stdout).is_ok() {
-                        return Ok(format!("file://{}", tmp_path));
-                    }
+                if output.status.success()
+                    && !output.stdout.is_empty()
+                    && std::fs::write(tmp_path, &output.stdout).is_ok()
+                {
+                    return Ok(format!("file://{}", tmp_path));
                 }
             }
             continue;
@@ -86,7 +87,7 @@ fn x11_screenshot_sync(tmp_path: &str) -> Result<String, String> {
 /// Constructed from widget state in `window.rs` and threaded through the
 /// capture pipeline so each stage can consult active settings without
 /// reaching back into window state.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct CaptureOptions {
     /// Output format: 0 = PNG, 1 = JPEG.
     pub format_idx: u32,
@@ -107,22 +108,6 @@ pub struct CaptureOptions {
     /// Optional crop rectangle (x, y, width, height) in image pixels.
     /// Set by the preview window; None when capturing without preview.
     pub crop: Option<(i32, i32, i32, i32)>,
-}
-
-impl Default for CaptureOptions {
-    fn default() -> Self {
-        Self {
-            format_idx: 0,
-            watermark: false,
-            watermark_format: 0,
-            watermark_text: String::new(),
-            watermark_position: 0,
-            watermark_color: 0,
-            save_dir: None,
-            show_preview: false,
-            crop: None,
-        }
-    }
 }
 
 /// Date format presets for the watermark.
@@ -692,7 +677,7 @@ pub fn draw_watermark_overlay(
         format!("{} | {}", options.watermark_text, date_str)
     };
 
-    let font_size = (height * 0.02).max(14.0).min(36.0);
+    let font_size = (height * 0.02).clamp(14.0, 36.0);
     ctx.select_font_face("Sans", cairo::FontSlant::Normal, cairo::FontWeight::Normal);
     ctx.set_font_size(font_size);
 

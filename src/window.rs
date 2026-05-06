@@ -373,13 +373,18 @@ mod imp {
                 }
             ));
 
-            // Persist custom watermark text on edit.
+            // Persist custom watermark text on edit. Clamp length to prevent
+            // unbounded text from causing Cairo allocation failures during render.
             self.watermark_text_row.connect_changed(glib::clone!(
                 #[weak]
                 obj,
                 move |row| {
                     if let Some(settings) = obj.imp().settings.get() {
-                        let _ = settings.set_string("watermark-text", &row.text());
+                        let mut text = row.text().to_string();
+                        if text.chars().count() > 256 {
+                            text = text.chars().take(256).collect();
+                        }
+                        let _ = settings.set_string("watermark-text", &text);
                     }
                 }
             ));
@@ -520,7 +525,12 @@ impl SuperShotWindow {
             move |result: Result<gio::File, glib::Error>| {
                 if let Ok(folder) = result {
                     if let Some(path) = folder.path() {
-                        let path_str = path.to_string_lossy().to_string();
+                        // Canonicalize to resolve symlinks and normalize the
+                        // path before persisting; falls back to the raw path
+                        // if canonicalization fails (e.g. directory removed
+                        // between selection and persist).
+                        let resolved = std::fs::canonicalize(&path).unwrap_or(path);
+                        let path_str = resolved.to_string_lossy().to_string();
                         let imp = win.imp();
                         imp.save_dir_row.set_subtitle(&path_str);
                         if let Some(settings) = imp.settings.get() {

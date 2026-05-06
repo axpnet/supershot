@@ -567,7 +567,9 @@ impl PreviewWindow {
     fn rotate(&self, degrees: i32) {
         let imp = self.imp();
         let mut es = imp.edit_state.borrow_mut();
-        es.rotation = ((es.rotation as i32 + degrees + 360) % 360) as u32;
+        // rem_euclid handles negative degrees correctly without the +360 hack
+        // and never overflows for any i32 input.
+        es.rotation = (es.rotation as i32 + degrees).rem_euclid(360) as u32;
         drop(es);
         imp.crop_active.set(false);
         self.recalc_preview();
@@ -655,7 +657,7 @@ impl PreviewWindow {
         let imp = self.imp();
         let new_zoom = (imp.zoom.get() + delta).clamp(MIN_ZOOM, MAX_ZOOM);
         imp.zoom.set(new_zoom);
-        imp.zoom_label.set_label(&format!("{}%", (new_zoom * 100.0) as i32));
+        imp.zoom_label.set_label(&format!("{}%", (new_zoom * 100.0).round() as i32));
         imp.zoom_out_btn.set_sensitive(new_zoom > MIN_ZOOM);
         imp.zoom_in_btn.set_sensitive(new_zoom < MAX_ZOOM);
         imp.crop_active.set(false);
@@ -793,10 +795,16 @@ impl PreviewWindow {
         // Apply current edits to get the edited image, then crop it
         let edited = imp.edited_pixbuf.borrow();
         if let Some(pb) = edited.as_ref() {
-            let cx = x.max(0);
-            let cy = y.max(0);
-            let cw = w.min(pb.width() - cx);
-            let ch = h.min(pb.height() - cy);
+            let pw = pb.width();
+            let ph = pb.height();
+            if pw <= 0 || ph <= 0 { return; }
+            // Clamp crop origin to the pixbuf rect; cw/ch saturating-sub
+            // guarantees new_subpixbuf cannot be called with an out-of-range
+            // rectangle (which panics in gdk-pixbuf).
+            let cx = x.clamp(0, pw - 1);
+            let cy = y.clamp(0, ph - 1);
+            let cw = w.min(pw - cx);
+            let ch = h.min(ph - cy);
             if cw <= 0 || ch <= 0 { return; }
 
             // Save pre-crop state for undo

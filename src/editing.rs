@@ -72,15 +72,42 @@ impl EditState {
 // ---------------------------------------------------------------------------
 
 /// Convert a GdkPixbuf to an `image` crate DynamicImage.
+///
+/// On malformed input (negative or zero dimensions, pixel buffer smaller
+/// than rowstride × height) returns a blank image of the requested
+/// dimensions instead of panicking on out-of-bounds access.
 pub fn pixbuf_to_dynamic(pb: &gdk_pixbuf::Pixbuf) -> DynamicImage {
-    let width = pb.width() as u32;
-    let height = pb.height() as u32;
-    let rowstride = pb.rowstride() as usize;
-    let n_channels = pb.n_channels() as usize;
+    let width = pb.width().max(0) as u32;
+    let height = pb.height().max(0) as u32;
+    let rowstride = pb.rowstride().max(0) as usize;
+    let n_channels = pb.n_channels().max(0) as usize;
+    let has_alpha = pb.has_alpha();
 
+    if width == 0 || height == 0 || n_channels < 3 {
+        return if has_alpha {
+            DynamicImage::ImageRgba8(image::ImageBuffer::new(width.max(1), height.max(1)))
+        } else {
+            DynamicImage::ImageRgb8(image::ImageBuffer::new(width.max(1), height.max(1)))
+        };
+    }
+
+    // SAFETY: `pixels()` returns a slice into pixbuf-owned memory valid
+    // for as long as `pb` lives. We do not yield to the main loop while
+    // the slice is borrowed and gdk-pixbuf's pixel buffer is not mutated
+    // by external code in this code path.
     let pixels = unsafe { pb.pixels() };
 
-    if pb.has_alpha() {
+    let last_row_offset = (height as usize - 1) * rowstride;
+    let needed = last_row_offset + width as usize * n_channels;
+    if pixels.len() < needed {
+        return if has_alpha {
+            DynamicImage::ImageRgba8(image::ImageBuffer::new(width, height))
+        } else {
+            DynamicImage::ImageRgb8(image::ImageBuffer::new(width, height))
+        };
+    }
+
+    if has_alpha {
         let mut buf = image::ImageBuffer::<image::Rgba<u8>, Vec<u8>>::new(width, height);
         for y in 0..height {
             for x in 0..width {
