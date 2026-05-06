@@ -4,6 +4,7 @@
 *.swo
 *~
 *.deb
+*.snap
 pkg-deb/usr/bin/
 .flatpak-builder/
 .flatpak/

@@ -63,6 +63,30 @@
   </screenshots>
 
   <releases>
+    <release version="1.2.2" date="2026-05-06">
+      <description>
+        <p>Security and stability maintenance. Snap rebuild incorporates Ubuntu
+        Security Notices USN-8227-1 (libcurl3t64-gnutls) and USN-8233-1
+        (libnghttp2-14). Hardened pixbuf-to-image conversion and crop bounds
+        checks; clamped watermark text length; canonicalized save directories;
+        rotation arithmetic uses rem_euclid; zoom percentage rounded.
+        Transitive dependency bumps (tokio, zvariant, profiling).</p>
+      </description>
+    </release>
+    <release version="1.2.1" date="2026-05-01">
+      <description>
+        <p>Updated Rust crates to latest compatible versions. Added liblcms2-2 to
+        snap stage packages for security maintenance. Migrated from
+        load_from_data to load_from_string for GTK 4.12+ compatibility.</p>
+      </description>
+    </release>
+    <release version="1.2.0" date="2026-04-16">
+      <description>
+        <p>Image editor with rotate, flip, brightness, contrast, blur, sharpen,
+        grayscale, and invert. Apply/undo crop. Portal-first capture on both
+        Wayland and X11.</p>
+      </description>
+    </release>
     <release version="1.1.0" date="2026-02-16">
       <description>
         <p>Tabbed interface (Shot/Settings). Customizable watermark with 5 date

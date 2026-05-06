@@ -11,6 +11,51 @@ Version numbering adheres to [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.2.2] -- 2026-05-06
+
+### Security
+
+- **Snap rebuild**: Snap revisions r3-r6 rebuilt to incorporate Ubuntu
+  Security Notices USN-8227-1 (`libcurl3t64-gnutls`) and USN-8233-1
+  (`libnghttp2-14`) in the runtime stage.
+
+### Fixed
+
+- **`pixbuf_to_dynamic` bounds safety**: The pixbuf-to-`DynamicImage`
+  conversion now validates the pixel buffer length against the expected
+  `rowstride * height` size and rejects malformed inputs (zero or negative
+  dimensions, fewer than three channels) instead of risking out-of-bounds
+  indexing on the unsafe `pixels()` slice.
+- **Crop rectangle clamping**: The "apply crop" path now clamps the crop
+  origin to the valid pixbuf rect before calling `new_subpixbuf`, removing
+  a panic path on extreme crop coordinates.
+- **Watermark text length cap**: Custom watermark text is truncated to 256
+  characters at persist time to avoid pathological Cairo rendering and
+  unbounded GSettings strings.
+- **Save directory canonicalization**: Paths chosen via the folder picker
+  are canonicalized before being persisted to GSettings, normalizing
+  symlinks and relative components.
+- **Numerical correctness**: Rotation arithmetic uses `rem_euclid` (correct
+  for negative input); zoom percentage is rounded instead of truncated.
+
+### Changed
+
+- **Patch dependency bumps**: `cargo update` to refresh transitive crates
+  (`tokio` 1.52.1 → 1.52.2, `zvariant` 5.10.1 → 5.11.0, `profiling` 1.0.17
+  → 1.0.18). All direct dependencies remain at the latest stable releases
+  (gtk4 0.11.3, libadwaita 0.9.1, ashpd 0.13.10, image 0.25.10, clap 4.6.1).
+
+### Audit
+
+- `cargo audit`: 0 RUSTSEC vulnerabilities. One unmaintained-crate warning
+  (`paste` 1.0.15) propagated transitively through `image → ravif → rav1e`;
+  no known security impact, tracked upstream.
+- `cargo clippy --release -- -D warnings`: clean. Removed manual `Default`
+  impl on `CaptureOptions`, collapsed nested-if in flameshot capture path,
+  switched manual min/max watermark font clamp to `f64::clamp`.
+
+---
+
 ## [1.2.1] -- 2026-05-01
 
 ### Changed
@@ -169,7 +214,8 @@ First public release.
 
 ---
 
-[Unreleased]: https://github.com/axpnet/supershot/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/axpnet/supershot/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/axpnet/supershot/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/axpnet/supershot/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/axpnet/supershot/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/axpnet/supershot/compare/v1.0.0...v1.1.0
