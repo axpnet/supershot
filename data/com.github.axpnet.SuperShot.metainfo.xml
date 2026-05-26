@@ -63,6 +63,12 @@
   </screenshots>
 
   <releases>
+    <release version="1.2.3" date="2026-05-26">
+      <description>
+        <p>Security maintenance. Snap rebuild to incorporate Ubuntu Security Notice
+        USN-8269-1 (libavahi-client3, libavahi-common-data, libavahi-common3).</p>
+      </description>
+    </release>
     <release version="1.2.2" date="2026-05-06">
       <description>
         <p>Security and stability maintenance. Snap rebuild incorporates Ubuntu
