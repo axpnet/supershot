@@ -63,6 +63,14 @@
   </screenshots>
 
   <releases>
+    <release version="1.2.4" date="2026-07-11">
+      <description>
+        <p>Security and dependency maintenance. Snap rebuild to incorporate Ubuntu
+        Security Notice USN-8495-1 (libnghttp2-14). Updated Rust crates to their
+        latest compatible versions (GTK4/Libadwaita stack, zbus/zvariant, tokio,
+        regex, chrono and others).</p>
+      </description>
+    </release>
     <release version="1.2.3" date="2026-05-26">
       <description>
         <p>Security maintenance. Snap rebuild to incorporate Ubuntu Security Notice
