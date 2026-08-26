@@ -37,9 +37,15 @@ website: https://github.com/axpnet/supershot
 
 icon: data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
 
+# Every architecture the Snap Store already publishes for. Declaring a subset
+# here would strand the omitted ones on whatever revision they last received:
+# armhf and riscv64 have no .deb or AppImage to fall back on, the snap is their
+# only channel. rustup provides native host toolchains for all four.
 platforms:
   amd64:
   arm64:
+  armhf:
+  riscv64:
 
 apps:
   supershot:
