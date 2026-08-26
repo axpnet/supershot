@@ -1,13 +1,14 @@
-# SuperShot translation template.
-# Copyright (C) 2026 axpnet
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the supershot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: supershot 1.1.0\n"
+"Project-Id-Version: supershot 1.3.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,84 +17,546 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Preferences group heading
-#: src/window.rs
-msgid "Capture Settings"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
 msgstr ""
 
-#. Delay combo row title
-#: src/window.rs
-msgid "Delay"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
 msgstr ""
 
-#. Delay option: no delay
-#: src/window.rs
-msgid "None"
+#: src/app.rs:209
+msgid "Main Window"
 msgstr ""
 
-#. Delay option: 3-second delay
-#: src/window.rs
-msgid "3 seconds"
-msgstr ""
-
-#. Delay option: 5-second delay
-#: src/window.rs
-msgid "5 seconds"
-msgstr ""
-
-#. Delay option: 10-second delay
-#: src/window.rs
-msgid "10 seconds"
-msgstr ""
-
-#. Tooltip for the capture button
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
 msgstr ""
 
-#. Countdown overlay text; %u is replaced with the remaining seconds
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u\u2026"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
 msgstr ""
 
-#. Desktop notification title after successful capture
-#: src/capture.rs
-msgid "Screenshot captured"
+#: src/app.rs:213
+msgid "Quit"
 msgstr ""
 
-#. Desktop notification body; %s is replaced with the file path
-#: src/capture.rs
-#, c-format
-msgid "Saved to %s"
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
 msgstr ""
 
-#. Error dialog heading: file save failure
-#: src/capture.rs
-msgid "Save Error"
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
 msgstr ""
 
-#. Error dialog heading: XDG portal response failure
-#: src/capture.rs
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr ""
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr ""
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr ""
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr ""
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr ""
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr ""
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr ""
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr ""
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr ""
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr ""
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr ""
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr ""
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr ""
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr ""
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr ""
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr ""
+
+#: src/capture.rs:911
 msgid "Portal Error"
 msgstr ""
 
-#. Error dialog heading: XDG portal request failure
-#: src/capture.rs
-msgid "Request Error"
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
 msgstr ""
 
-#. Desktop file: short application description
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
 msgstr ""
 
-#. Desktop file: generic application category name
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
 msgstr ""
 
-#. AppStream: one-line summary shown in software centres
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr ""
+
+#: src/capture.rs:1148
+msgid "Screenshot captured"
+msgstr ""
+
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr ""
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr ""
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr ""
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr ""
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr ""
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr ""
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr ""
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr ""
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr ""
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr ""
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr ""
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr ""
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr ""
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr ""
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr ""
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr ""
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr ""
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr ""
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr ""
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr ""
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr ""
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr ""
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr ""
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr ""
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr ""
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr ""
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr ""
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr ""
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr ""
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr ""
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr ""
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr ""
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr ""
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr ""
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr ""
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr ""
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr ""
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr ""
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr ""
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr ""
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr ""
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr ""
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr ""
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr ""
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr ""
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr ""
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr ""
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr ""
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr ""
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr ""
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr ""
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr ""
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr ""
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr ""
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr ""
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr ""
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr ""
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr ""
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr ""
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr ""
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr ""
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr ""
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr ""
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr ""
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr ""
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr ""
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr ""
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr ""
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr ""
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr ""
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr ""
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr ""
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr ""
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr ""
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr ""
+
+#: src/window.rs:73
+msgid "None"
+msgstr ""
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr ""
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr ""
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr ""
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr ""
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr ""
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr ""
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr ""
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr ""
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr ""
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr ""
+
+#: src/window.rs:178
+msgid "Position"
+msgstr ""
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr ""
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr ""
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr ""
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr ""
+
+#: src/window.rs:193
+msgid "Color"
+msgstr ""
+
+#: src/window.rs:197
+msgid "White"
+msgstr ""
+
+#: src/window.rs:198
+msgid "Black"
+msgstr ""
+
+#: src/window.rs:209
+msgid "Output"
+msgstr ""
+
+#: src/window.rs:212
+msgid "Format"
+msgstr ""
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr ""
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr ""
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr ""
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr ""
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr ""
+
+#: src/window.rs:283
+msgid "_About SuperShot"
 msgstr ""

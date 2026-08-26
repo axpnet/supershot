@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"
 "Last-Translator: axpnet <axp@pm.me>\n"
 "Language-Team: Korean\n"
@@ -15,68 +15,575 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/window.rs
-msgid "Capture Settings"
-msgstr "캡처 설정"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
+msgstr "스크린샷을 캡처하고 주석을 달아 공유합니다."
 
-#: src/window.rs
-msgid "Delay"
-msgstr "지연"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
+msgstr ""
 
-#: src/window.rs
-msgid "None"
-msgstr "없음"
+#: src/app.rs:209
+msgid "Main Window"
+msgstr "기본 창"
 
-#: src/window.rs
-msgid "3 seconds"
-msgstr "3초"
-
-#: src/window.rs
-msgid "5 seconds"
-msgstr "5초"
-
-#: src/window.rs
-msgid "10 seconds"
-msgstr "10초"
-
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
 msgstr "스크린샷 찍기"
 
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u…"
-msgstr "%u초 후 캡처…"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
+msgstr "키보드 단축키"
 
-#: src/capture.rs
-msgid "Screenshot captured"
-msgstr "스크린샷 촬영 완료"
+#: src/app.rs:213
+msgid "Quit"
+msgstr "끝내기"
 
-#: src/capture.rs
-#, c-format
-msgid "Saved to %s"
-msgstr "%s에 저장됨"
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
+msgstr "미리 보기"
 
-#: src/capture.rs
-msgid "Save Error"
-msgstr "저장 오류"
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
+msgstr "저장"
 
-#: src/capture.rs
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr "클립보드에 복사"
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr "실행 취소"
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr "다시 실행"
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr "대기 중인 선택 취소"
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr "키보드 단축키"
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr "대화형"
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr "영역"
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr "창"
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr "화면"
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr "데스크톱 스크린샷 포털이 응답하지 않습니다."
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr "사용 가능한 모든 스크린샷 도구가 이미지를 생성하지 못했습니다."
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr "이 세션에서 사용할 수 있는 스크린샷 도구가 없습니다."
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr "모드: __MODE__ · 디스플레이 서버: __BACKEND__"
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr "데스크톱 포털 백엔드 또는 다음 중 하나를 설치하세요: __TOOLS__"
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr "예: __CMD__"
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr "확인"
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr "스크린샷 실패"
+
+#: src/capture.rs:911
 msgid "Portal Error"
 msgstr "포털 오류"
 
-#: src/capture.rs
-msgid "Request Error"
-msgstr "요청 오류"
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
+msgstr "스크린샷 포털이 오류를 반환했습니다."
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
-msgstr "GNOME용 지연 타이머 스크린샷 도구"
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
+msgstr "저장 오류"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
-msgstr "스크린샷 도구"
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
+msgstr "스크린샷을 저장하지 못했습니다."
 
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
-msgstr "GNOME용 지연 설정 가능한 스크린샷 도구"
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr "__N__초 대기 중…"
+
+#: src/capture.rs:1148
+msgid "Screenshot captured"
+msgstr "스크린샷을 캡처했습니다"
+
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr "__PATH__에 저장됨"
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr "폴더에서 보기"
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr "쓰기 가능한 저장 폴더를 찾을 수 없습니다 (__DETAIL__)"
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr "캡처를 읽을 수 없습니다"
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr "인코딩 실패"
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr "저장 작업 실패"
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr "렌더링 작업 실패"
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr "도구 표시"
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr "버리기"
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr "도구"
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr "자르기 적용"
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr "색상"
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr "두께"
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr "레이블 텍스트"
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr "조정"
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr "자르기"
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr "영역을 끌고 안쪽을 클릭하여 자릅니다"
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr "화살표"
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr "끌어서 화살표를 그립니다"
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr "사각형"
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr "끌어서 사각형을 그립니다"
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr "타원"
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr "끌어서 타원을 그립니다"
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr "형광펜"
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr "끌어서 영역을 강조합니다"
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr "펜"
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr "자유롭게 그리기"
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr "텍스트"
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr "입력란에 입력한 뒤 클릭하여 배치합니다"
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr "단계"
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr "클릭하여 번호가 매겨진 표시를 놓습니다"
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr "모자이크"
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr "민감한 데이터 위로 끌어 삭제합니다"
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr "가리기"
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr "끌어서 영역을 단색으로 덮습니다"
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr "축소"
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr "확대"
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr "왼쪽으로 회전"
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr "오른쪽으로 회전"
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr "좌우 반전"
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr "상하 반전"
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr "밝기"
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr "대비"
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr "흐리게"
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr "선명하게"
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr "회색조"
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr "반전"
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr "조정 초기화"
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr "미리 보기 실패"
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr "캡처를 열 수 없습니다."
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr "도구를 선택해 표시한 뒤 저장하거나 복사하세요."
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr "영역을 끈 뒤 안쪽을 클릭하거나 자르기 적용을 누르세요."
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr "레이블을 입력한 뒤 이미지를 클릭해 배치하세요."
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr "클릭하여 다음 번호 표시를 놓으세요."
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr "민감한 데이터 위로 끄세요. 픽셀은 덮이는 것이 아니라 삭제됩니다."
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr "끌어서 영역을 단색으로 덮습니다."
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr "이미지 위를 끌어 그립니다."
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr "먼저 레이블 텍스트를 입력한 뒤 클릭해 배치하세요."
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr "__W__ × __H__ px"
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr "선택 __W__ × __H__"
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr "주석 __N__개"
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr "저장 중…"
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr "저장하지 못했습니다."
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr "복사 중…"
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr "클립보드에 복사했습니다."
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr "클립보드를 사용할 수 없습니다."
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr "렌더링에 실패했습니다."
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr "저장 폴더 선택"
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr "기본 메뉴"
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr "촬영"
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr "캡처"
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr "무엇을 촬영할지"
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr "물어보기"
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr "전체 화면"
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr "지연"
+
+#: src/window.rs:73
+msgid "None"
+msgstr "없음"
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr "3초"
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr "5초"
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr "10초"
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr "저장 전에 주석 달고 편집"
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr "설정"
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr "워터마크"
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr "사용"
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr "스크린샷에 텍스트 겹치기"
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr "날짜 형식"
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr "사용자 지정 텍스트"
+
+#: src/window.rs:178
+msgid "Position"
+msgstr "위치"
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr "오른쪽 아래"
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr "왼쪽 아래"
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr "오른쪽 위"
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr "왼쪽 위"
+
+#: src/window.rs:193
+msgid "Color"
+msgstr "색상"
+
+#: src/window.rs:197
+msgid "White"
+msgstr "흰색"
+
+#: src/window.rs:198
+msgid "Black"
+msgstr "검은색"
+
+#: src/window.rs:209
+msgid "Output"
+msgstr "출력"
+
+#: src/window.rs:212
+msgid "Format"
+msgstr "형식"
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr "JPEG 품질"
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr "값이 클수록 세부 정보가 더 유지됩니다"
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr "저장 위치"
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr "스크린샷 폴더 열기"
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr "키보드 단축키(_K)"
+
+#: src/window.rs:283
+msgid "_About SuperShot"
+msgstr "SuperShot 정보(_A)"
+
+#~ msgid "Geometry"
+#~ msgstr "기하"
+
+#~ msgid "Effects"
+#~ msgstr "효과"
+
+#~ msgid "Capture Settings"
+#~ msgstr "캡처 설정"
+
+#, c-format
+#~ msgid "Capturing in %u…"
+#~ msgstr "%u초 후 캡처…"
+
+#, c-format
+#~ msgid "Saved to %s"
+#~ msgstr "%s에 저장됨"
+
+#~ msgid "Request Error"
+#~ msgstr "요청 오류"
+
+#~ msgid "Screenshot tool with delay timer for GNOME"
+#~ msgstr "GNOME용 지연 타이머 스크린샷 도구"
+
+#~ msgid "Screenshot Tool"
+#~ msgstr "스크린샷 도구"
+
+#~ msgid "Screenshot tool with configurable delay for GNOME"
+#~ msgstr "GNOME용 지연 설정 가능한 스크린샷 도구"

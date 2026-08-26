@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"
 "Last-Translator: axpnet <axp@pm.me>\n"
 "Language-Team: Indonesian\n"
@@ -15,68 +15,576 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/window.rs
-msgid "Capture Settings"
-msgstr "Pengaturan Tangkapan"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
+msgstr "Ambil, anotasi, dan bagikan tangkapan layar."
 
-#: src/window.rs
-msgid "Delay"
-msgstr "Penundaan"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
+msgstr ""
 
-#: src/window.rs
-msgid "None"
-msgstr "Tidak ada"
+#: src/app.rs:209
+msgid "Main Window"
+msgstr "Jendela Utama"
 
-#: src/window.rs
-msgid "3 seconds"
-msgstr "3 detik"
-
-#: src/window.rs
-msgid "5 seconds"
-msgstr "5 detik"
-
-#: src/window.rs
-msgid "10 seconds"
-msgstr "10 detik"
-
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
 msgstr "Ambil tangkapan layar"
 
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u…"
-msgstr "Menangkap dalam %u…"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
+msgstr "Pintasan papan ketik"
 
-#: src/capture.rs
-msgid "Screenshot captured"
-msgstr "Tangkapan layar berhasil"
+#: src/app.rs:213
+msgid "Quit"
+msgstr "Keluar"
 
-#: src/capture.rs
-#, c-format
-msgid "Saved to %s"
-msgstr "Disimpan ke %s"
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
+msgstr "Pratinjau"
 
-#: src/capture.rs
-msgid "Save Error"
-msgstr "Kesalahan Penyimpanan"
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
+msgstr "Simpan"
 
-#: src/capture.rs
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr "Salin ke papan klip"
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr "Urungkan"
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr "Ulangi"
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr "Batalkan seleksi yang tertunda"
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr "Pintasan Papan Ketik"
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr "Interaktif"
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr "Area"
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr "Jendela"
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr "Layar"
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr "Portal tangkapan layar desktop tidak merespons."
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr "Semua alat tangkapan layar yang tersedia gagal menghasilkan gambar."
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr "Tidak ada alat tangkapan layar yang tersedia untuk sesi ini."
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr "Mode: __MODE__ · Server tampilan: __BACKEND__"
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr "Pasang backend portal desktop, atau salah satu dari: __TOOLS__"
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr "Contoh: __CMD__"
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr "OK"
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr "Tangkapan Layar Gagal"
+
+#: src/capture.rs:911
 msgid "Portal Error"
 msgstr "Kesalahan Portal"
 
-#: src/capture.rs
-msgid "Request Error"
-msgstr "Kesalahan Permintaan"
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
+msgstr "Portal tangkapan layar mengembalikan kesalahan."
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
-msgstr "Alat tangkapan layar dengan pengatur waktu untuk GNOME"
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
+msgstr "Kesalahan Penyimpanan"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
-msgstr "Alat Tangkapan Layar"
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
+msgstr "Gagal menyimpan tangkapan layar."
 
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
-msgstr "Alat tangkapan layar dengan penundaan yang dapat dikonfigurasi untuk GNOME"
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr "Menunggu __N__ detik…"
+
+#: src/capture.rs:1148
+msgid "Screenshot captured"
+msgstr "Tangkapan layar diambil"
+
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr "Disimpan ke __PATH__"
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr "Tampilkan di Folder"
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr "Tidak ditemukan direktori simpan yang dapat ditulis (__DETAIL__)"
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr "Tidak dapat membaca hasil tangkapan"
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr "Pengodean gagal"
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr "Tugas penyimpanan gagal"
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr "Tugas render gagal"
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr "Tampilkan alat"
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr "Buang"
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr "Alat"
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr "Terapkan Pangkas"
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr "Warna"
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr "Ketebalan"
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr "Teks label"
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr "Penyesuaian"
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr "Pangkas"
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr "Seret sebuah area, lalu klik di dalamnya untuk memangkas"
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr "Panah"
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr "Seret untuk menggambar panah"
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr "Kotak"
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr "Seret untuk menggambar persegi panjang"
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr "Elips"
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr "Seret untuk menggambar elips"
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr "Stabilo"
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr "Seret untuk menyorot sebuah area"
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr "Pena"
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr "Gambar bebas"
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr "Teks"
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr "Ketik di kolom, lalu klik untuk menempatkan label"
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr "Langkah"
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr "Klik untuk menaruh penanda langkah bernomor"
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr "Piksel"
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr "Seret di atas data sensitif untuk menghancurkannya"
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr "Tutup"
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr "Seret untuk menutup area dengan warna solid"
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr "Perkecil"
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr "Perbesar"
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr "Putar kiri"
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr "Putar kanan"
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr "Balik horizontal"
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr "Balik vertikal"
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr "Kecerahan"
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr "Kontras"
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr "Buram"
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr "Pertajam"
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr "Skala abu-abu"
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr "Balikkan"
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr "Atur Ulang Penyesuaian"
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr "Pratinjau Gagal"
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr "Hasil tangkapan tidak dapat dibuka."
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr "Pilih alat, tandai tangkapan, lalu Simpan atau Salin."
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr "Seret area, lalu klik di dalamnya atau tekan Terapkan Pangkas."
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr "Ketik label, lalu klik pada gambar untuk menempatkannya."
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr "Klik untuk menaruh penanda bernomor berikutnya."
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr "Seret di atas data sensitif. Piksel dihancurkan, bukan ditutup."
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr "Seret untuk menutup area dengan warna solid."
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr "Seret pada gambar untuk menggambar."
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr "Ketik teks label dulu, lalu klik untuk menempatkannya."
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr "__W__ × __H__ px"
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr "Seleksi __W__ × __H__"
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr "__N__ anotasi"
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr "Menyimpan…"
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr "Penyimpanan gagal."
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr "Menyalin…"
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr "Disalin ke papan klip."
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr "Papan klip tidak tersedia."
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr "Render gagal."
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr "Pilih Direktori Simpan"
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr "Menu Utama"
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr "Bidik"
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr "Tangkap"
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr "Apa yang akan difoto"
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr "Tanya saya"
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr "Seluruh layar"
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr "Jeda"
+
+#: src/window.rs:73
+msgid "None"
+msgstr "Tidak ada"
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr "3 detik"
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr "5 detik"
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr "10 detik"
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr "Anotasi dan sunting sebelum menyimpan"
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr "Tanda air"
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr "Aktif"
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr "Tumpangkan teks pada tangkapan layar"
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr "Format Tanggal"
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr "Teks Kustom"
+
+#: src/window.rs:178
+msgid "Position"
+msgstr "Posisi"
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr "Kanan Bawah"
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr "Kiri Bawah"
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr "Kanan Atas"
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr "Kiri Atas"
+
+#: src/window.rs:193
+msgid "Color"
+msgstr "Warna"
+
+#: src/window.rs:197
+msgid "White"
+msgstr "Putih"
+
+#: src/window.rs:198
+msgid "Black"
+msgstr "Hitam"
+
+#: src/window.rs:209
+msgid "Output"
+msgstr "Keluaran"
+
+#: src/window.rs:212
+msgid "Format"
+msgstr "Format"
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr "Kualitas JPEG"
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr "Nilai lebih tinggi menyimpan lebih banyak detail"
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr "Lokasi Simpan"
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr "Buka Folder Tangkapan Layar"
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr "Pintasan _Papan Ketik"
+
+#: src/window.rs:283
+msgid "_About SuperShot"
+msgstr "Tent_ang SuperShot"
+
+#~ msgid "Geometry"
+#~ msgstr "Geometri"
+
+#~ msgid "Effects"
+#~ msgstr "Efek"
+
+#~ msgid "Capture Settings"
+#~ msgstr "Pengaturan Tangkapan"
+
+#, c-format
+#~ msgid "Capturing in %u…"
+#~ msgstr "Menangkap dalam %u…"
+
+#, c-format
+#~ msgid "Saved to %s"
+#~ msgstr "Disimpan ke %s"
+
+#~ msgid "Request Error"
+#~ msgstr "Kesalahan Permintaan"
+
+#~ msgid "Screenshot tool with delay timer for GNOME"
+#~ msgstr "Alat tangkapan layar dengan pengatur waktu untuk GNOME"
+
+#~ msgid "Screenshot Tool"
+#~ msgstr "Alat Tangkapan Layar"
+
+#~ msgid "Screenshot tool with configurable delay for GNOME"
+#~ msgstr ""
+#~ "Alat tangkapan layar dengan penundaan yang dapat dikonfigurasi untuk GNOME"

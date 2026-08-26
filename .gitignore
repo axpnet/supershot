@@ -1,11 +1,12 @@
 /target
+/build
 **/*.rs.bk
 *.swp
 *.swo
 *~
 *.deb
 *.snap
-pkg-deb/usr/bin/
+*.AppImage
 .flatpak-builder/
 .flatpak/
 .vscode/

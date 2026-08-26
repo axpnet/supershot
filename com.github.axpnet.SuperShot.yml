@@ -1,6 +1,6 @@
 app-id: com.github.axpnet.SuperShot
 runtime: org.gnome.Platform
-runtime-version: '47'
+runtime-version: '49'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -11,8 +11,17 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   - --device=dri
+
+  # Screenshots are taken through the portal, which needs the Desktop bus name.
+  # The individual portal interfaces are not separate bus names, so the old
+  # --talk-name=org.freedesktop.portal.Screenshot entry never matched anything.
   - --talk-name=org.freedesktop.portal.Desktop
-  - --talk-name=org.freedesktop.portal.Screenshot
+
+  # Without a filesystem permission the app cannot write the screenshot it just
+  # captured: ~/Pictures is outside the sandbox. xdg-pictures covers the default
+  # location; a directory chosen through the file chooser portal is granted
+  # separately by the document portal.
+  - --filesystem=xdg-pictures/Screenshots:create
 
 build-options:
   append-path: /usr/lib/sdk/rust-stable/bin
@@ -20,21 +29,21 @@ build-options:
     CARGO_HOME: /run/build/supershot/cargo
     CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
 
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /share/doc
+  - '*.a'
+  - '*.la'
+
 modules:
   - name: supershot
     buildsystem: simple
     build-commands:
       - cargo --offline fetch --manifest-path Cargo.toml --verbose
       - cargo --offline build --release --verbose
-      - install -Dm755 target/release/supershot /app/bin/supershot
-      - install -Dm644 data/com.github.axpnet.SuperShot.desktop /app/share/applications/com.github.axpnet.SuperShot.desktop
-      - install -Dm644 data/com.github.axpnet.SuperShot.gschema.xml /app/share/glib-2.0/schemas/com.github.axpnet.SuperShot.gschema.xml
-      - install -Dm644 data/com.github.axpnet.SuperShot.metainfo.xml /app/share/metainfo/com.github.axpnet.SuperShot.metainfo.xml
-      - install -Dm644 data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg /app/share/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
-      - install -Dm644 data/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg /app/share/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg
-      - glib-compile-schemas /app/share/glib-2.0/schemas/
+      - ./scripts/install.sh / /app
     sources:
-      - type: git
-        url: https://github.com/axpnet/supershot.git
-        tag: v1.1.0
+      - type: dir
+        path: .
       - cargo-sources.json

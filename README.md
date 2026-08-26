@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <strong>A native GTK4/Libadwaita screenshot tool for GNOME desktops, written in Rust.</strong>
+  <strong>A native GTK4/Libadwaita screenshot tool for Linux desktops, written in Rust.</strong>
 </p>
 
 <p align="center">
@@ -17,106 +17,127 @@
 
 ---
 
-SuperShot provides a minimal, focused interface for taking screenshots with a
-configurable delay timer. It delegates capture to the GNOME Screenshot portal,
-which handles area selection, window capture, and full-screen modes natively.
-Screenshots are automatically saved and copied to the clipboard.
+SuperShot provides a focused interface for taking screenshots, marking them up,
+and sharing them. Capture goes through the XDG Desktop Portal on both Wayland
+and X11, so it works on GNOME, KDE Plasma, and any compositor that ships a
+portal backend; where none is available it falls back to the command-line
+screenshot tools the session already has. Screenshots are saved and copied to
+the clipboard automatically.
 
 ## Features
 
-### Capture
-- **Configurable delay** -- None, 3, 5, or 10 seconds with a visual countdown
-  displayed inside the capture button.
-- **Format selection** -- Save as PNG (lossless) or JPEG (quality 90).
-- **Preview and crop** -- Optional post-capture preview window with
-  drag-to-select crop region, click inside selection to apply, and undo crop
-  to retry. The watermark is rendered as a live overlay in the preview, showing
-  exactly how the final image will appear.
-- **Image editor** -- Full editing sidebar with rotate, flip, brightness,
-  contrast, blur, sharpen, grayscale, and invert controls. All edits are
-  applied live in the preview before saving.
-- **Duplicate prevention** -- The portal's original file is automatically
-  removed after processing, preventing duplicate screenshots in the system
-  default folder.
-- **Portal-first capture** -- Uses the XDG Desktop Portal on both Wayland and
-  X11 (with GNOME portal backend), falling back to CLI tools only when the
-  portal is unavailable.
+### Annotate
+- **Annotation tools** -- arrow, rectangle, ellipse, highlighter, free draw,
+  text labels, and numbered step markers for walking a reader through a UI.
+  Eight-colour palette and adjustable thickness that scales with the capture's
+  resolution.
+- **Redaction** -- pixelate and blackout tools that **overwrite the underlying
+  pixels** rather than drawing over them, so nothing sensitive survives in the
+  saved file. Blur is deliberately not offered here: it attenuates information
+  rather than removing it, and is frequently reversible for text.
+- **Undo and redo** across annotations, crops, and adjustments.
+- **Copy without saving** -- `Ctrl+C` in the preview renders the annotated
+  image straight to the clipboard, ready to paste into a chat or issue tracker.
 
-### Watermark
-- **Customizable watermark** -- Optional text overlay rendered via Cairo with
-  configurable date format, custom text, corner position, and color.
-- **5 date format presets** -- `YYYY-MM-DD HH:MM:SS`, `DD/MM/YYYY HH:MM`,
-  `Mon DD, YYYY HH:MM`, `YYYY-MM-DD` (date only), `HH:MM:SS` (time only).
-- **Custom text** -- Prepend a brand name or label to the date stamp
-  (e.g., `MyBrand | 2026-02-16 14:30:25`).
-- **4 corner positions** -- Bottom-right, bottom-left, top-right, top-left.
-- **Color selection** -- White text with dark shadow (default) or black text
-  with light shadow, for optimal legibility on any background.
+### Capture
+- **Capture modes** -- ask, area, window, or the whole screen. Selectable in the
+  interface and on the command line.
+- **Configurable delay** -- none, 3, 5, or 10 seconds, with a visual countdown
+  shown inside the capture button.
+- **Portal-first, everywhere** -- the XDG Desktop Portal is tried on every
+  backend. When no portal answers, SuperShot uses whichever tool the session
+  provides: `grim`+`slurp`, `spectacle`, `wayshot` or `hyprshot` on Wayland;
+  `gnome-screenshot`, `xfce4-screenshooter`, `spectacle`, `scrot`, `maim`,
+  `flameshot` or ImageMagick's `import` on X11.
+- **Duplicate prevention** -- the portal's own copy is removed after
+  processing, so no duplicate appears in the system screenshot folder.
+
+### Edit
+- **Crop** -- drag a selection with a live dimension badge, then click inside it
+  or press Apply Crop.
+- **Image editor** -- rotate, flip, brightness, contrast, blur, sharpen,
+  grayscale, and invert, applied live in the preview before saving.
+- **Watermark** -- optional text overlay rendered with Pango, with 5 date format
+  presets, custom text, 4 corner positions, and white or black with a
+  contrasting shadow. Rendered live in the preview exactly as it will be saved,
+  timestamp included.
 
 ### Output
-- **Custom save directory** -- Choose where screenshots are saved via folder
-  picker. Defaults to `~/Pictures/Screenshots/`.
-- **Open screenshots folder** -- One-click access to the save directory in the
+- **PNG or JPEG**, with configurable JPEG quality.
+- **Custom save directory** via folder picker, with one-click access to it.
+- **Automatic clipboard copy** after each capture.
+- **Desktop notifications** with actions to open the image or reveal it in the
   file manager.
-- **Automatic clipboard copy** -- The captured image is copied to the system
-  clipboard immediately after saving.
-- **Desktop notifications** -- Posts a GNOME notification with the file path
-  after each successful capture. Clicking the notification opens the screenshot
-  in the default image viewer.
 
 ### General
-- **Tabbed interface** -- Clean two-tab layout: Shot (capture controls) and
-  Settings (watermark, format, output configuration).
-- **Settings persistence** -- All preferences stored via GSettings and restored
-  on launch.
-- **CLI headless mode** -- Capture screenshots from the command line without
-  displaying the GUI, suitable for scripting and automation.
-- **14 languages** -- Translations via GNU gettext for the most widely spoken
-  languages.
+- **Settings persistence** via GSettings.
+- **CLI headless mode** for scripting and keyboard shortcuts.
+- **Session diagnostics** -- `supershot --doctor` reports the display server,
+  desktop, packaging channel, portal availability, and which fallback tools are
+  installed. The same information is in the About dialog.
+- **14 languages** via GNU gettext.
 
 ## Requirements
 
 ### Runtime
 
-| Dependency | Minimum version |
-|---|---|
-| GTK 4 | 4.14 |
-| Libadwaita | 1.5 |
-| xdg-desktop-portal-gnome | -- |
-| glib-compile-schemas | -- |
+| Dependency | Minimum version | Notes |
+|---|---|---|
+| GTK 4 | 4.14 | |
+| Libadwaita | 1.5 | |
+| An XDG Desktop Portal backend | -- | `xdg-desktop-portal-gnome`, `-kde`, `-wlr` or `-gtk` |
+
+Without a portal backend, SuperShot falls back to any of `grim`+`slurp`,
+`spectacle`, `wayshot`, `hyprshot`, `gnome-screenshot`, `xfce4-screenshooter`,
+`scrot`, `maim`, `flameshot`, or ImageMagick's `import`. Run
+`supershot --doctor` to see what the running session offers.
 
 ### Build
 
 | Tool | Version |
 |---|---|
-| Rust toolchain | 1.70+ (edition 2021) |
+| Rust toolchain | 1.83+ (edition 2021) |
 | pkg-config | -- |
 | GTK 4 development headers | `libgtk-4-dev` |
 | Libadwaita development headers | `libadwaita-1-dev` |
+| GNU gettext | for `msgfmt`; without it the build is English-only |
 
-On Ubuntu/Debian:
+On Debian and Ubuntu:
 
 ```sh
-sudo apt install libgtk-4-dev libadwaita-1-dev pkg-config
+sudo apt install libgtk-4-dev libadwaita-1-dev libglib2.0-dev pkg-config gettext
+```
+
+On Fedora:
+
+```sh
+sudo dnf install gtk4-devel libadwaita-devel glib2-devel pkgconf-pkg-config gettext
+```
+
+On Arch Linux:
+
+```sh
+sudo pacman -S gtk4 libadwaita glib2 pkgconf gettext
 ```
 
 ## Building from source
 
 ```sh
 git clone https://github.com/axpnet/supershot.git
-cd supershot/SuperShot
+cd supershot
 cargo build --release
 ```
 
 The release binary is produced at `target/release/supershot`.
 
-During development builds, the `build.rs` script automatically installs the
-GSettings XML schema into `~/.local/share/glib-2.0/schemas/` and compiles it,
-so `cargo run` works without a system-wide installation step.
+During development builds `build.rs` installs the GSettings schema into
+`~/.local/share/glib-2.0/schemas/` and compiles it, so `cargo run` works without
+a system-wide installation step. Release builds do not touch `$HOME`; set
+`SUPERSHOT_NO_DEV_SCHEMA=1` to disable it for debug builds too.
 
 ## Installation
 
-### From Snap Store (recommended)
+### From Snap Store
 
 ```sh
 sudo snap install supershot
@@ -126,28 +147,38 @@ sudo snap install supershot
 
 ### From .deb package
 
-Download the latest `.deb` from the
+Download the latest `.deb` for your architecture (`amd64` or `arm64`) from the
 [Releases](https://github.com/axpnet/supershot/releases) page:
 
 ```sh
-sudo dpkg -i supershot_1.2.0_amd64.deb
+sudo apt install ./supershot_1.3.0_amd64.deb
 ```
 
-The package installs the binary to `/usr/bin/supershot`, the GSettings schema,
-the `.desktop` launcher, the AppStream metadata, and the application icon.
-Post-installation scripts compile the GSettings schema and update the icon
-cache automatically.
+Using `apt` rather than `dpkg -i` lets it resolve the runtime dependencies.
 
-### Manual installation
+### AppImage
+
+For distributions whose GTK 4 or libadwaita is older than SuperShot needs, and
+for immutable systems:
 
 ```sh
-sudo install -Dm755 target/release/supershot /usr/bin/supershot
-sudo install -Dm644 data/com.github.axpnet.SuperShot.desktop /usr/share/applications/
-sudo install -Dm644 data/com.github.axpnet.SuperShot.gschema.xml /usr/share/glib-2.0/schemas/
-sudo install -Dm644 data/com.github.axpnet.SuperShot.metainfo.xml /usr/share/metainfo/
-sudo install -Dm644 data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg /usr/share/icons/hicolor/scalable/apps/
-sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+chmod +x SuperShot-1.3.0-x86_64.AppImage
+./SuperShot-1.3.0-x86_64.AppImage
 ```
+
+### From source
+
+```sh
+cargo build --release
+sudo ./scripts/install.sh /
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+sudo update-desktop-database /usr/share/applications/
+```
+
+`scripts/install.sh DESTDIR [PREFIX]` is the same installer every packaging
+channel uses, so a manual install gets exactly what a package would: binary,
+desktop entry, GSettings schema, AppStream metadata, icons, man page, and all
+14 translation catalogs.
 
 ## Usage
 
@@ -157,27 +188,71 @@ sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 supershot
 ```
 
-Opens the main application window with two tabs:
+Opens the main window with two tabs:
 
-- **Shot** -- Configure delay and preview toggle, then press the circular
-  capture button. The GNOME Screenshot portal opens, allowing you to select
-  an area, window, or full screen.
-- **Settings** -- Configure watermark (enable, date format, custom text,
-  position, color), output format (PNG/JPEG), and save directory.
+- **Shot** -- choose what to capture (ask, area, window, whole screen), the
+  delay, and whether to open the preview. Press the circular button, or
+  `Ctrl+Enter`.
+- **Settings** -- watermark (enable, date format, custom text, position,
+  colour), output format and JPEG quality, and the save directory.
+
+With **Preview** enabled, the capture opens in the annotation window. The same
+window can be opened on an image already on disk:
+
+```sh
+supershot --edit ~/Pictures/Screenshots/shot.png
+```
+
+Tools live in a sidebar that collapses into an overlay on narrow windows:
+
+| Tool | What it does |
+|---|---|
+| Crop | Drag a region, then click inside it or press Apply Crop |
+| Arrow, Box, Circle | Drag to draw |
+| Marker | Translucent highlight over a region |
+| Pen | Freehand drawing |
+| Text | Type in the toolbar field, then click to place the label |
+| Step | Click to drop the next numbered marker |
+| Pixelate, Redact | Drag over sensitive data -- the pixels are destroyed, not covered |
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+S` | Save |
+| `Ctrl+C` | Copy the annotated image to the clipboard without saving |
+| `Ctrl+Z` / `Ctrl+Shift+Z` | Undo / redo |
+| `Escape` | Cancel the pending selection |
 
 ### CLI headless mode
 
 ```sh
-supershot --now --delay 5
+supershot --now --mode area --delay 3
 ```
 
-Opens the portal screenshot UI after a 5-second delay without displaying the
-SuperShot window.
+Captures without showing the interface and prints the saved path to standard
+output, which makes it suitable for a desktop keyboard shortcut or a script.
 
 | Flag | Description | Default |
 |---|---|---|
-| `--delay` | Seconds before capture | `0` |
-| `--now` | Headless mode (no GUI) | `false` |
+| `-d`, `--delay` | Seconds before capture | `0` |
+| `--now` | Headless mode, no GUI | `false` |
+| `-m`, `--mode` | `interactive`, `area`, `window`, `screen` | `interactive` |
+| `-f`, `--format` | `png`, `jpeg` | `png` |
+| `--quality` | JPEG quality, 1-100 | `90` |
+| `-o`, `--output` | Save directory | configured location |
+| `--watermark` | Overlay the configured watermark | `false` |
+| `-e`, `--edit` | Annotate an existing image instead of capturing | |
+| `--doctor` | Print session diagnostics and exit | |
+
+### Troubleshooting
+
+```sh
+supershot --doctor
+```
+
+Reports the display server GDK actually connected to, the desktop, the
+packaging channel, where translation catalogs were found, whether a screenshot
+portal is on the bus, and which fallback tools are installed. Include its output
+in bug reports.
 
 ## Translations
 
@@ -203,32 +278,61 @@ locale matches a supported language.
 | Hindi | `hi` | Complete |
 | Indonesian | `id` | Complete |
 
-New translations are welcome. See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)
-for the translation workflow.
+All 122 interface strings are translated in every language listed above.
+
+To add or update a translation, run `scripts/update-po.sh` to refresh
+`po/supershot.pot` and merge it into every catalog, then edit `po/<lang>.po`.
+The script extracts both the `gettext()` calls in the Rust sources and the
+`translatable="yes"` attributes in the GtkBuilder template. CI fails if the
+template is out of date. See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
 ## Architecture
 
-SuperShot is structured as a standard GLib/GTK4 application using the
-object-subclassing pattern with inline composite templates:
+SuperShot is a standard GLib/GTK4 application using the object-subclassing
+pattern with an inline composite template:
 
 ```
 src/
-  main.rs      Entry point, CLI argument parsing (clap), dispatch
-  app.rs       AdwApplication subclass, lifecycle and action management
-  config.rs    Application constants (APP_ID, gettext domain)
+  main.rs      Entry point, CLI parsing (clap), dispatch
+  app.rs       AdwApplication subclass: lifecycle, actions, About, shortcuts
+  config.rs    Identifiers, and runtime resolution of installation-dependent paths
   i18n.rs      GNU gettext initialization
-  window.rs    Main window with tabbed UI (AdwViewStack), GSettings bindings
-  capture.rs   Capture pipeline: countdown, portal, watermark, crop, save, clipboard, notify
-  preview.rs   Preview/crop window with Cairo rendering and live watermark overlay
-  editing.rs   Non-destructive image editing (rotate, flip, brightness, contrast, blur, sharpen, grayscale, invert)
+  window.rs    Main window: tabbed UI (AdwViewStack), GSettings bindings
+  capture.rs   Backend detection, portal and CLI capture, save pipeline, watermark
+  preview.rs   Annotation and editing window
+  annotate.rs  Annotation display list, Cairo rendering, redaction
+  editing.rs   Non-destructive edit state and pixel operations
 ```
 
-Screenshot capture is performed through the XDG Desktop Portal (`ashpd` crate),
-which communicates with the compositor via D-Bus. The portal is tried first on
-both Wayland and X11; CLI tools (gnome-screenshot, scrot, etc.) are used as
-fallback only when the portal is unavailable on X11. Post-capture processing
-(editing, watermark, crop, format conversion) uses the `image` crate, Cairo,
-and GdkPixbuf.
+**Capture.** The XDG Desktop Portal (via `ashpd`) is tried first on every
+backend, parented to the SuperShot window so its dialog cannot open behind or
+unfocused. When no portal answers, a table of CLI tools is consulted, filtered
+by the backend GDK actually connected to and by which capture mode each tool
+supports -- read from GDK rather than from `WAYLAND_DISPLAY`, because
+`GDK_BACKEND=x11` inside a Wayland session produces an X11 client whose
+environment still advertises Wayland.
+
+**Save pipeline.** Everything after capture operates on a single owned
+`image::RgbaImage`, in this order: edits, crop, redactions (which overwrite
+pixels), vector annotations, watermark, encode. The whole pipeline is `Send`
+and runs on a worker thread. Watermark and annotation text are laid out by
+Pango and rendered into transparent Cairo layers that are composited onto the
+image, so shaping and font fallback work for every script.
+
+**Preview.** Live editing runs against a copy of the image bounded to 1600 px
+on its longest edge, with debounced recomputation; saving re-runs the same
+edits at full resolution. The preview window owns the working image, which is
+what makes a crop and the adjustments layered on it both survive to disk.
+
+**Tests.** `cargo test` covers the parts that cannot be checked by clicking
+through the interface: annotation coordinates across crops, rotations and
+flips; redaction destroying pixels rather than covering them; the Cairo and
+`image` conversions, including Cairo's premultiplied alpha and padded row
+stride; and save-directory resolution and fallback.
+
+**Paths.** Locale catalogs are located at runtime from the executable's own
+prefix, with Flatpak, Snap and `SUPERSHOT_LOCALEDIR` taking precedence, so one
+binary works from `/usr`, `/app`, `$SNAP` or an AppImage mountpoint.
 
 ## Contributing
 

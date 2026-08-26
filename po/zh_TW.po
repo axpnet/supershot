@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"
 "Last-Translator: axpnet <axp@pm.me>\n"
 "Language-Team: Chinese (Traditional)\n"
@@ -15,68 +15,575 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/window.rs
-msgid "Capture Settings"
-msgstr "擷取設定"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
+msgstr "擷取、標註並分享螢幕畫面。"
 
-#: src/window.rs
-msgid "Delay"
-msgstr "延遲"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
+msgstr ""
 
-#: src/window.rs
-msgid "None"
-msgstr "無"
+#: src/app.rs:209
+msgid "Main Window"
+msgstr "主視窗"
 
-#: src/window.rs
-msgid "3 seconds"
-msgstr "3 秒"
-
-#: src/window.rs
-msgid "5 seconds"
-msgstr "5 秒"
-
-#: src/window.rs
-msgid "10 seconds"
-msgstr "10 秒"
-
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
-msgstr "擷取螢幕"
+msgstr "擷取螢幕畫面"
 
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u…"
-msgstr "%u 秒後擷取…"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
+msgstr "鍵盤快速鍵"
 
-#: src/capture.rs
-msgid "Screenshot captured"
-msgstr "螢幕擷取完成"
+#: src/app.rs:213
+msgid "Quit"
+msgstr "結束"
 
-#: src/capture.rs
-#, c-format
-msgid "Saved to %s"
-msgstr "已儲存至 %s"
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
+msgstr "預覽"
 
-#: src/capture.rs
-msgid "Save Error"
-msgstr "儲存錯誤"
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
+msgstr "儲存"
 
-#: src/capture.rs
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr "複製到剪貼簿"
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr "復原"
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr "重做"
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr "取消待處理的選取區"
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr "鍵盤快速鍵"
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr "互動式"
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr "區域"
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr "視窗"
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr "螢幕"
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr "桌面螢幕擷取入口沒有回應。"
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr "所有可用的螢幕擷取工具都無法產生影像。"
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr "此工作階段沒有可用的螢幕擷取工具。"
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr "模式：__MODE__ · 顯示伺服器：__BACKEND__"
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr "請安裝桌面入口後端，或下列其中之一：__TOOLS__"
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr "例如：__CMD__"
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr "確定"
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr "螢幕擷取失敗"
+
+#: src/capture.rs:911
 msgid "Portal Error"
 msgstr "入口錯誤"
 
-#: src/capture.rs
-msgid "Request Error"
-msgstr "請求錯誤"
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
+msgstr "螢幕擷取入口傳回錯誤。"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
-msgstr "適用於 GNOME 的延遲擷取工具"
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
+msgstr "儲存錯誤"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
-msgstr "螢幕擷取工具"
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
+msgstr "無法儲存螢幕擷取畫面。"
 
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
-msgstr "適用於 GNOME 的可設定延遲螢幕擷取工具"
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr "等待 __N__ 秒…"
+
+#: src/capture.rs:1148
+msgid "Screenshot captured"
+msgstr "已擷取螢幕畫面"
+
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr "已儲存至 __PATH__"
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr "在資料夾中顯示"
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr "找不到可寫入的儲存目錄（__DETAIL__）"
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr "無法讀取擷取畫面"
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr "編碼失敗"
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr "儲存工作失敗"
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr "算繪工作失敗"
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr "顯示工具"
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr "捨棄"
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr "工具"
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr "套用裁切"
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr "顏色"
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr "粗細"
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr "標籤文字"
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr "調整"
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr "裁切"
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr "拖曳選取區域，然後點擊內部進行裁切"
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr "箭頭"
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr "拖曳以繪製箭頭"
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr "矩形"
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr "拖曳以繪製矩形"
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr "橢圓"
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr "拖曳以繪製橢圓"
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr "螢光筆"
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr "拖曳以標示區域"
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr "畫筆"
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr "自由繪製"
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr "文字"
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr "在欄位中輸入，然後點擊放置標籤"
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr "步驟"
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr "點擊放置編號步驟標記"
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr "像素化"
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr "拖曳過敏感資料以將其銷毀"
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr "塗黑"
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr "拖曳以用純色覆蓋區域"
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr "縮小"
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr "放大"
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr "向左旋轉"
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr "向右旋轉"
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr "水平翻轉"
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr "垂直翻轉"
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr "亮度"
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr "對比"
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr "模糊"
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr "銳化"
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr "灰階"
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr "反轉"
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr "重設調整"
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr "預覽失敗"
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr "無法開啟擷取畫面。"
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr "選擇工具，標註擷取畫面，然後儲存或複製。"
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr "拖曳選取區域，然後點擊內部或按套用裁切。"
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr "輸入標籤，然後點擊影像放置它。"
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr "點擊放置下一個編號標記。"
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr "拖曳過敏感資料。像素會被銷毀，而非覆蓋。"
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr "拖曳以用純色覆蓋區域。"
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr "在影像上拖曳以繪製。"
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr "請先輸入標籤文字，然後點擊放置。"
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr "__W__ × __H__ 像素"
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr "選取區 __W__ × __H__"
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr "__N__ 個標註"
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr "正在儲存…"
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr "儲存失敗。"
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr "正在複製…"
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr "已複製到剪貼簿。"
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr "剪貼簿無法使用。"
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr "算繪失敗。"
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr "選擇儲存目錄"
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr "主選單"
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr "擷取"
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr "擷取"
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr "要擷取的內容"
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr "每次詢問"
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr "整個螢幕"
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr "延遲"
+
+#: src/window.rs:73
+msgid "None"
+msgstr "無"
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr "3 秒"
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr "5 秒"
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr "10 秒"
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr "儲存前標註與編輯"
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr "設定"
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr "浮水印"
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr "啟用"
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr "在螢幕擷取畫面上疊加文字"
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr "日期格式"
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr "自訂文字"
+
+#: src/window.rs:178
+msgid "Position"
+msgstr "位置"
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr "右下"
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr "左下"
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr "右上"
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr "左上"
+
+#: src/window.rs:193
+msgid "Color"
+msgstr "顏色"
+
+#: src/window.rs:197
+msgid "White"
+msgstr "白色"
+
+#: src/window.rs:198
+msgid "Black"
+msgstr "黑色"
+
+#: src/window.rs:209
+msgid "Output"
+msgstr "輸出"
+
+#: src/window.rs:212
+msgid "Format"
+msgstr "格式"
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr "JPEG 品質"
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr "數值越高保留的細節越多"
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr "儲存位置"
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr "開啟螢幕擷取資料夾"
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr "鍵盤快速鍵(_K)"
+
+#: src/window.rs:283
+msgid "_About SuperShot"
+msgstr "關於 SuperShot(_A)"
+
+#~ msgid "Geometry"
+#~ msgstr "幾何"
+
+#~ msgid "Effects"
+#~ msgstr "效果"
+
+#~ msgid "Capture Settings"
+#~ msgstr "擷取設定"
+
+#, c-format
+#~ msgid "Capturing in %u…"
+#~ msgstr "%u 秒後擷取…"
+
+#, c-format
+#~ msgid "Saved to %s"
+#~ msgstr "已儲存至 %s"
+
+#~ msgid "Request Error"
+#~ msgstr "請求錯誤"
+
+#~ msgid "Screenshot tool with delay timer for GNOME"
+#~ msgstr "適用於 GNOME 的延遲擷取工具"
+
+#~ msgid "Screenshot Tool"
+#~ msgstr "螢幕擷取工具"
+
+#~ msgid "Screenshot tool with configurable delay for GNOME"
+#~ msgstr "適用於 GNOME 的可設定延遲螢幕擷取工具"

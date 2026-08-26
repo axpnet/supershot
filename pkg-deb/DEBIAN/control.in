@@ -1,0 +1,24 @@
+Package: supershot
+Version: @VERSION@
+Section: graphics
+Priority: optional
+Architecture: @ARCH@
+Depends: @SHLIBDEPS@
+Recommends: xdg-desktop-portal, xdg-desktop-portal-gnome | xdg-desktop-portal-kde | xdg-desktop-portal-wlr | xdg-desktop-portal-gtk
+Suggests: grim, slurp, gnome-screenshot, scrot
+Maintainer: axpnet <axp@pm.me>
+Homepage: https://github.com/axpnet/supershot
+Description: GTK4/Libadwaita screenshot tool with annotation and redaction
+ SuperShot is a native GTK4/Libadwaita screenshot tool for Linux desktops.
+ It captures through the XDG Desktop Portal on both Wayland and X11, and
+ falls back to the session's own command-line tools (grim/slurp, spectacle,
+ gnome-screenshot, xfce4-screenshooter, scrot, maim, flameshot) when no
+ portal backend is available.
+ .
+ Features an annotation toolbar (arrow, rectangle, ellipse, highlighter,
+ free draw, text, numbered steps), pixelate and blackout redaction that
+ destroys the underlying pixels rather than covering them, crop, an image
+ editor (rotate, flip, brightness, contrast, blur, sharpen, grayscale,
+ invert), a customisable date/time watermark, PNG and JPEG output with
+ configurable quality, clipboard export, desktop notifications, a CLI
+ headless mode for scripting, and 14 language translations.

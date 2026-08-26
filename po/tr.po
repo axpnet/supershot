@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"
 "Last-Translator: axpnet <axp@pm.me>\n"
 "Language-Team: Turkish\n"
@@ -15,68 +15,575 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/window.rs
-msgid "Capture Settings"
-msgstr "Yakalama Ayarları"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
+msgstr "Ekran görüntüsü alın, işaretleyin ve paylaşın."
 
-#: src/window.rs
-msgid "Delay"
-msgstr "Gecikme"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
+msgstr ""
 
-#: src/window.rs
-msgid "None"
-msgstr "Yok"
+#: src/app.rs:209
+msgid "Main Window"
+msgstr "Ana pencere"
 
-#: src/window.rs
-msgid "3 seconds"
-msgstr "3 saniye"
-
-#: src/window.rs
-msgid "5 seconds"
-msgstr "5 saniye"
-
-#: src/window.rs
-msgid "10 seconds"
-msgstr "10 saniye"
-
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
 msgstr "Ekran görüntüsü al"
 
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u…"
-msgstr "%u saniye sonra yakalanacak…"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
+msgstr "Klavye kısayolları"
 
-#: src/capture.rs
+#: src/app.rs:213
+msgid "Quit"
+msgstr "Çık"
+
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
+msgstr "Önizleme"
+
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
+msgstr "Kaydet"
+
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr "Panoya kopyala"
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr "Geri al"
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr "Yinele"
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr "Bekleyen seçimi iptal et"
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr "Klavye kısayolları"
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr "Etkileşimli"
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr "Alan"
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr "Pencere"
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr "Ekran"
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr "Masaüstü ekran görüntüsü portalı yanıt vermiyor."
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr "Mevcut hiçbir ekran görüntüsü aracı görüntü üretemedi."
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr "Bu oturum için ekran görüntüsü aracı bulunmuyor."
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr "Mod: __MODE__ · Görüntü sunucusu: __BACKEND__"
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr "Bir masaüstü portalı arka ucu ya da şunlardan birini kurun: __TOOLS__"
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr "Örneğin: __CMD__"
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr "Tamam"
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr "Ekran görüntüsü başarısız"
+
+#: src/capture.rs:911
+msgid "Portal Error"
+msgstr "Portal hatası"
+
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
+msgstr "Ekran görüntüsü portalı bir hata döndürdü."
+
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
+msgstr "Kaydetme hatası"
+
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
+msgstr "Ekran görüntüsü kaydedilemedi."
+
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr "__N__ saniye bekleniyor…"
+
+#: src/capture.rs:1148
 msgid "Screenshot captured"
 msgstr "Ekran görüntüsü alındı"
 
-#: src/capture.rs
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr "__PATH__ konumuna kaydedildi"
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr "Klasörde göster"
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr "Yazılabilir bir kayıt klasörü bulunamadı (__DETAIL__)"
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr "Görüntü okunamıyor"
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr "Kodlama başarısız"
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr "Kaydetme görevi başarısız"
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr "Görüntüleme görevi başarısız"
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr "Araçları göster"
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr "At"
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr "Araçlar"
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr "Kırpmayı uygula"
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr "Renk"
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr "Kalınlık"
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr "Etiket metni"
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr "Ayarlamalar"
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr "Kırp"
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr "Bir bölge sürükleyin, sonra kırpmak için içine tıklayın"
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr "Ok"
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr "Ok çizmek için sürükleyin"
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr "Kutu"
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr "Dikdörtgen çizmek için sürükleyin"
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr "Elips"
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr "Elips çizmek için sürükleyin"
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr "İşaretleyici"
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr "Bir bölgeyi vurgulamak için sürükleyin"
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr "Kalem"
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr "Serbest çizim"
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr "Metin"
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr "Alana yazın, sonra etiketi yerleştirmek için tıklayın"
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr "Adım"
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr "Numaralı işaret bırakmak için tıklayın"
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr "Pikselleştir"
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr "Hassas verilerin üzerinde sürükleyerek yok edin"
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr "Karart"
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr "Bir bölgeyi düz renkle kaplamak için sürükleyin"
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr "Uzaklaştır"
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr "Yakınlaştır"
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr "Sola döndür"
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr "Sağa döndür"
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr "Yatay çevir"
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr "Dikey çevir"
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr "Parlaklık"
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr "Karşıtlık"
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr "Bulanıklık"
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr "Keskinleştir"
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr "Gri tonlama"
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr "Ters çevir"
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr "Ayarlamaları sıfırla"
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr "Önizleme başarısız"
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr "Görüntü açılamadı."
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr "Bir araç seçin, görüntüyü işaretleyin, sonra Kaydet veya Kopyala."
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr "Bir bölge sürükleyin, içine tıklayın ya da Kırpmayı uygula’ya basın."
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr "Etiketi yazın, sonra yerleştirmek için görüntüye tıklayın."
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr "Sonraki numaralı işareti bırakmak için tıklayın."
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr "Hassas verilerin üzerinde sürükleyin. Pikseller kaplanmaz, yok edilir."
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr "Bir bölgeyi düz renkle kaplamak için sürükleyin."
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr "Çizmek için görüntü üzerinde sürükleyin."
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr "Önce etiket metnini yazın, sonra yerleştirmek için tıklayın."
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr "__W__ × __H__ px"
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr "Seçim __W__ × __H__"
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr "__N__ ek açıklama"
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr "Kaydediliyor…"
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr "Kaydetme başarısız."
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr "Kopyalanıyor…"
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr "Panoya kopyalandı."
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr "Pano kullanılamıyor."
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr "Görüntüleme başarısız."
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr "Kayıt klasörünü seç"
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr "Ana menü"
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr "Çekim"
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr "Yakalama"
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr "Neyin görüntüsü alınacak"
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr "Bana sor"
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr "Tüm ekran"
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr "Gecikme"
+
+#: src/window.rs:73
+msgid "None"
+msgstr "Yok"
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr "3 saniye"
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr "5 saniye"
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr "10 saniye"
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr "Kaydetmeden önce işaretle ve düzenle"
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr "Filigran"
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr "Etkin"
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr "Ekran görüntüsüne metin bindir"
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr "Tarih biçimi"
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr "Özel metin"
+
+#: src/window.rs:178
+msgid "Position"
+msgstr "Konum"
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr "Sağ alt"
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr "Sol alt"
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr "Sağ üst"
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr "Sol üst"
+
+#: src/window.rs:193
+msgid "Color"
+msgstr "Renk"
+
+#: src/window.rs:197
+msgid "White"
+msgstr "Beyaz"
+
+#: src/window.rs:198
+msgid "Black"
+msgstr "Siyah"
+
+#: src/window.rs:209
+msgid "Output"
+msgstr "Çıktı"
+
+#: src/window.rs:212
+msgid "Format"
+msgstr "Biçim"
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr "JPEG kalitesi"
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr "Yüksek değerler daha fazla ayrıntı korur"
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr "Kayıt konumu"
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr "Ekran görüntüsü klasörünü aç"
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr "_Klavye kısayolları"
+
+#: src/window.rs:283
+msgid "_About SuperShot"
+msgstr "SuperShot _hakkında"
+
+#~ msgid "Geometry"
+#~ msgstr "Geometri"
+
+#~ msgid "Effects"
+#~ msgstr "Efektler"
+
+#~ msgid "Capture Settings"
+#~ msgstr "Yakalama Ayarları"
+
 #, c-format
-msgid "Saved to %s"
-msgstr "%s konumuna kaydedildi"
+#~ msgid "Capturing in %u…"
+#~ msgstr "%u saniye sonra yakalanacak…"
 
-#: src/capture.rs
-msgid "Save Error"
-msgstr "Kaydetme Hatası"
+#, c-format
+#~ msgid "Saved to %s"
+#~ msgstr "%s konumuna kaydedildi"
 
-#: src/capture.rs
-msgid "Portal Error"
-msgstr "Portal Hatası"
+#~ msgid "Request Error"
+#~ msgstr "İstek Hatası"
 
-#: src/capture.rs
-msgid "Request Error"
-msgstr "İstek Hatası"
+#~ msgid "Screenshot tool with delay timer for GNOME"
+#~ msgstr "GNOME için gecikmeli ekran görüntüsü aracı"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
-msgstr "GNOME için gecikmeli ekran görüntüsü aracı"
+#~ msgid "Screenshot Tool"
+#~ msgstr "Ekran Görüntüsü Aracı"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
-msgstr "Ekran Görüntüsü Aracı"
-
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
-msgstr "GNOME için yapılandırılabilir gecikmeli ekran görüntüsü aracı"
+#~ msgid "Screenshot tool with configurable delay for GNOME"
+#~ msgstr "GNOME için yapılandırılabilir gecikmeli ekran görüntüsü aracı"

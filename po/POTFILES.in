@@ -1,4 +1,13 @@
-src/window.rs
+# Files containing translatable strings.
+# The GtkBuilder template embedded in src/window.rs is extracted separately by
+# scripts/update-po.sh; the .desktop and AppStream metadata carry their
+# translations inline rather than through this catalog.
+src/annotate.rs
+src/app.rs
 src/capture.rs
-data/com.github.axpnet.SuperShot.desktop
-data/com.github.axpnet.SuperShot.metainfo.xml
+src/config.rs
+src/editing.rs
+src/i18n.rs
+src/main.rs
+src/preview.rs
+src/window.rs

@@ -6,32 +6,126 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  CARGO_TERM_COLOR: always
+  # A build must never depend on the developer's home directory.
+  SUPERSHOT_NO_DEV_SCHEMA: "1"
+
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    name: Build (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-4-dev libadwaita-1-dev pkg-config libglib2.0-dev
+          sudo apt-get install -y \
+            libgtk-4-dev libadwaita-1-dev pkg-config libglib2.0-dev \
+            gettext desktop-file-utils appstream lintian
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Cache cargo
-        uses: actions/cache@v4
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
+          components: clippy, rustfmt
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.arch }}
+
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Test
+        # The suite covers the geometry and save-pipeline logic that cannot be
+        # exercised without a display: crop/annotation coordinate handling,
+        # redaction, Cairo/image conversions, and save-path resolution.
+        run: cargo test --locked
 
       - name: Build
-        run: cargo build --release
+        run: cargo build --release --locked
 
-      - name: Check
-        run: cargo check
+      - name: Validate desktop entry
+        run: desktop-file-validate data/com.github.axpnet.SuperShot.desktop
+
+      - name: Validate AppStream metadata
+        run: appstreamcli validate --no-net data/com.github.axpnet.SuperShot.metainfo.xml
+
+      - name: Validate translation catalogs
+        run: |
+          # Syntax, format-specifier consistency, and completeness. The only
+          # entry allowed to stay untranslated is translator-credits, which by
+          # GNOME convention each translator fills in with their own name.
+          fail=0
+          while read -r lang; do
+            [ -z "$lang" ] && continue
+            case "$lang" in \#*) continue ;; esac
+
+            if ! msgfmt --check -o /dev/null "po/$lang.po"; then
+              echo "::error::po/$lang.po failed msgfmt --check"
+              fail=1
+              continue
+            fi
+
+            untranslated="$(msgattrib --untranslated --no-obsolete "po/$lang.po" \
+              | grep '^msgid "' | grep -v '^msgid ""$' | grep -v 'translator-credits' || true)"
+            if [ -n "$untranslated" ]; then
+              echo "::error::po/$lang.po has untranslated strings:"
+              echo "$untranslated"
+              fail=1
+            fi
+
+            fuzzy="$(msgattrib --fuzzy --no-obsolete "po/$lang.po" | grep -c '^msgid "' || true)"
+            if [ "$fuzzy" -gt 1 ]; then
+              echo "::error::po/$lang.po has fuzzy entries needing review"
+              fail=1
+            fi
+          done < po/LINGUAS
+          exit $fail
+
+      - name: Check that the template is fully extracted
+        run: |
+          # Regenerating the catalog must not produce new strings: if it does,
+          # a translatable string was added without updating po/.
+          cp po/supershot.pot /tmp/supershot.pot.orig
+          ./scripts/update-po.sh >/dev/null
+          if ! diff -q <(grep '^msgid ' /tmp/supershot.pot.orig | sort) \
+                       <(grep '^msgid ' po/supershot.pot | sort) >/dev/null; then
+            echo "::error::po/supershot.pot is out of date. Run scripts/update-po.sh and commit the result."
+            diff <(grep '^msgid ' /tmp/supershot.pot.orig | sort) \
+                 <(grep '^msgid ' po/supershot.pot | sort) || true
+            exit 1
+          fi
+
+      - name: Build .deb
+        run: ./scripts/build-deb.sh
+
+      - name: Lint .deb
+        run: lintian --fail-on error,warning supershot_*_*.deb
+
+      - name: Check Flatpak cargo sources are current
+        run: |
+          ./scripts/gen-cargo-sources.py /tmp/cargo-sources.json
+          if ! diff -q /tmp/cargo-sources.json cargo-sources.json >/dev/null; then
+            echo "::error::cargo-sources.json is stale. Run scripts/gen-cargo-sources.py and commit the result."
+            exit 1
+          fi
+
+  audit:
+    name: Security audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install cargo-audit
+        run: cargo install cargo-audit --locked
+      - name: Audit
+        run: cargo audit --deny warnings

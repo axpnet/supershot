@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"
 "Last-Translator: axpnet <axp@pm.me>\n"
 "Language-Team: Italian\n"
@@ -15,68 +15,577 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/window.rs
-msgid "Capture Settings"
-msgstr "Impostazioni cattura"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
+msgstr "Cattura, annota e condividi screenshot."
 
-#: src/window.rs
-msgid "Delay"
-msgstr "Ritardo"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
+msgstr ""
 
-#: src/window.rs
-msgid "None"
-msgstr "Nessuno"
+#: src/app.rs:209
+msgid "Main Window"
+msgstr "Finestra principale"
 
-#: src/window.rs
-msgid "3 seconds"
-msgstr "3 secondi"
-
-#: src/window.rs
-msgid "5 seconds"
-msgstr "5 secondi"
-
-#: src/window.rs
-msgid "10 seconds"
-msgstr "10 secondi"
-
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
 msgstr "Cattura schermata"
 
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u…"
-msgstr "Cattura in %u…"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
+msgstr "Scorciatoie da tastiera"
 
-#: src/capture.rs
-msgid "Screenshot captured"
-msgstr "Screenshot catturato"
+#: src/app.rs:213
+msgid "Quit"
+msgstr "Esci"
 
-#: src/capture.rs
-#, c-format
-msgid "Saved to %s"
-msgstr "Salvato in %s"
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
+msgstr "Anteprima"
 
-#: src/capture.rs
-msgid "Save Error"
-msgstr "Errore di salvataggio"
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
+msgstr "Salva"
 
-#: src/capture.rs
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr "Copia negli appunti"
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr "Annulla"
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr "Ripeti"
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr "Annulla la selezione in corso"
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr "Scorciatoie da tastiera"
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr "Interattivo"
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr "Area"
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr "Finestra"
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr "Schermo"
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr "Il portale screenshot del desktop non risponde."
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr ""
+"Nessuno degli strumenti di cattura disponibili ha prodotto un’immagine."
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr "Nessuno strumento di cattura disponibile per questa sessione."
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr "Modalità: __MODE__ · Server grafico: __BACKEND__"
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr "Installa un backend del portale desktop, oppure uno tra: __TOOLS__"
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr "Ad esempio: __CMD__"
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr "OK"
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr "Cattura non riuscita"
+
+#: src/capture.rs:911
 msgid "Portal Error"
 msgstr "Errore del portale"
 
-#: src/capture.rs
-msgid "Request Error"
-msgstr "Errore di richiesta"
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
+msgstr "Il portale screenshot ha restituito un errore."
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
-msgstr "Strumento di cattura schermo con timer per GNOME"
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
+msgstr "Errore di salvataggio"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
-msgstr "Strumento di cattura"
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
+msgstr "Impossibile salvare lo screenshot."
 
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
-msgstr "Strumento di cattura schermo con ritardo configurabile per GNOME"
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr "Attendo __N__ secondi…"
+
+#: src/capture.rs:1148
+msgid "Screenshot captured"
+msgstr "Screenshot acquisito"
+
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr "Salvato in __PATH__"
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr "Mostra nella cartella"
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr "Nessuna cartella di salvataggio scrivibile trovata (__DETAIL__)"
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr "Impossibile leggere la cattura"
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr "Codifica non riuscita"
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr "Operazione di salvataggio non riuscita"
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr "Elaborazione non riuscita"
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr "Mostra strumenti"
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr "Scarta"
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr "Strumenti"
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr "Applica ritaglio"
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr "Colore"
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr "Spessore"
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr "Testo etichetta"
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr "Regolazioni"
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr "Ritaglia"
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr "Trascina una regione, poi clicca al suo interno per ritagliare"
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr "Freccia"
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr "Trascina per disegnare una freccia"
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr "Rettangolo"
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr "Trascina per disegnare un rettangolo"
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr "Ellisse"
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr "Trascina per disegnare un’ellisse"
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr "Evidenziatore"
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr "Trascina per evidenziare una regione"
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr "Penna"
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr "Disegna a mano libera"
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr "Testo"
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr "Scrivi nel campo, poi clicca per posizionare l’etichetta"
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr "Passo"
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr "Clicca per inserire un indicatore numerato"
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr "Pixela"
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr "Trascina sui dati sensibili per distruggerli"
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr "Oscura"
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr "Trascina per coprire una regione con un colore pieno"
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr "Riduci"
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr "Ingrandisci"
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr "Ruota a sinistra"
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr "Ruota a destra"
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr "Capovolgi orizzontalmente"
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr "Capovolgi verticalmente"
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr "Luminosità"
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr "Contrasto"
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr "Sfocatura"
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr "Nitidezza"
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr "Scala di grigi"
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr "Inverti"
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr "Azzera regolazioni"
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr "Anteprima non riuscita"
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr "Impossibile aprire la cattura."
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr "Scegli uno strumento, annota lo scatto, poi Salva o Copia."
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr ""
+"Trascina una regione, poi clicca al suo interno o premi Applica ritaglio."
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr "Scrivi l’etichetta, poi clicca sull’immagine per posizionarla."
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr "Clicca per inserire il prossimo indicatore numerato."
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr "Trascina sui dati sensibili. I pixel vengono distrutti, non coperti."
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr "Trascina per coprire una regione con un colore pieno."
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr "Trascina sull’immagine per disegnare."
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr "Scrivi prima il testo dell’etichetta, poi clicca per posizionarla."
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr "__W__ × __H__ px"
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr "Selezione __W__ × __H__"
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr "__N__ annotazioni"
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr "Salvataggio…"
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr "Salvataggio non riuscito."
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr "Copia in corso…"
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr "Copiato negli appunti."
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr "Appunti non disponibili."
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr "Elaborazione non riuscita."
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr "Scegli la cartella di salvataggio"
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr "Menu principale"
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr "Scatto"
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr "Cattura"
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr "Cosa fotografare"
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr "Chiedimelo"
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr "Schermo intero"
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr "Ritardo"
+
+#: src/window.rs:73
+msgid "None"
+msgstr "Nessuno"
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr "3 secondi"
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr "5 secondi"
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr "10 secondi"
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr "Annota e modifica prima di salvare"
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr "Filigrana"
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr "Attiva"
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr "Sovrapponi testo allo screenshot"
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr "Formato data"
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr "Testo personalizzato"
+
+#: src/window.rs:178
+msgid "Position"
+msgstr "Posizione"
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr "In basso a destra"
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr "In basso a sinistra"
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr "In alto a destra"
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr "In alto a sinistra"
+
+#: src/window.rs:193
+msgid "Color"
+msgstr "Colore"
+
+#: src/window.rs:197
+msgid "White"
+msgstr "Bianco"
+
+#: src/window.rs:198
+msgid "Black"
+msgstr "Nero"
+
+#: src/window.rs:209
+msgid "Output"
+msgstr "Uscita"
+
+#: src/window.rs:212
+msgid "Format"
+msgstr "Formato"
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr "Qualità JPEG"
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr "Valori più alti conservano più dettaglio"
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr "Percorso di salvataggio"
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr "Apri la cartella degli screenshot"
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr "_Scorciatoie da tastiera"
+
+#: src/window.rs:283
+msgid "_About SuperShot"
+msgstr "_Informazioni su SuperShot"
+
+#~ msgid "Geometry"
+#~ msgstr "Geometria"
+
+#~ msgid "Effects"
+#~ msgstr "Effetti"
+
+#~ msgid "Capture Settings"
+#~ msgstr "Impostazioni cattura"
+
+#, c-format
+#~ msgid "Capturing in %u…"
+#~ msgstr "Cattura in %u…"
+
+#, c-format
+#~ msgid "Saved to %s"
+#~ msgstr "Salvato in %s"
+
+#~ msgid "Request Error"
+#~ msgstr "Errore di richiesta"
+
+#~ msgid "Screenshot tool with delay timer for GNOME"
+#~ msgstr "Strumento di cattura schermo con timer per GNOME"
+
+#~ msgid "Screenshot Tool"
+#~ msgstr "Strumento di cattura"
+
+#~ msgid "Screenshot tool with configurable delay for GNOME"
+#~ msgstr "Strumento di cattura schermo con ritardo configurabile per GNOME"

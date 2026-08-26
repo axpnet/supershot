@@ -1,0 +1,141 @@
+.TH SUPERSHOT 1 "2026-08-26" "supershot 1.3.0" "User Commands"
+.SH NAME
+supershot \- capture, annotate and share screenshots
+.SH SYNOPSIS
+.B supershot
+.RI [ OPTIONS ]
+.SH DESCRIPTION
+.B SuperShot
+is a native GTK4/Libadwaita screenshot tool for Linux desktops.
+.PP
+Captures are taken through the XDG Desktop Portal on both Wayland and X11.
+When no portal backend answers, SuperShot falls back to whichever command-line
+screenshot tool the session provides: on Wayland
+.BR grim (1)
+with
+.BR slurp (1),
+.BR spectacle (1),
+.B wayshot
+or
+.BR hyprshot ;
+on X11
+.BR gnome-screenshot (1),
+.BR xfce4-screenshooter (1),
+.BR spectacle (1),
+.BR scrot (1),
+.BR maim (1),
+.BR flameshot (1)
+or ImageMagick's
+.BR import (1).
+.PP
+Running without options opens the graphical interface. With
+.B \-\-now
+the capture is taken and the program exits, which suits keyboard shortcuts and
+scripts.
+.SH OPTIONS
+.TP
+.BR \-d ", " \-\-delay " " \fISECONDS\fR
+Wait this many seconds before capturing. Default 0.
+.TP
+.B \-\-now
+Capture without showing the graphical interface, then exit. The path of the
+saved file is printed to standard output.
+.TP
+.BR \-m ", " \-\-mode " " \fIMODE\fR
+What to capture:
+.BR interactive " (let the capture backend ask), "
+.BR area ", " window " or " screen .
+Default
+.BR interactive .
+.TP
+.BR \-f ", " \-\-format " " \fIFORMAT\fR
+Output format:
+.BR png " (default), " jpeg " or " jpg .
+.TP
+.BR \-\-quality " " \fIN\fR
+JPEG encoder quality from 1 to 100. Default 90. Ignored for PNG.
+.TP
+.BR \-o ", " \-\-output " " \fIDIRECTORY\fR
+Save into this directory instead of the configured location.
+.TP
+.BR \-e ", " \-\-edit " " \fIFILE\fR
+Open the annotation editor on an existing image instead of capturing a new one.
+No screenshot backend is involved.
+.TP
+.B \-\-watermark
+Overlay the configured date/time watermark.
+.TP
+.BR \-h ", " \-\-help
+Print a help message and exit.
+.TP
+.BR \-V ", " \-\-version
+Print version information and exit.
+.SH "KEYBOARD SHORTCUTS"
+.TP
+.B Ctrl+Enter
+Take a screenshot.
+.TP
+.B Ctrl+Q
+Quit.
+.PP
+In the preview window:
+.TP
+.B Ctrl+Z
+Undo the last annotation or crop.
+.TP
+.BR "Ctrl+Shift+Z" ", " Ctrl+Y
+Redo.
+.TP
+.B Ctrl+S
+Save.
+.TP
+.B Ctrl+C
+Render the annotated image to the clipboard without writing a file.
+.TP
+.B Escape
+Cancel the pending selection.
+.SH FILES
+.TP
+.I ~/Pictures/Screenshots/
+Default save location, overridable in the Settings tab or with
+.BR \-\-output .
+.TP
+.I ~/.config/glib-2.0/settings/keyfile
+Where GSettings persists preferences on systems without dconf.
+.SH ENVIRONMENT
+.TP
+.B SUPERSHOT_DEBUG_LAYOUT
+Report the preview window's widget geometry to standard output and exit. Set it
+to \fIWIDTHxHEIGHT\fR to resize the window first, for inspecting how the
+sidebar adapts.
+.TP
+.B SUPERSHOT_LOCALEDIR
+Override the directory searched for compiled translation catalogs. Normally
+resolved from the installation prefix.
+.TP
+.B GDK_BACKEND
+Force the windowing backend. SuperShot selects its fallback screenshot tools
+from the backend GDK actually connected to, so forcing
+.B x11
+inside a Wayland session correctly enables the X11 helpers.
+.SH EXAMPLES
+.TP
+Capture an area after three seconds and save it as JPEG:
+.EX
+supershot \-\-now \-\-mode area \-\-delay 3 \-\-format jpeg \-\-quality 85
+.EE
+.TP
+Capture the whole screen into a specific directory:
+.EX
+supershot \-\-now \-\-mode screen \-\-output ~/Documents/shots
+.EE
+.SH "SEE ALSO"
+.BR grim (1),
+.BR slurp (1),
+.BR gnome-screenshot (1),
+.BR spectacle (1),
+.BR scrot (1)
+.SH BUGS
+Report issues at https://github.com/axpnet/supershot/issues
+.SH AUTHOR
+axpnet <axp@pm.me>

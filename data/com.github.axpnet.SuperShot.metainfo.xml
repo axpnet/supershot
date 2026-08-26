@@ -4,32 +4,56 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>SuperShot</name>
-  <summary>Screenshot tool with configurable delay for GNOME</summary>
+  <summary>Capture, annotate and share screenshots</summary>
+  <summary xml:lang="it">Cattura, annota e condividi screenshot</summary>
+  <summary xml:lang="fr">Capturer, annoter et partager des captures d'écran</summary>
+  <summary xml:lang="de">Bildschirmfotos aufnehmen, kommentieren und teilen</summary>
+  <summary xml:lang="es">Capture, anote y comparta capturas de pantalla</summary>
+  <summary xml:lang="pt">Capture, anote e partilhe capturas de ecrã</summary>
+  <summary xml:lang="ru">Создание, аннотирование и отправка снимков экрана</summary>
+  <summary xml:lang="pl">Rób, opisuj i udostępniaj zrzuty ekranu</summary>
+  <summary xml:lang="tr">Ekran görüntüsü alın, işaretleyin ve paylaşın</summary>
+  <summary xml:lang="ja">スクリーンショットの撮影、注釈、共有</summary>
+  <summary xml:lang="ko">스크린샷 캡처, 주석 달기, 공유</summary>
+  <summary xml:lang="zh_CN">截取、标注并分享屏幕截图</summary>
+  <summary xml:lang="zh_TW">擷取、標註並分享螢幕畫面</summary>
+  <summary xml:lang="hi">स्क्रीनशॉट लें, एनोटेट करें और साझा करें</summary>
+  <summary xml:lang="id">Ambil, anotasi, dan bagikan tangkapan layar</summary>
 
   <description>
     <p>
-      SuperShot is a native GTK4/Libadwaita screenshot tool for GNOME desktops.
-      It provides a minimal, focused interface for taking screenshots with a
-      configurable delay timer, delegating capture to the GNOME Screenshot portal.
+      SuperShot is a native GTK4/Libadwaita screenshot tool for Linux desktops.
+      Captures go through the XDG Desktop Portal on both Wayland and X11, so it
+      works on GNOME, KDE Plasma and any compositor that provides a portal
+      backend. Where no portal is available, SuperShot falls back to the
+      command-line screenshot tools the session already has.
     </p>
-    <p>Features:</p>
+    <p>Mark up a capture before sharing it:</p>
     <ul>
-      <li>Configurable delay: none, 3, 5, or 10 seconds with visual countdown</li>
-      <li>PNG and JPEG format selection</li>
-      <li>Customizable watermark: 5 date formats, custom text, 4 corner positions, white/black color</li>
-      <li>Preview window with drag-to-crop and live watermark overlay</li>
-      <li>Custom save directory</li>
-      <li>Automatic clipboard copy</li>
-      <li>Clickable desktop notifications (opens image in default viewer)</li>
-      <li>Keyboard shortcut: Ctrl+Enter to capture</li>
-      <li>CLI headless mode for scripting</li>
-      <li>Settings persistence via GSettings</li>
+      <li>Arrows, rectangles, ellipses, highlighter, free draw, text labels and numbered step markers</li>
+      <li>Pixelate and blackout redaction that destroys the underlying pixels instead of covering them</li>
+      <li>Crop with a live selection, and undo/redo across the whole session</li>
+      <li>Copy the annotated image straight to the clipboard, without saving a file</li>
+    </ul>
+    <p>And everything the capture itself needs:</p>
+    <ul>
+      <li>Capture modes: ask, area, window, or the whole screen</li>
+      <li>Configurable delay of none, 3, 5 or 10 seconds with a visual countdown</li>
+      <li>Image editor: rotate, flip, brightness, contrast, blur, sharpen, grayscale, invert</li>
+      <li>Customisable watermark with 5 date formats, custom text, 4 corner positions and colour choice</li>
+      <li>PNG and JPEG output with adjustable quality</li>
+      <li>Clickable desktop notifications</li>
+      <li>CLI headless mode for scripting and keyboard shortcuts</li>
       <li>14 language translations</li>
     </ul>
   </description>
 
   <keywords>
     <keyword>screenshot</keyword>
+    <keyword>annotate</keyword>
+    <keyword>redact</keyword>
+    <keyword>crop</keyword>
+    <keyword>watermark</keyword>
     <keyword>capture</keyword>
     <keyword>screen</keyword>
     <keyword>delay</keyword>
@@ -63,6 +87,39 @@
   </screenshots>
 
   <releases>
+    <release version="1.3.0" date="2026-08-26">
+      <description>
+        <p>Annotation, redaction and cross-desktop compatibility.</p>
+        <p>New:</p>
+        <ul>
+          <li>Annotation toolbar: arrow, rectangle, ellipse, highlighter, free draw, text labels and numbered step markers, with an eight-colour palette and adjustable thickness</li>
+          <li>Pixelate and blackout redaction that destroys the underlying pixels rather than covering them</li>
+          <li>Undo and redo across annotations, crops and adjustments</li>
+          <li>Copy the annotated image directly to the clipboard without saving a file</li>
+          <li>Explicit capture modes: ask, area, window, whole screen — in the interface and on the command line</li>
+          <li>Configurable JPEG quality</li>
+          <li>About dialog with the running version, and a --doctor flag reporting display server, portal availability and detected fallback tools</li>
+          <li>--edit opens the annotation editor on an image already on disk, without capturing</li>
+          <li>arm64 packages and an AppImage build</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Cropping and then saving wrote the full uncropped image and discarded every adjustment made before the crop</li>
+          <li>The preview window left a wide empty band beside the image, and forced itself to be 1629 pixels wide; tools now live in a collapsing sidebar and the window minimum is 365 pixels</li>
+          <li>The 14 translations were never installed by any package and the catalog directory was hard-coded to /usr/share/locale, so no localisation ever loaded outside a distribution install; the interface itself was also largely untranslated</li>
+          <li>Watermark and annotation text is laid out with Pango, so CJK, Devanagari and right-to-left scripts render instead of appearing as empty boxes</li>
+          <li>Wayland sessions without a Screenshot portal now fall back to grim/slurp, spectacle, wayshot and hyprshot</li>
+          <li>The display backend is read from GDK rather than the environment, so GDK_BACKEND=x11 inside a Wayland session correctly enables the X11 fallbacks</li>
+          <li>Portal requests are parented to the window, so the portal dialog no longer opens behind or unfocused on KDE and wlroots compositors</li>
+          <li>Save paths and folder-opening URIs are built through GIO, fixing directories containing spaces or non-ASCII characters</li>
+          <li>A missing xdg-user-dirs configuration no longer discards the capture</li>
+          <li>Temporary captures use a private 0700 directory instead of a predictable path in /tmp</li>
+          <li>Rendering and encoding run off the main thread, so large captures no longer freeze the interface</li>
+          <li>Headless captures now copy to the clipboard and post a notification, and no longer create a stray main window</li>
+          <li>The watermark timestamp shown in the preview is the one written to the file</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.2.4" date="2026-07-11">
       <description>
         <p>Security and dependency maintenance. Snap rebuild to incorporate Ubuntu

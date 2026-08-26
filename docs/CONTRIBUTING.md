@@ -59,21 +59,30 @@ SuperShot/
     config.rs            Constants: APP_ID, gettext domain, locale path
     i18n.rs              GNU gettext initialization
     window.rs            AdwApplicationWindow subclass, composite template, GSettings
-    capture.rs           Screenshot pipeline: countdown, hide, portal, save, notify
-    sound.rs             Shutter sound: canberra-gtk-play with paplay fallback
+    capture.rs           Backend detection, portal and CLI capture, save pipeline
+    preview.rs           Annotation and editing window
+    annotate.rs          Annotation display list, Cairo rendering, redaction
+    editing.rs           Non-destructive edit state and pixel operations
   data/
     com.github.axpnet.SuperShot.desktop       Desktop launcher
     com.github.axpnet.SuperShot.metainfo.xml  AppStream metadata
     com.github.axpnet.SuperShot.gschema.xml   GSettings schema
     icons/hicolor/scalable/apps/              SVG application icon
+    supershot.1                               Manual page
+  scripts/
+    install.sh            Shared installer used by every packaging channel
+    build-deb.sh          Assembles the .deb from a release build
+    build-appimage.sh     Assembles the AppImage
+    update-po.sh          Regenerates the template and merges the catalogs
+    gen-cargo-sources.py  Regenerates cargo-sources.json for Flatpak
   po/
     supershot.pot         Translation template (source strings)
     LINGUAS               List of supported locale codes
     POTFILES.in           List of source files containing translatable strings
     *.po                  Per-language translation catalogs
   pkg-deb/
-    DEBIAN/               Debian packaging control files
-    usr/share/            Staged data files for .deb
+    DEBIAN/control.in     Debian control template (version and deps are derived)
+    copyright             Machine-readable copyright file
   docs/
     CHANGELOG.md          Release history
     CONTRIBUTING.md       This file
@@ -133,28 +142,53 @@ All contributions must pass both checks before submission.
    in a GUI application. Never use `.unwrap()` or `.expect()` on fallible
    operations that can fail at runtime.
 
-5. **No zombies.** When spawning child processes (e.g., in `sound.rs`), use
-   `.status()` instead of `.spawn()` to wait for the child and reap it.
+5. **No zombies.** When spawning child screenshot tools, use `.status()` or
+   `.output()` rather than `.spawn()`, so the child is waited for and reaped.
 
-6. **Gettext.** All user-visible strings must be translatable. In XML
-   templates, add `translatable="yes"`. In Rust code, wrap strings with
-   `gettextrs::gettext()`.
+6. **Gettext.** All user-visible strings must be translatable. In the XML
+   template, add `translatable="yes"`. In Rust code, wrap strings with
+   `gettextrs::gettext()` **at the literal call site** — `gettext(some_variable)`
+   compiles but cannot be extracted, so the string silently stays English.
 
-7. **Minimal changes.** Keep pull requests focused. One feature or fix per PR.
+7. **No blocking the main loop.** Rendering and encoding run through
+   `tokio::task::spawn_blocking`. A capture can be 4K; anything proportional to
+   pixel count belongs on a worker thread.
+
+8. **Tests for geometry.** Coordinate handling (crops, rotations, flips,
+   redaction bounds) is covered by unit tests, because it cannot be verified
+   without a display. Add tests when you touch it: `cargo test`.
+
+9. **Minimal changes.** Keep pull requests focused. One feature or fix per PR.
 
 ### Architecture notes
 
 - The application uses GLib Object Subclassing (`glib::wrapper!`,
   `#[glib::object_subclass]`) for `SuperShotApp` and `SuperShotWindow`.
-- The UI is defined as an inline composite template (raw XML string in
-  `window.rs`). This avoids the need for a build system to bundle `.ui`
-  resource files, at the cost of not being directly extractable by `xgettext`.
-- Screenshot capture uses the XDG Desktop Portal via the `ashpd` crate.
-  The `interactive` flag controls whether the portal shows its own selection
-  UI (`true` for selection/window modes) or captures immediately (`false`
-  for full screen).
-- Sound playback runs in a dedicated thread to avoid blocking the GTK main
-  loop. The thread is intentionally detached (fire-and-forget).
+- The main window's UI is an inline composite template (a raw XML string in
+  `window.rs`), which avoids bundling `.ui` resources. `scripts/update-po.sh`
+  extracts it by writing the template to a temporary file and running
+  `xgettext --language=Glade` over it, so its `translatable="yes"` strings do
+  reach the catalogs.
+- Capture tries the XDG Desktop Portal on every backend, then falls back to a
+  table of CLI tools filtered by the backend GDK actually connected to. The
+  backend is read from GDK rather than from `WAYLAND_DISPLAY`, because
+  `GDK_BACKEND=x11` in a Wayland session yields an X11 client whose environment
+  still advertises Wayland.
+- Portal requests are deliberately sent **without** a `WindowIdentifier`.
+  Parenting one exports the window through `xdg_foreign`, which requires a live
+  toplevel role; SuperShot hides its window before capturing, and exporting the
+  resulting roleless surface is a protocol violation that kills the process.
+- The save pipeline operates on one owned `image::RgbaImage` — edits, crop,
+  redactions, vector annotations, watermark, encode — so it is `Send` and runs
+  off the main thread. Text is laid out by Pango into transparent Cairo layers
+  that are composited onto that image, which keeps shaping and font fallback
+  correct for every script.
+- The preview window owns the working image. Saving renders from it rather than
+  re-reading the capture file, which is what makes an applied crop and the
+  adjustments layered on it both survive to disk.
+- Installation-dependent paths are resolved at runtime from the executable's
+  own prefix (see `config::localedir`), so one binary works from `/usr`,
+  `/app` (Flatpak), `$SNAP` or an AppImage mountpoint.
 
 ---
 
@@ -171,76 +205,87 @@ language has a corresponding `.po` file (e.g., `po/it.po` for Italian).
 
 ### Adding a new language
 
-1. **Copy the template:**
+1. **Register the language.** Add the ISO 639-1 code to `po/LINGUAS`, one per
+   line, alphabetically sorted. Use `<LANG>_<COUNTRY>` for regional variants
+   (e.g. `pt_BR` for Brazilian Portuguese).
+
+2. **Generate the catalog.**
 
    ```sh
-   cp po/supershot.pot po/<LANG>.po
+   ./scripts/update-po.sh
    ```
 
-   Replace `<LANG>` with the ISO 639-1 language code (e.g., `sv` for Swedish,
-   `nl` for Dutch). Use `<LANG>_<COUNTRY>` for regional variants (e.g.,
-   `pt_BR` for Brazilian Portuguese).
+   The script regenerates `po/supershot.pot` from the sources and creates
+   `po/<LANG>.po` for any language in `LINGUAS` that does not have one yet. It
+   also merges new strings into every existing catalog and prints a per-language
+   completion count.
 
-2. **Edit the header.** Update these fields in the new `.po` file:
+3. **Translate every `msgstr`.** Each `msgid` is an English source string; fill
+   in the corresponding `msgstr`. Never modify a `msgid`.
 
-   ```
-   "Language: <LANG>\n"
-   "Language-Team: <Language Name>\n"
-   "Last-Translator: Your Name <your@email>\n"
-   ```
+   Leave `translator-credits` for your own name — it is the one entry expected
+   to differ per translator, and the About dialog omits the credits section
+   when it is untranslated.
 
-3. **Translate all `msgstr` entries.** Each `msgid` is an English source
-   string; fill in the corresponding `msgstr` with the translation. Do not
-   modify `msgid` lines.
+4. **Preserve the placeholders.** SuperShot uses named placeholders rather than
+   printf specifiers, so they can be reordered freely and a mistake cannot
+   crash the formatter:
 
-   For strings containing `%s` or `%u` placeholders, preserve the placeholders
-   in the translation. They are substituted at runtime with the file path or
-   countdown number respectively.
+   | Placeholder | Substituted with |
+   |---|---|
+   | `__PATH__` | Path of the saved screenshot |
+   | `__N__` | A count (seconds, annotations) |
+   | `__W__`, `__H__` | Width and height in pixels |
+   | `__MODE__`, `__BACKEND__` | Capture mode, display server |
+   | `__TOOLS__`, `__CMD__` | Suggested tools, example install command |
+   | `__DETAIL__` | An underlying error message |
 
-4. **Register the language.** Add the language code to `po/LINGUAS`
-   (one code per line, alphabetically sorted).
+   Copy them verbatim, including the double underscores.
 
-5. **Test the translation.** To preview your translation without installing
-   system-wide:
+5. **Test it.** No installation is needed — `build.rs` compiles `po/*.po` into
+   the target directory and the binary finds them there:
 
    ```sh
-   # Compile the .po to .mo
-   msgfmt po/<LANG>.po -o /usr/share/locale/<LANG>/LC_MESSAGES/supershot.mo
-
-   # Or for local testing:
-   mkdir -p ~/.local/share/locale/<LANG>/LC_MESSAGES/
-   msgfmt po/<LANG>.po -o ~/.local/share/locale/<LANG>/LC_MESSAGES/supershot.mo
-
-   # Run with the target locale
    LANGUAGE=<LANG> cargo run
+   ```
+
+   To test against an installed layout instead, point the binary at any
+   catalog directory:
+
+   ```sh
+   SUPERSHOT_LOCALEDIR=/path/to/locale LANGUAGE=<LANG> ./target/release/supershot
    ```
 
 6. **Submit a pull request** with the new `.po` file and the updated `LINGUAS`.
 
 ### Updating an existing translation
 
-If the source strings change (new features, reworded UI text), the `.pot`
-template will be regenerated. To update your translation:
-
 ```sh
-# Merge new strings into your .po file
-msgmerge --update po/<LANG>.po po/supershot.pot
-
-# Edit po/<LANG>.po to translate any new or fuzzy entries
-# (entries marked #, fuzzy need review)
+./scripts/update-po.sh
 ```
+
+This regenerates the template and merges it into every catalog. Entries marked
+`#, fuzzy` were guessed from a similar string and need review; remove the marker
+once you have checked them.
+
+CI rejects a pull request when `po/supershot.pot` is out of date, when a catalog
+has untranslated entries, or when fuzzy markers remain — so run the script and
+commit its output alongside any change to a user-visible string.
 
 ### Translation string reference
 
-The translatable strings are sourced from:
-
 | Source | String type |
 |---|---|
-| `src/window.rs` (XML template) | UI labels, button text, combo box items |
-| `src/window.rs` (Rust code) | Countdown overlay text |
-| `src/capture.rs` | Notification titles/bodies, error dialog headings |
-| `data/*.desktop` | Application description and generic name |
+| `src/window.rs` (XML template) | Main window labels, rows, combo items |
+| `src/preview.rs` | Annotation toolbar, status hints, dialogs |
+| `src/capture.rs` | Notifications, error dialogs, fallback guidance |
+| `src/app.rs` | Menu entries, About dialog, shortcuts window |
+| `data/*.desktop` | Launcher name, comment, keywords, actions |
 | `data/*.metainfo.xml` | AppStream summary |
+
+The `.desktop` and AppStream files carry their translations inline as
+`Key[lang]=` entries and `xml:lang` attributes rather than through the gettext
+catalog; edit them directly.
 
 ### Tools
 

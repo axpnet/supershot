@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"
 "Last-Translator: axpnet <axp@pm.me>\n"
 "Language-Team: Hindi\n"
@@ -15,68 +15,575 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/window.rs
-msgid "Capture Settings"
-msgstr "कैप्चर सेटिंग्स"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
+msgstr "स्क्रीनशॉट लें, एनोटेट करें और साझा करें।"
 
-#: src/window.rs
-msgid "Delay"
-msgstr "विलंब"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
+msgstr ""
 
-#: src/window.rs
-msgid "None"
-msgstr "कोई नहीं"
+#: src/app.rs:209
+msgid "Main Window"
+msgstr "मुख्य विंडो"
 
-#: src/window.rs
-msgid "3 seconds"
-msgstr "3 सेकंड"
-
-#: src/window.rs
-msgid "5 seconds"
-msgstr "5 सेकंड"
-
-#: src/window.rs
-msgid "10 seconds"
-msgstr "10 सेकंड"
-
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
 msgstr "स्क्रीनशॉट लें"
 
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u…"
-msgstr "%u सेकंड में कैप्चर…"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
+msgstr "कीबोर्ड शॉर्टकट"
 
-#: src/capture.rs
-msgid "Screenshot captured"
-msgstr "स्क्रीनशॉट कैप्चर हुआ"
+#: src/app.rs:213
+msgid "Quit"
+msgstr "बाहर निकलें"
 
-#: src/capture.rs
-#, c-format
-msgid "Saved to %s"
-msgstr "%s पर सहेजा गया"
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
+msgstr "पूर्वावलोकन"
 
-#: src/capture.rs
-msgid "Save Error"
-msgstr "सहेजने में त्रुटि"
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
+msgstr "सहेजें"
 
-#: src/capture.rs
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr "क्लिपबोर्ड पर कॉपी करें"
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr "पूर्ववत करें"
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr "फिर से करें"
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr "लंबित चयन रद्द करें"
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr "कीबोर्ड शॉर्टकट"
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr "इंटरैक्टिव"
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr "क्षेत्र"
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr "विंडो"
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr "स्क्रीन"
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr "डेस्कटॉप स्क्रीनशॉट पोर्टल प्रतिक्रिया नहीं दे रहा है।"
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr "कोई भी उपलब्ध स्क्रीनशॉट टूल छवि नहीं बना सका।"
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr "इस सत्र के लिए कोई स्क्रीनशॉट टूल उपलब्ध नहीं है।"
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr "मोड: __MODE__ · डिस्प्ले सर्वर: __BACKEND__"
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr "एक डेस्कटॉप पोर्टल बैकएंड, या इनमें से एक स्थापित करें: __TOOLS__"
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr "उदाहरण: __CMD__"
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr "ठीक है"
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr "स्क्रीनशॉट विफल"
+
+#: src/capture.rs:911
 msgid "Portal Error"
 msgstr "पोर्टल त्रुटि"
 
-#: src/capture.rs
-msgid "Request Error"
-msgstr "अनुरोध त्रुटि"
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
+msgstr "स्क्रीनशॉट पोर्टल ने त्रुटि लौटाई।"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
-msgstr "GNOME के लिए विलंब टाइमर वाला स्क्रीनशॉट उपकरण"
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
+msgstr "सहेजने में त्रुटि"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
-msgstr "स्क्रीनशॉट उपकरण"
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
+msgstr "स्क्रीनशॉट सहेजा नहीं जा सका।"
 
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
-msgstr "GNOME के लिए विन्यासयोग्य विलंब वाला स्क्रीनशॉट उपकरण"
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr "__N__ सेकंड प्रतीक्षा…"
+
+#: src/capture.rs:1148
+msgid "Screenshot captured"
+msgstr "स्क्रीनशॉट लिया गया"
+
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr "__PATH__ में सहेजा गया"
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr "फ़ोल्डर में दिखाएँ"
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr "कोई लिखने योग्य सहेजने की निर्देशिका नहीं मिली (__DETAIL__)"
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr "कैप्चर नहीं पढ़ा जा सका"
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr "एन्कोडिंग विफल"
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr "सहेजने का कार्य विफल"
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr "रेंडर कार्य विफल"
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr "उपकरण दिखाएँ"
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr "छोड़ें"
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr "उपकरण"
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr "क्रॉप लागू करें"
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr "रंग"
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr "मोटाई"
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr "लेबल पाठ"
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr "समायोजन"
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr "क्रॉप"
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr "एक क्षेत्र खींचें, फिर क्रॉप करने के लिए उसके अंदर क्लिक करें"
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr "तीर"
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr "तीर बनाने के लिए खींचें"
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr "बॉक्स"
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr "आयत बनाने के लिए खींचें"
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr "वृत्त"
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr "दीर्घवृत्त बनाने के लिए खींचें"
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr "मार्कर"
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr "किसी क्षेत्र को हाइलाइट करने के लिए खींचें"
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr "पेन"
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr "फ्रीहैंड बनाएँ"
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr "पाठ"
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr "फ़ील्ड में टाइप करें, फिर लेबल रखने के लिए क्लिक करें"
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr "चरण"
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr "क्रमांकित चरण चिह्न रखने के लिए क्लिक करें"
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr "पिक्सलेट"
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr "संवेदनशील डेटा को नष्ट करने के लिए उस पर खींचें"
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr "रिडैक्ट"
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr "किसी क्षेत्र को ठोस रंग से ढकने के लिए खींचें"
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr "ज़ूम आउट"
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr "ज़ूम इन"
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr "बाएँ घुमाएँ"
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr "दाएँ घुमाएँ"
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr "क्षैतिज पलटें"
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr "लंबवत पलटें"
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr "चमक"
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr "कंट्रास्ट"
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr "धुंधला"
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr "तीक्ष्ण"
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr "ग्रेस्केल"
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr "उलटें"
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr "समायोजन रीसेट करें"
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr "पूर्वावलोकन विफल"
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr "कैप्चर खोला नहीं जा सका।"
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr "एक टूल चुनें, शॉट पर निशान लगाएँ, फिर सहेजें या कॉपी करें।"
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr "एक क्षेत्र खींचें, फिर उसके अंदर क्लिक करें या क्रॉप लागू करें दबाएँ।"
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr "लेबल टाइप करें, फिर उसे रखने के लिए छवि पर क्लिक करें।"
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr "अगला क्रमांकित चिह्न रखने के लिए क्लिक करें।"
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr "संवेदनशील डेटा पर खींचें। पिक्सेल ढके नहीं, नष्ट किए जाते हैं।"
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr "किसी क्षेत्र को ठोस रंग से ढकने के लिए खींचें।"
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr "बनाने के लिए छवि पर खींचें।"
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr "पहले लेबल पाठ टाइप करें, फिर उसे रखने के लिए क्लिक करें।"
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr "__W__ × __H__ पिक्सेल"
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr "चयन __W__ × __H__"
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr "__N__ एनोटेशन"
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr "सहेजा जा रहा है…"
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr "सहेजना विफल।"
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr "कॉपी हो रहा है…"
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr "क्लिपबोर्ड पर कॉपी किया गया।"
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr "क्लिपबोर्ड अनुपलब्ध।"
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr "रेंडर विफल।"
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr "सहेजने की निर्देशिका चुनें"
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr "मुख्य मेनू"
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr "शॉट"
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr "कैप्चर"
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr "किसकी तस्वीर लेनी है"
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr "मुझसे पूछें"
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr "पूरी स्क्रीन"
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr "विलंब"
+
+#: src/window.rs:73
+msgid "None"
+msgstr "कोई नहीं"
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr "3 सेकंड"
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr "5 सेकंड"
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr "10 सेकंड"
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr "सहेजने से पहले एनोटेट और संपादित करें"
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr "वॉटरमार्क"
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr "सक्षम"
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr "स्क्रीनशॉट पर पाठ ओवरले करें"
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr "दिनांक प्रारूप"
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr "कस्टम पाठ"
+
+#: src/window.rs:178
+msgid "Position"
+msgstr "स्थिति"
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr "नीचे दाएँ"
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr "नीचे बाएँ"
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr "ऊपर दाएँ"
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr "ऊपर बाएँ"
+
+#: src/window.rs:193
+msgid "Color"
+msgstr "रंग"
+
+#: src/window.rs:197
+msgid "White"
+msgstr "सफ़ेद"
+
+#: src/window.rs:198
+msgid "Black"
+msgstr "काला"
+
+#: src/window.rs:209
+msgid "Output"
+msgstr "आउटपुट"
+
+#: src/window.rs:212
+msgid "Format"
+msgstr "प्रारूप"
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr "JPEG गुणवत्ता"
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr "उच्च मान अधिक विवरण रखते हैं"
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr "सहेजने का स्थान"
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr "स्क्रीनशॉट फ़ोल्डर खोलें"
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr "_कीबोर्ड शॉर्टकट"
+
+#: src/window.rs:283
+msgid "_About SuperShot"
+msgstr "SuperShot के _बारे में"
+
+#~ msgid "Geometry"
+#~ msgstr "ज्यामिति"
+
+#~ msgid "Effects"
+#~ msgstr "प्रभाव"
+
+#~ msgid "Capture Settings"
+#~ msgstr "कैप्चर सेटिंग्स"
+
+#, c-format
+#~ msgid "Capturing in %u…"
+#~ msgstr "%u सेकंड में कैप्चर…"
+
+#, c-format
+#~ msgid "Saved to %s"
+#~ msgstr "%s पर सहेजा गया"
+
+#~ msgid "Request Error"
+#~ msgstr "अनुरोध त्रुटि"
+
+#~ msgid "Screenshot tool with delay timer for GNOME"
+#~ msgstr "GNOME के लिए विलंब टाइमर वाला स्क्रीनशॉट उपकरण"
+
+#~ msgid "Screenshot Tool"
+#~ msgstr "स्क्रीनशॉट उपकरण"
+
+#~ msgid "Screenshot tool with configurable delay for GNOME"
+#~ msgstr "GNOME के लिए विन्यासयोग्य विलंब वाला स्क्रीनशॉट उपकरण"

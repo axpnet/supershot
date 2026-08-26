@@ -1,22 +1,28 @@
 name: supershot
-version: '1.2.4'
+version: '1.3.0'
 title: SuperShot
-summary: Native GTK4 screenshot tool for GNOME with watermark and crop
+summary: Capture, annotate and share screenshots on any Linux desktop
 description: |
-  SuperShot is a native GTK4/Libadwaita screenshot tool for GNOME desktops.
-  It provides a minimal, focused interface for taking screenshots with a
-  configurable delay timer, delegating capture to the GNOME Screenshot portal.
+  SuperShot is a native GTK4/Libadwaita screenshot tool for Linux desktops.
+
+  Captures go through the XDG Desktop Portal on both Wayland and X11, so it
+  works on GNOME, KDE Plasma, and any compositor that ships a portal backend.
 
   Features:
-  - Configurable delay (none, 3, 5, or 10 seconds) with visual countdown
-  - PNG and JPEG format selection
-  - Customizable watermark: 5 date formats, custom text, 4 corners, white/black
-  - Preview window with live watermark overlay and drag-to-crop
-  - Custom save directory with one-click folder access
-  - Automatic clipboard copy and clickable desktop notifications
-  - Keyboard shortcut: Ctrl+Enter to capture
-  - CLI headless mode (supershot --now --delay 5)
-  - Settings persistence via GSettings
+  - Annotation toolbar: arrow, rectangle, ellipse, highlighter, free draw,
+    text labels and numbered step markers, with an eight-colour palette
+  - Pixelate and blackout redaction that destroys the underlying pixels
+    rather than covering them, so nothing sensitive survives in the file
+  - Crop with live selection, and undo/redo across the whole session
+  - Image editor: rotate, flip, brightness, contrast, blur, sharpen,
+    grayscale, invert
+  - Customisable watermark: 5 date formats, custom text, 4 corners, colour
+  - Capture modes: ask, area, window, whole screen
+  - Configurable delay (none, 3, 5, 10 seconds) with visual countdown
+  - PNG and JPEG output with adjustable quality
+  - Copy the annotated image straight to the clipboard, no file needed
+  - Clickable desktop notifications
+  - CLI headless mode: supershot --now --mode area
   - 14 language translations
 
 grade: stable
@@ -31,9 +37,15 @@ website: https://github.com/axpnet/supershot
 
 icon: data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
 
+platforms:
+  amd64:
+  arm64:
+
 apps:
   supershot:
-    command: bin/supershot
+    command: usr/bin/supershot
+    common-id: com.github.axpnet.SuperShot
+    desktop: usr/share/applications/com.github.axpnet.SuperShot.desktop
     extensions: [gnome]
     plugs:
       - home
@@ -41,26 +53,33 @@ apps:
       - desktop-legacy
       - wayland
       - x11
-      - audio-playback
+      # Screenshots are frequently saved to an external drive or a mounted
+      # network share; without this the folder picker can select a location
+      # the app is then denied write access to.
+      - removable-media
 
 parts:
   supershot:
-    plugin: rust
+    plugin: nil
     source: .
     build-packages:
       - libgtk-4-dev
       - libadwaita-1-dev
       - pkg-config
       - libglib2.0-dev
+      - gettext
+    build-snaps:
+      - rustup
     stage-packages:
       - libgtk-4-1
       - libadwaita-1-0
       - liblcms2-2
     override-build: |
-      craftctl default
-      install -Dm644 data/com.github.axpnet.SuperShot.desktop $CRAFT_PART_INSTALL/usr/share/applications/com.github.axpnet.SuperShot.desktop
-      install -Dm644 data/com.github.axpnet.SuperShot.gschema.xml $CRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/com.github.axpnet.SuperShot.gschema.xml
-      install -Dm644 data/com.github.axpnet.SuperShot.metainfo.xml $CRAFT_PART_INSTALL/usr/share/metainfo/com.github.axpnet.SuperShot.metainfo.xml
-      install -Dm644 data/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg $CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/apps/com.github.axpnet.SuperShot.svg
-      install -Dm644 data/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg $CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/actions/supershot-capture-symbolic.svg
-      glib-compile-schemas $CRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/
+      rustup default stable
+      cargo build --release --locked
+      # One installer shared with the .deb, Flatpak and AppImage builds, so the
+      # four cannot disagree about what a complete installation contains — the
+      # bug that left every channel shipping zero translation catalogs.
+      ./scripts/install.sh "$CRAFT_PART_INSTALL"
+      glib-compile-schemas "$CRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/"
+    parse-info: [usr/share/metainfo/com.github.axpnet.SuperShot.metainfo.xml]

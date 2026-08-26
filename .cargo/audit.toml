@@ -1,0 +1,22 @@
+# cargo-audit configuration
+#
+# cargo-audit scans Cargo.lock, which records the union of every dependency
+# across all feature combinations of the resolved packages. It is therefore a
+# superset of what is actually compiled.
+
+[advisories]
+ignore = [
+    # RUSTSEC-2024-0436 (paste, unmaintained).
+    #
+    # Reached only through image -> {ravif -> rav1e, exr -> pulp}, i.e. the AVIF
+    # and OpenEXR codecs. Since v1.3.0 SuperShot builds `image` with
+    # default-features = false and only the "png", "jpeg" and "rayon" features,
+    # so none of those crates are compiled into the binary:
+    #
+    #     $ cargo tree -i paste
+    #     warning: nothing to print.
+    #
+    # The entry survives in Cargo.lock only because the lockfile is
+    # feature-agnostic. Re-evaluate if SuperShot ever enables AVIF output.
+    "RUSTSEC-2024-0436",
+]

@@ -1,6 +1,6 @@
 [package]
 name = "supershot"
-version = "1.2.4"
+version = "1.3.0"
 edition = "2021"
 authors = ["axpnet <https://github.com/axpnet>"]
 description = "Native GTK4/Libadwaita screenshot tool for GNOME with customizable watermark, crop, and delay timer."
@@ -8,16 +8,19 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/axpnet/supershot"
 keywords = ["screenshot", "gtk4", "libadwaita", "rust", "gnome"]
 categories = ["gui", "multimedia"]
+rust-version = "1.83"
 
 [dependencies]
 gtk4 = { version = "0.11", package = "gtk4", features = ["v4_14"] }
 libadwaita = { version = "0.9", features = ["v1_5"] }
-ashpd = { version = "0.13", features = ["gtk4_wayland", "gtk4_x11", "screenshot"] }
+ashpd = { version = "0.13", default-features = false, features = ["screenshot", "tokio"] }
 cairo-rs = { version = "0.22", features = ["png"] }
 gdk-pixbuf = "0.22"
 chrono = "0.4"
 dirs = "6.0"
-gettext-rs = "0.7"
+gettext-rs = "0.8"
 clap = { version = "4", features = ["derive"] }
 tokio = { version = "1", features = ["rt-multi-thread"] }
-image = "0.25"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "rayon"] }
+pango = "0.22"
+pangocairo = "0.22"

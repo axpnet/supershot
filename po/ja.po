@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supershot 1.1.0\n"
 "Report-Msgid-Bugs-To: axp@pm.me\n"
-"POT-Creation-Date: 2026-02-11 00:00+0000\n"
+"POT-Creation-Date: 2026-08-26 11:24+0200\n"
 "PO-Revision-Date: 2026-02-11 00:00+0000\n"
 "Last-Translator: axpnet <axp@pm.me>\n"
 "Language-Team: Japanese\n"
@@ -15,68 +15,579 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/window.rs
-msgid "Capture Settings"
-msgstr "キャプチャ設定"
+#: src/app.rs:185
+msgid "Capture, annotate and share screenshots."
+msgstr "スクリーンショットの撮影、注釈、共有。"
 
-#: src/window.rs
-msgid "Delay"
-msgstr "遅延"
+#. TRANSLATORS: replace with your own name and contact to be credited
+#. in the About dialog of your language's build.
+#: src/app.rs:192
+msgid "translator-credits"
+msgstr ""
 
-#: src/window.rs
-msgid "None"
-msgstr "なし"
+#: src/app.rs:209
+msgid "Main Window"
+msgstr "メインウィンドウ"
 
-#: src/window.rs
-msgid "3 seconds"
-msgstr "3 秒"
-
-#: src/window.rs
-msgid "5 seconds"
-msgstr "5 秒"
-
-#: src/window.rs
-msgid "10 seconds"
-msgstr "10 秒"
-
-#: src/window.rs
+#: src/app.rs:211
 msgid "Take screenshot"
 msgstr "スクリーンショットを撮る"
 
-#: src/window.rs
-#, c-format
-msgid "Capturing in %u…"
-msgstr "%u 秒後にキャプチャ…"
+#: src/app.rs:212
+msgid "Keyboard shortcuts"
+msgstr "キーボードショートカット"
 
-#: src/capture.rs
-msgid "Screenshot captured"
-msgstr "スクリーンショットを撮影しました"
+#: src/app.rs:213
+msgid "Quit"
+msgstr "終了"
 
-#: src/capture.rs
-#, c-format
-msgid "Saved to %s"
-msgstr "%s に保存しました"
+#: src/app.rs:217 src/preview.rs:317
+msgid "Preview"
+msgstr "プレビュー"
 
-#: src/capture.rs
-msgid "Save Error"
-msgstr "保存エラー"
+#: src/app.rs:219 src/preview.rs:362
+msgid "Save"
+msgstr "保存"
 
-#: src/capture.rs
+#: src/app.rs:220 src/preview.rs:367
+msgid "Copy to clipboard"
+msgstr "クリップボードにコピー"
+
+#: src/app.rs:221 src/preview.rs:435
+msgid "Undo"
+msgstr "元に戻す"
+
+#: src/app.rs:222 src/preview.rs:439
+msgid "Redo"
+msgstr "やり直す"
+
+#: src/app.rs:223
+msgid "Cancel the pending selection"
+msgstr "保留中の選択を取り消す"
+
+#: src/app.rs:255
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: src/capture.rs:151
+msgid "Interactive"
+msgstr "対話式"
+
+#: src/capture.rs:152
+msgid "Area"
+msgstr "範囲"
+
+#: src/capture.rs:153
+msgid "Window"
+msgstr "ウィンドウ"
+
+#: src/capture.rs:154
+msgid "Screen"
+msgstr "画面"
+
+#: src/capture.rs:624
+msgid "The desktop screenshot portal is not responding."
+msgstr "デスクトップのスクリーンショットポータルが応答しません。"
+
+#: src/capture.rs:626
+msgid ""
+"SuperShot is running inside a __CHANNEL__ sandbox, so it cannot "
+"use                  command-line screenshot tools installed on the host. "
+"Install an XDG desktop                  portal backend for your desktop "
+"environment (xdg-desktop-portal-gnome,                  xdg-desktop-portal-"
+"kde, xdg-desktop-portal-wlr or xdg-desktop-portal-gtk)                  and "
+"restart your session."
+msgstr ""
+
+#: src/capture.rs:643
+msgid "Every available screenshot tool failed to produce an image."
+msgstr ""
+"利用可能なスクリーンショットツールはいずれも画像を生成できませんでした。"
+
+#: src/capture.rs:645
+msgid "No screenshot tool is available for this session."
+msgstr "このセッションで利用できるスクリーンショットツールがありません。"
+
+#: src/capture.rs:651
+msgid "Mode: __MODE__ · Display server: __BACKEND__"
+msgstr "モード: __MODE__ · ディスプレイサーバー: __BACKEND__"
+
+#: src/capture.rs:664
+msgid "Install a desktop portal backend, or one of: __TOOLS__"
+msgstr ""
+"デスクトップポータルのバックエンド、または次のいずれかをインストールしてくだ"
+"さい: __TOOLS__"
+
+#: src/capture.rs:716
+msgid "For example: __CMD__"
+msgstr "例: __CMD__"
+
+#: src/capture.rs:870
+msgid "OK"
+msgstr "OK"
+
+#: src/capture.rs:904
+msgid "Screenshot Failed"
+msgstr "スクリーンショットに失敗"
+
+#: src/capture.rs:911
 msgid "Portal Error"
 msgstr "ポータルエラー"
 
-#: src/capture.rs
-msgid "Request Error"
-msgstr "リクエストエラー"
+#: src/capture.rs:912
+msgid "The screenshot portal returned an error."
+msgstr "スクリーンショットポータルがエラーを返しました。"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot tool with delay timer for GNOME"
-msgstr "GNOME 向け遅延タイマー付きスクリーンショットツール"
+#: src/capture.rs:1045 src/preview.rs:1767
+msgid "Save Error"
+msgstr "保存エラー"
 
-#: data/com.github.axpnet.SuperShot.desktop
-msgid "Screenshot Tool"
-msgstr "スクリーンショットツール"
+#: src/capture.rs:1046 src/preview.rs:1768
+msgid "Failed to save the screenshot."
+msgstr "スクリーンショットを保存できませんでした。"
 
-#: data/com.github.axpnet.SuperShot.metainfo.xml
-msgid "Screenshot tool with configurable delay for GNOME"
-msgstr "GNOME 向け遅延設定可能なスクリーンショットツール"
+#: src/capture.rs:1067
+msgid "Waiting __N__ seconds…"
+msgstr "__N__ 秒待機中…"
+
+#: src/capture.rs:1148
+msgid "Screenshot captured"
+msgstr "スクリーンショットを撮影しました"
+
+#: src/capture.rs:1150
+msgid "Saved to __PATH__"
+msgstr "__PATH__ に保存しました"
+
+#: src/capture.rs:1157
+msgid "Show in Folder"
+msgstr "フォルダーで表示"
+
+#: src/capture.rs:1223
+msgid "No writable save directory could be found (__DETAIL__)"
+msgstr "書き込み可能な保存先が見つかりません (__DETAIL__)"
+
+#: src/capture.rs:1294
+msgid "Cannot read the capture"
+msgstr "キャプチャを読み込めません"
+
+#: src/capture.rs:1368 src/capture.rs:1374
+msgid "Encoding failed"
+msgstr "エンコードに失敗しました"
+
+#: src/capture.rs:1415
+msgid "Save task failed"
+msgstr "保存処理に失敗しました"
+
+#: src/capture.rs:1439
+msgid "Render task failed"
+msgstr "描画処理に失敗しました"
+
+#: src/preview.rs:297
+msgid "Show tools"
+msgstr "ツールを表示"
+
+#: src/preview.rs:358
+msgid "Discard"
+msgstr "破棄"
+
+#: src/preview.rs:415
+msgid "Tools"
+msgstr "ツール"
+
+#: src/preview.rs:418 src/preview.rs:422
+msgid "Apply Crop"
+msgstr "切り抜きを適用"
+
+#: src/preview.rs:457
+msgid "Colour"
+msgstr "色"
+
+#: src/preview.rs:460
+msgid "Thickness"
+msgstr "太さ"
+
+#: src/preview.rs:465
+msgid "Label text"
+msgstr "ラベルの文字"
+
+#: src/preview.rs:475
+msgid "Adjustments"
+msgstr "調整"
+
+#: src/preview.rs:494
+msgid "Crop"
+msgstr "切り抜き"
+
+#: src/preview.rs:494
+msgid "Drag a region, then click inside it to crop"
+msgstr "範囲をドラッグし、内側をクリックして切り抜きます"
+
+#: src/preview.rs:495
+msgid "Arrow"
+msgstr "矢印"
+
+#: src/preview.rs:495
+msgid "Drag to draw an arrow"
+msgstr "ドラッグして矢印を描きます"
+
+#: src/preview.rs:496
+msgid "Box"
+msgstr "矩形"
+
+#: src/preview.rs:496
+msgid "Drag to draw a rectangle"
+msgstr "ドラッグして矩形を描きます"
+
+#: src/preview.rs:497
+msgid "Circle"
+msgstr "楕円"
+
+#: src/preview.rs:497
+msgid "Drag to draw an ellipse"
+msgstr "ドラッグして楕円を描きます"
+
+#: src/preview.rs:498
+msgid "Marker"
+msgstr "マーカー"
+
+#: src/preview.rs:498
+msgid "Drag to highlight a region"
+msgstr "ドラッグして範囲をハイライトします"
+
+#: src/preview.rs:499
+msgid "Pen"
+msgstr "ペン"
+
+#: src/preview.rs:499
+msgid "Draw freehand"
+msgstr "フリーハンドで描画"
+
+#: src/preview.rs:500
+msgid "Text"
+msgstr "テキスト"
+
+#: src/preview.rs:500
+msgid "Type in the field, then click to place the label"
+msgstr "入力欄に文字を入れ、クリックして配置します"
+
+#: src/preview.rs:501
+msgid "Step"
+msgstr "手順"
+
+#: src/preview.rs:501
+msgid "Click to drop a numbered step marker"
+msgstr "クリックして番号付きマーカーを配置します"
+
+#: src/preview.rs:502
+msgid "Pixelate"
+msgstr "モザイク"
+
+#: src/preview.rs:502
+msgid "Drag over sensitive data to destroy it"
+msgstr "機密データの上をドラッグして破棄します"
+
+#: src/preview.rs:503
+msgid "Redact"
+msgstr "黒塗り"
+
+#: src/preview.rs:503
+msgid "Drag to cover a region with solid colour"
+msgstr "ドラッグして範囲を単色で覆います"
+
+#: src/preview.rs:625
+msgid "Zoom out"
+msgstr "縮小"
+
+#: src/preview.rs:629
+msgid "Zoom in"
+msgstr "拡大"
+
+#: src/preview.rs:656
+msgid "Rotate left"
+msgstr "左に回転"
+
+#: src/preview.rs:657
+msgid "Rotate right"
+msgstr "右に回転"
+
+#: src/preview.rs:658
+msgid "Flip horizontally"
+msgstr "左右反転"
+
+#: src/preview.rs:659
+msgid "Flip vertically"
+msgstr "上下反転"
+
+#: src/preview.rs:687
+msgid "Brightness"
+msgstr "明るさ"
+
+#: src/preview.rs:688
+msgid "Contrast"
+msgstr "コントラスト"
+
+#: src/preview.rs:689
+msgid "Blur"
+msgstr "ぼかし"
+
+#: src/preview.rs:690
+msgid "Sharpen"
+msgstr "シャープ"
+
+#: src/preview.rs:702
+msgid "Grayscale"
+msgstr "グレースケール"
+
+#: src/preview.rs:703
+msgid "Invert"
+msgstr "色を反転"
+
+#: src/preview.rs:726
+msgid "Reset Adjustments"
+msgstr "調整をリセット"
+
+#: src/preview.rs:887
+msgid "Preview Failed"
+msgstr "プレビューに失敗"
+
+#: src/preview.rs:888
+msgid "The capture could not be opened."
+msgstr "キャプチャを開けませんでした。"
+
+#: src/preview.rs:905
+msgid "Pick a tool, mark up the shot, then Save or Copy."
+msgstr "ツールを選び、注釈を付けて、保存またはコピーします。"
+
+#: src/preview.rs:1269
+msgid "Drag a region, then click inside it or press Apply Crop."
+msgstr "範囲をドラッグし、内側をクリックするか「切り抜きを適用」を押します。"
+
+#: src/preview.rs:1270
+msgid "Type the label, then click on the image to place it."
+msgstr "ラベルを入力し、画像をクリックして配置します。"
+
+#: src/preview.rs:1271
+msgid "Click to drop the next numbered marker."
+msgstr "クリックして次の番号付きマーカーを配置します。"
+
+#: src/preview.rs:1272
+msgid "Drag over sensitive data. Pixels are destroyed, not covered."
+msgstr ""
+"機密データの上をドラッグします。ピクセルは覆われるのではなく破棄されます。"
+
+#: src/preview.rs:1273
+msgid "Drag to cover a region with solid colour."
+msgstr "ドラッグして範囲を単色で覆います。"
+
+#: src/preview.rs:1274
+msgid "Drag on the image to draw."
+msgstr "画像上をドラッグして描画します。"
+
+#: src/preview.rs:1422
+msgid "Type the label text first, then click to place it."
+msgstr "先にラベルの文字を入力してから、クリックして配置します。"
+
+#: src/preview.rs:1555
+msgid "__W__ × __H__ px"
+msgstr "__W__ × __H__ px"
+
+#: src/preview.rs:1562
+msgid "Selection __W__ × __H__"
+msgstr "選択 __W__ × __H__"
+
+#: src/preview.rs:1569
+msgid "__N__ annotations"
+msgstr "注釈 __N__ 件"
+
+#: src/preview.rs:1739
+msgid "Saving…"
+msgstr "保存中…"
+
+#: src/preview.rs:1763
+msgid "Save failed."
+msgstr "保存に失敗しました。"
+
+#: src/preview.rs:1787
+msgid "Copying…"
+msgstr "コピー中…"
+
+#: src/preview.rs:1796
+msgid "Copied to clipboard."
+msgstr "クリップボードにコピーしました。"
+
+#: src/preview.rs:1798
+msgid "Clipboard unavailable."
+msgstr "クリップボードを利用できません。"
+
+#: src/preview.rs:1803
+msgid "Render failed."
+msgstr "描画に失敗しました。"
+
+#: src/window.rs:595
+msgid "Choose Save Directory"
+msgstr "保存先フォルダーを選択"
+
+#: src/window.rs:19
+msgid "Main Menu"
+msgstr "メインメニュー"
+
+#: src/window.rs:44
+msgid "Shot"
+msgstr "撮影"
+
+#: src/window.rs:53
+msgid "Capture"
+msgstr "キャプチャ"
+
+#: src/window.rs:54
+msgid "What to take a picture of"
+msgstr "何を撮影するか"
+
+#: src/window.rs:58
+msgid "Ask me"
+msgstr "毎回たずねる"
+
+#: src/window.rs:61
+msgid "Whole screen"
+msgstr "画面全体"
+
+#: src/window.rs:69
+msgid "Delay"
+msgstr "遅延"
+
+#: src/window.rs:73
+msgid "None"
+msgstr "なし"
+
+#: src/window.rs:74
+msgid "3 seconds"
+msgstr "3 秒"
+
+#: src/window.rs:75
+msgid "5 seconds"
+msgstr "5 秒"
+
+#: src/window.rs:76
+msgid "10 seconds"
+msgstr "10 秒"
+
+#: src/window.rs:85
+msgid "Annotate and edit before saving"
+msgstr "保存前に注釈と編集を行う"
+
+#: src/window.rs:141
+msgid "Settings"
+msgstr "設定"
+
+#: src/window.rs:148
+msgid "Watermark"
+msgstr "透かし"
+
+#: src/window.rs:151
+msgid "Enabled"
+msgstr "有効"
+
+#: src/window.rs:152
+msgid "Overlay text on screenshot"
+msgstr "スクリーンショットに文字を重ねる"
+
+#: src/window.rs:157
+msgid "Date Format"
+msgstr "日付形式"
+
+#: src/window.rs:173
+msgid "Custom Text"
+msgstr "カスタム文字"
+
+#: src/window.rs:178
+msgid "Position"
+msgstr "位置"
+
+#: src/window.rs:182
+msgid "Bottom Right"
+msgstr "右下"
+
+#: src/window.rs:183
+msgid "Bottom Left"
+msgstr "左下"
+
+#: src/window.rs:184
+msgid "Top Right"
+msgstr "右上"
+
+#: src/window.rs:185
+msgid "Top Left"
+msgstr "左上"
+
+#: src/window.rs:193
+msgid "Color"
+msgstr "色"
+
+#: src/window.rs:197
+msgid "White"
+msgstr "白"
+
+#: src/window.rs:198
+msgid "Black"
+msgstr "黒"
+
+#: src/window.rs:209
+msgid "Output"
+msgstr "出力"
+
+#: src/window.rs:212
+msgid "Format"
+msgstr "形式"
+
+#: src/window.rs:225
+msgid "JPEG Quality"
+msgstr "JPEG 品質"
+
+#: src/window.rs:226
+msgid "Higher values keep more detail"
+msgstr "値が大きいほど詳細が保たれます"
+
+#: src/window.rs:240
+msgid "Save Location"
+msgstr "保存先"
+
+#: src/window.rs:252
+msgid "Open Screenshots Folder"
+msgstr "スクリーンショットのフォルダーを開く"
+
+#: src/window.rs:279
+msgid "_Keyboard Shortcuts"
+msgstr "キーボードショートカット(_K)"
+
+#: src/window.rs:283
+msgid "_About SuperShot"
+msgstr "SuperShot について(_A)"
+
+#~ msgid "Geometry"
+#~ msgstr "ジオメトリ"
+
+#~ msgid "Effects"
+#~ msgstr "エフェクト"
+
+#~ msgid "Capture Settings"
+#~ msgstr "キャプチャ設定"
+
+#, c-format
+#~ msgid "Capturing in %u…"
+#~ msgstr "%u 秒後にキャプチャ…"
+
+#, c-format
+#~ msgid "Saved to %s"
+#~ msgstr "%s に保存しました"
+
+#~ msgid "Request Error"
+#~ msgstr "リクエストエラー"
+
+#~ msgid "Screenshot tool with delay timer for GNOME"
+#~ msgstr "GNOME 向け遅延タイマー付きスクリーンショットツール"
+
+#~ msgid "Screenshot Tool"
+#~ msgstr "スクリーンショットツール"
+
+#~ msgid "Screenshot tool with configurable delay for GNOME"
+#~ msgstr "GNOME 向け遅延設定可能なスクリーンショットツール"

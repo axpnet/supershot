@@ -8,46 +8,132 @@ on:
 permissions:
   contents: write
 
+env:
+  CARGO_TERM_COLOR: always
+  SUPERSHOT_NO_DEV_SCHEMA: "1"
+
 jobs:
-  release:
+  version-check:
+    name: Verify tag matches Cargo.toml
     runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare versions
+        run: |
+          # The .deb, the snap and the AppStream release notes all derive their
+          # version from these files. A tag that disagrees with them is how a
+          # previous release shipped a package labelled 1.2.3 for tag v1.2.4.
+          tag="${GITHUB_REF_NAME#v}"
+          cargo_version="$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
+          snap_version="$(grep -m1 '^version:' snap/snapcraft.yaml | cut -d"'" -f2)"
+
+          fail=0
+          [ "$tag" = "$cargo_version" ] || { echo "::error::tag $tag != Cargo.toml $cargo_version"; fail=1; }
+          [ "$tag" = "$snap_version" ]  || { echo "::error::tag $tag != snapcraft.yaml $snap_version"; fail=1; }
+
+          if ! grep -q "<release version=\"$tag\"" data/com.github.axpnet.SuperShot.metainfo.xml; then
+            echo "::error::no <release version=\"$tag\"> entry in the AppStream metadata"
+            fail=1
+          fi
+          exit $fail
+
+  deb:
+    name: .deb (${{ matrix.arch }})
+    needs: version-check
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-4-dev libadwaita-1-dev pkg-config libglib2.0-dev
+          sudo apt-get install -y \
+            libgtk-4-dev libadwaita-1-dev pkg-config libglib2.0-dev gettext lintian
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Cache cargo
-        uses: actions/cache@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
         with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
+          key: release-${{ matrix.arch }}
 
-      - name: Build release
-        run: cargo build --release
+      - name: Build
+        run: cargo build --release --locked
 
-      - name: Extract version
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+      - name: Package
+        run: ./scripts/build-deb.sh
 
-      - name: Build .deb package
+      - name: Lint
+        run: lintian --fail-on error,warning supershot_*_${{ matrix.arch }}.deb
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb-${{ matrix.arch }}
+          path: supershot_*_${{ matrix.arch }}.deb
+
+  appimage:
+    name: AppImage (${{ matrix.arch }})
+    needs: version-check
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
         run: |
-          mkdir -p pkg-deb/usr/bin
-          cp target/release/supershot pkg-deb/usr/bin/supershot
-          chmod 755 pkg-deb/usr/bin/supershot
-          dpkg-deb --build pkg-deb "supershot_${{ steps.version.outputs.version }}_amd64.deb"
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-4-dev libadwaita-1-dev pkg-config libglib2.0-dev gettext \
+            libfuse2t64 librsvg2-dev patchelf desktop-file-utils
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
         with:
-          files: supershot_${{ steps.version.outputs.version }}_amd64.deb
+          key: appimage-${{ matrix.arch }}
+
+      - name: Build
+        run: cargo build --release --locked
+
+      - name: Build AppImage
+        run: ./scripts/build-appimage.sh
+        env:
+          ARCH: ${{ matrix.arch }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: appimage-${{ matrix.arch }}
+          path: SuperShot-*.AppImage
+
+  publish:
+    name: Publish release
+    needs: [deb, appimage]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Checksums
+        run: |
+          cd artifacts
+          sha256sum * > SHA256SUMS
+          cat SHA256SUMS
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
           generate_release_notes: true

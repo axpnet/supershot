@@ -4,17 +4,19 @@
 //
 // Implements the primary user interface as an AdwApplicationWindow subclass
 // using GTK4 composite templates. The window uses a tabbed layout with
-// AdwViewStack: the "Shot" tab shows watermark/preview toggles and the
-// capture button; the "Settings" tab holds delay, format, save location,
-// and open-folder options.
+// AdwViewStack: the "Shot" tab holds capture mode, delay, preview toggle and
+// the capture button; the "Settings" tab holds watermark, output format and
+// save location.
 //
-// During delayed captures, the countdown is displayed directly inside the
-// capture button, replacing the icon with the remaining seconds.
+// During delayed captures the countdown is displayed inside the capture
+// button, replacing the icon with the remaining seconds; while a capture is
+// being processed the same button shows a spinner.
 
 use libadwaita as adw;
 use libadwaita::prelude::*;
 use gtk4::{glib, gio, CompositeTemplate};
 use glib::subclass::types::ObjectSubclassIsExt;
+use gettextrs::gettext;
 use std::path::PathBuf;
 
 mod imp {
@@ -28,14 +30,26 @@ mod imp {
     <interface>
       <template class="SuperShotWindow" parent="AdwApplicationWindow">
         <property name="title">SuperShot</property>
-        <property name="default-width">320</property>
-        <property name="default-height">445</property>
+        <property name="default-width">360</property>
+        <!-- Tall enough for the About dialog to open inside it: libadwaita
+             presents dialogs within their parent, and a shorter window makes it
+             fall back to a clipped bottom sheet. -->
+        <property name="default-height">620</property>
         <property name="content">
           <object class="GtkBox">
             <property name="orientation">vertical</property>
 
             <child>
-              <object class="AdwHeaderBar" />
+              <object class="AdwHeaderBar">
+                <child type="end">
+                  <object class="GtkMenuButton" id="menu_btn">
+                    <property name="icon-name">open-menu-symbolic</property>
+                    <property name="tooltip-text" translatable="yes">Main Menu</property>
+                    <property name="primary">true</property>
+                    <property name="menu-model">primary_menu</property>
+                  </object>
+                </child>
+              </object>
             </child>
 
             <child>
@@ -63,6 +77,22 @@ mod imp {
                         <child>
                           <object class="AdwPreferencesGroup">
                             <child>
+                              <object class="AdwComboRow" id="mode_row">
+                                <property name="title" translatable="yes">Capture</property>
+                                <property name="subtitle" translatable="yes">What to take a picture of</property>
+                                <property name="model">
+                                  <object class="GtkStringList">
+                                    <items>
+                                      <item translatable="yes">Ask me</item>
+                                      <item translatable="yes">Area</item>
+                                      <item translatable="yes">Window</item>
+                                      <item translatable="yes">Whole screen</item>
+                                    </items>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                            <child>
                               <object class="AdwComboRow" id="delay_row">
                                 <property name="title" translatable="yes">Delay</property>
                                 <property name="model">
@@ -80,7 +110,7 @@ mod imp {
                             <child>
                               <object class="AdwSwitchRow" id="preview_row">
                                 <property name="title" translatable="yes">Preview</property>
-                                <property name="subtitle" translatable="yes">Edit before saving</property>
+                                <property name="subtitle" translatable="yes">Annotate and edit before saving</property>
                               </object>
                             </child>
                           </object>
@@ -98,7 +128,7 @@ mod imp {
                                     <property name="width-request">80</property>
                                     <property name="height-request">80</property>
                                     <property name="halign">center</property>
-                                    <property name="margin-top">48</property>
+                                    <property name="margin-top">36</property>
                                     <property name="tooltip-text" translatable="yes">Take screenshot</property>
                                     <property name="child">
                                       <object class="GtkImage">
@@ -204,7 +234,7 @@ mod imp {
 
                         <child>
                           <object class="AdwPreferencesGroup">
-                            <property name="title" translatable="yes">Capture</property>
+                            <property name="title" translatable="yes">Output</property>
                             <child>
                               <object class="AdwComboRow" id="format_row">
                                 <property name="title" translatable="yes">Format</property>
@@ -218,12 +248,21 @@ mod imp {
                                 </property>
                               </object>
                             </child>
-                          </object>
-                        </child>
-
-                        <child>
-                          <object class="AdwPreferencesGroup">
-                            <property name="title" translatable="yes">Output</property>
+                            <child>
+                              <object class="AdwSpinRow" id="quality_row">
+                                <property name="title" translatable="yes">JPEG Quality</property>
+                                <property name="subtitle" translatable="yes">Higher values keep more detail</property>
+                                <property name="adjustment">
+                                  <object class="GtkAdjustment">
+                                    <property name="lower">1</property>
+                                    <property name="upper">100</property>
+                                    <property name="step-increment">1</property>
+                                    <property name="page-increment">10</property>
+                                    <property name="value">90</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
                             <child>
                               <object class="AdwActionRow" id="save_dir_row">
                                 <property name="title" translatable="yes">Save Location</property>
@@ -261,6 +300,19 @@ mod imp {
           </object>
         </property>
       </template>
+
+      <menu id="primary_menu">
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+            <attribute name="action">app.shortcuts</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">_About SuperShot</attribute>
+            <attribute name="action">app.about</attribute>
+          </item>
+        </section>
+      </menu>
     </interface>
     "#)]
     /// Internal state for the main window.
@@ -274,10 +326,19 @@ mod imp {
         pub capture_btn: TemplateChild<gtk::Button>,
 
         #[template_child]
+        pub menu_btn: TemplateChild<gtk::MenuButton>,
+
+        #[template_child]
+        pub mode_row: TemplateChild<adw::ComboRow>,
+
+        #[template_child]
         pub delay_row: TemplateChild<adw::ComboRow>,
 
         #[template_child]
         pub format_row: TemplateChild<adw::ComboRow>,
+
+        #[template_child]
+        pub quality_row: TemplateChild<adw::SpinRow>,
 
         #[template_child]
         pub watermark_row: TemplateChild<adw::SwitchRow>,
@@ -322,17 +383,17 @@ mod imp {
     }
 
     impl ObjectImpl for SuperShotWindow {
-        /// Post-construction initialization.
-        ///
-        /// Attempts to load the GSettings schema and, if successful, establishes
-        /// bidirectional bindings between settings keys and their UI widgets.
         fn constructed(&self) {
             self.parent_constructed();
             let obj = self.obj();
 
-            // Increase internal padding of the tab buttons.
+            // Widen the tab buttons. The provider is installed for the display
+            // rather than the widget because AdwViewSwitcher builds its buttons
+            // internally, and only one window is ever constructed.
             let css = gtk::CssProvider::new();
-            css.load_from_string("viewswitcher button { padding: 10px 14px; margin: 0 5px; border-radius: 12px; }");
+            css.load_from_string(
+                "viewswitcher button { padding: 10px 14px; margin: 0 5px; border-radius: 12px; }",
+            );
             if let Some(display) = gtk::gdk::Display::default() {
                 gtk::style_context_add_provider_for_display(
                     &display,
@@ -342,21 +403,21 @@ mod imp {
             }
 
             if let Some(settings) = super::SuperShotWindow::try_load_settings() {
+                settings.bind("capture-mode", &*self.mode_row, "selected").build();
                 settings.bind("delay", &*self.delay_row, "selected").build();
                 settings.bind("format", &*self.format_row, "selected").build();
+                settings.bind("jpeg-quality", &*self.quality_row, "value").build();
                 settings.bind("watermark", &*self.watermark_row, "active").build();
                 settings.bind("watermark-format", &*self.watermark_format_row, "selected").build();
                 settings.bind("watermark-position", &*self.watermark_position_row, "selected").build();
                 settings.bind("watermark-color", &*self.watermark_color_row, "selected").build();
                 settings.bind("preview", &*self.preview_row, "active").build();
 
-                // Restore custom watermark text from settings.
                 let wm_text: String = settings.string("watermark-text").into();
                 if !wm_text.is_empty() {
                     self.watermark_text_row.set_text(&wm_text);
                 }
 
-                // Restore save directory subtitle from settings.
                 let dir: String = settings.string("save-directory").into();
                 if !dir.is_empty() {
                     self.save_dir_row.set_subtitle(&dir);
@@ -365,16 +426,26 @@ mod imp {
                 let _ = self.settings.set(settings);
             }
 
+            // The quality row is only meaningful for JPEG output.
+            let sync_quality = {
+                let format_row = self.format_row.clone();
+                let quality_row = self.quality_row.clone();
+                move || quality_row.set_sensitive(format_row.selected() == 1)
+            };
+            sync_quality();
+            self.format_row.connect_selected_notify({
+                let sync = sync_quality.clone();
+                move |_| sync()
+            });
+
             self.capture_btn.connect_clicked(glib::clone!(
                 #[weak]
                 obj,
-                move |_| {
-                    obj.start_capture_flow();
-                }
+                move |_| obj.start_capture_flow()
             ));
 
             // Persist custom watermark text on edit. Clamp length to prevent
-            // unbounded text from causing Cairo allocation failures during render.
+            // unbounded text from causing pathological layout during render.
             self.watermark_text_row.connect_changed(glib::clone!(
                 #[weak]
                 obj,
@@ -392,17 +463,13 @@ mod imp {
             self.save_dir_row.connect_activated(glib::clone!(
                 #[weak]
                 obj,
-                move |_| {
-                    obj.open_folder_chooser();
-                }
+                move |_| obj.open_folder_chooser()
             ));
 
             self.open_folder_row.connect_activated(glib::clone!(
                 #[weak]
                 obj,
-                move |_| {
-                    obj.open_screenshots_folder();
-                }
+                move |_| obj.open_screenshots_folder()
             ));
         }
     }
@@ -423,17 +490,14 @@ glib::wrapper! {
 impl SuperShotWindow {
     /// Create a new window attached to the given application instance.
     pub fn new(app: &super::app::SuperShotApp) -> Self {
-        glib::Object::builder()
-            .property("application", app)
-            .build()
+        glib::Object::builder().property("application", app).build()
     }
 
     /// Attempt to load the GSettings schema from the system or user schema directories.
     ///
-    /// Returns `None` if the schema is not installed, which allows the application
-    /// to function without GSettings (using widget defaults instead). During
-    /// development, the `build.rs` script installs the schema automatically
-    /// into `~/.local/share/glib-2.0/schemas/`.
+    /// Returns `None` if the schema is not installed, which allows the
+    /// application to function with widget defaults instead of crashing — the
+    /// behaviour `gio::Settings::new()` would produce.
     fn try_load_settings() -> Option<gio::Settings> {
         let schema_source = gio::SettingsSchemaSource::default()?;
         let schema = schema_source.lookup(crate::config::APP_ID, true)?;
@@ -441,15 +505,35 @@ impl SuperShotWindow {
     }
 
     /// Enable or disable the capture button.
-    ///
-    /// Exposed as a public method so that `capture.rs` can guard against
-    /// concurrent capture requests without reaching into the private `imp` module.
     pub fn set_capture_sensitive(&self, sensitive: bool) {
         self.imp().capture_btn.set_sensitive(sensitive);
     }
 
+    /// Show or clear a working indicator while a capture is being processed.
+    ///
+    /// Rendering and encoding now happen on a worker thread, so the window
+    /// stays responsive; without a visible indicator that would read as the
+    /// capture having silently failed.
+    pub fn set_busy(&self, busy: bool) {
+        let imp = self.imp();
+        if busy {
+            let spinner = gtk4::Spinner::new();
+            spinner.set_size_request(40, 40);
+            spinner.start();
+            imp.capture_btn.set_child(Some(&spinner));
+            imp.capture_btn.set_sensitive(false);
+        } else {
+            self.restore_capture_icon();
+        }
+    }
+
+    fn restore_capture_icon(&self) {
+        let icon = gtk4::Image::from_icon_name("supershot-capture-symbolic");
+        icon.set_pixel_size(50);
+        self.imp().capture_btn.set_child(Some(&icon));
+    }
+
     /// Display the countdown number inside the capture button.
-    /// Replaces the icon with a numeric label for the remaining seconds.
     pub fn show_countdown(&self, seconds: u32) {
         let imp = self.imp();
         let label = gtk4::Label::new(Some(&seconds.to_string()));
@@ -460,42 +544,28 @@ impl SuperShotWindow {
 
     /// Restore the capture button icon and re-enable it.
     pub fn hide_countdown(&self) {
-        let imp = self.imp();
-        let icon = gtk4::Image::from_icon_name("supershot-capture-symbolic");
-        icon.set_pixel_size(50);
-        imp.capture_btn.set_child(Some(&icon));
-        imp.capture_btn.set_sensitive(true);
+        self.restore_capture_icon();
+        self.imp().capture_btn.set_sensitive(true);
     }
 
-    /// Return the current save directory from settings, or the default.
+    /// Return the configured save directory, or `None` for the default.
     fn save_directory(&self) -> Option<PathBuf> {
-        self.imp().settings.get()
-            .and_then(|s| {
-                let dir: String = s.string("save-directory").into();
-                if dir.is_empty() { None } else { Some(PathBuf::from(dir)) }
-            })
+        self.imp().settings.get().and_then(|s| {
+            let dir: String = s.string("save-directory").into();
+            if dir.is_empty() {
+                None
+            } else {
+                Some(PathBuf::from(dir))
+            }
+        })
     }
 
-    /// Read current widget state and initiate the capture pipeline.
-    ///
-    /// Maps the delay combo box index to seconds (0=None, 1=3s, 2=5s, 3=10s),
-    /// constructs a CaptureOptions from all settings, and delegates to
-    /// `capture::start_capture()`.
-    pub fn start_capture_flow(&self) {
-        use crate::capture;
-
+    /// Collect current widget state into a `CaptureOptions`.
+    pub fn capture_options(&self) -> crate::capture::CaptureOptions {
         let imp = self.imp();
-
-        let delay_idx = imp.delay_row.selected();
-        let delay = match delay_idx {
-            1 => 3,
-            2 => 5,
-            3 => 10,
-            _ => 0,
-        };
-
-        let options = capture::CaptureOptions {
+        crate::capture::CaptureOptions {
             format_idx: imp.format_row.selected(),
+            jpeg_quality: imp.quality_row.value().round().clamp(1.0, 100.0) as u8,
             watermark: imp.watermark_row.is_active(),
             watermark_format: imp.watermark_format_row.selected(),
             watermark_text: imp.watermark_text_row.text().to_string(),
@@ -503,55 +573,75 @@ impl SuperShotWindow {
             watermark_color: imp.watermark_color_row.selected(),
             save_dir: self.save_directory(),
             show_preview: imp.preview_row.is_active(),
-            crop: None,
-        };
+            mode: crate::capture::CaptureMode::from_index(imp.mode_row.selected()),
+            captured_at: None,
+        }
+    }
 
-        capture::start_capture(self, delay, options);
+    /// Read current widget state and initiate the capture pipeline.
+    pub fn start_capture_flow(&self) {
+        let delay = match self.imp().delay_row.selected() {
+            1 => 3,
+            2 => 5,
+            3 => 10,
+            _ => 0,
+        };
+        crate::capture::start_capture(self, delay, self.capture_options());
     }
 
     /// Open a folder chooser dialog and update the save directory setting.
     fn open_folder_chooser(&self) {
         let dialog = gtk4::FileDialog::new();
-        dialog.set_title("Choose Save Directory");
+        dialog.set_title(&gettext("Choose Save Directory"));
 
-        // Set initial folder to the current save directory if configured.
         if let Some(dir) = self.save_directory() {
             dialog.set_initial_folder(Some(&gio::File::for_path(&dir)));
         }
 
-        dialog.select_folder(Some(self), gio::Cancellable::NONE, glib::clone!(
-            #[weak(rename_to = win)]
-            self,
-            move |result: Result<gio::File, glib::Error>| {
-                if let Ok(folder) = result {
-                    if let Some(path) = folder.path() {
-                        // Canonicalize to resolve symlinks and normalize the
-                        // path before persisting; falls back to the raw path
-                        // if canonicalization fails (e.g. directory removed
-                        // between selection and persist).
-                        let resolved = std::fs::canonicalize(&path).unwrap_or(path);
-                        let path_str = resolved.to_string_lossy().to_string();
-                        let imp = win.imp();
-                        imp.save_dir_row.set_subtitle(&path_str);
-                        if let Some(settings) = imp.settings.get() {
-                            let _ = settings.set_string("save-directory", &path_str);
-                        }
+        dialog.select_folder(
+            Some(self),
+            gio::Cancellable::NONE,
+            glib::clone!(
+                #[weak(rename_to = win)]
+                self,
+                move |result: Result<gio::File, glib::Error>| {
+                    let Ok(folder) = result else { return };
+                    let Some(path) = folder.path() else { return };
+
+                    // Canonicalize to resolve symlinks and normalize the path
+                    // before persisting; fall back to the raw path if that
+                    // fails (e.g. the directory vanished between selection and
+                    // persist).
+                    let resolved = std::fs::canonicalize(&path).unwrap_or(path);
+                    let path_str = resolved.to_string_lossy().to_string();
+
+                    let imp = win.imp();
+                    imp.save_dir_row.set_subtitle(&path_str);
+                    if let Some(settings) = imp.settings.get() {
+                        let _ = settings.set_string("save-directory", &path_str);
                     }
                 }
-            }
-        ));
+            ),
+        );
     }
 
     /// Open the screenshots save directory in the system file manager.
     fn open_screenshots_folder(&self) {
-        let dir = self.save_directory()
-            .unwrap_or_else(|| {
-                dirs::picture_dir()
-                    .unwrap_or_else(|| PathBuf::from(std::env::var("HOME").unwrap_or_default()))
-                    .join("Screenshots")
-            });
+        let dir = self.save_directory().unwrap_or_else(|| {
+            dirs::picture_dir()
+                .or_else(|| dirs::home_dir().map(|h| h.join("Pictures")))
+                .unwrap_or_else(std::env::temp_dir)
+                .join("Screenshots")
+        });
 
-        let uri = format!("file://{}", dir.display());
+        // Create on first use so the launcher does not fail on a fresh install
+        // where no screenshot has been taken yet.
+        let _ = std::fs::create_dir_all(&dir);
+
+        // Build the URI through GIO rather than by string concatenation: a
+        // hand-built "file://" + path breaks on any directory containing a
+        // space, a '#', a '%' or a non-ASCII character.
+        let uri = gio::File::for_path(&dir).uri();
         if let Err(e) = gio::AppInfo::launch_default_for_uri(&uri, gio::AppLaunchContext::NONE) {
             eprintln!("Failed to open folder: {}", e);
         }
