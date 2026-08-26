@@ -96,7 +96,7 @@ Without a portal backend, SuperShot falls back to any of `grim`+`slurp`,
 
 | Tool | Version |
 |---|---|
-| Rust toolchain | 1.83+ (edition 2021) |
+| Rust toolchain | 1.92+ (edition 2021) |
 | pkg-config | -- |
 | GTK 4 development headers | `libgtk-4-dev` |
 | Libadwaita development headers | `libadwaita-1-dev` |

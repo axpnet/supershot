@@ -8,7 +8,7 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/axpnet/supershot"
 keywords = ["screenshot", "gtk4", "libadwaita", "rust", "gnome"]
 categories = ["gui", "multimedia"]
-rust-version = "1.83"
+rust-version = "1.92"
 
 [dependencies]
 gtk4 = { version = "0.11", package = "gtk4", features = ["v4_14"] }

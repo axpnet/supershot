@@ -59,8 +59,38 @@ apps:
       - removable-media
 
 parts:
+  # The Rust toolchain, fetched over HTTPS.
+  #
+  # Neither of the obvious routes works inside a build container. `plugin: rust`
+  # requires the `rustup` *snap*, which is classic and cannot be installed
+  # there: the part fails validation with "'rustup' not found", identically
+  # under LXD and on Launchpad. And the archive toolchain tops out at
+  # rustc 1.91, while gtk4-sys 0.11.4 and the pango crates require 1.92.
+  #
+  # rustup's install script needs nothing but curl and honours the HTTP proxy
+  # Launchpad builders set, so it works in both environments. The prefix is
+  # absolute because the next part runs in the same container but a different
+  # working directory.
+  rust-deps:
+    plugin: nil
+    build-packages:
+      - curl
+      - ca-certificates
+      - gcc
+    override-build: |
+      set -eu
+      export RUSTUP_HOME=/opt/rust/rustup
+      export CARGO_HOME=/opt/rust/cargo
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+        | sh -s -- -y --profile minimal --default-toolchain stable --no-modify-path
+      /opt/rust/cargo/bin/rustc --version
+    # Build-time only; nothing from this part belongs in the snap.
+    prime:
+      - -*
+
   supershot:
-    plugin: rust
+    after: [rust-deps]
+    plugin: nil
     source: .
     build-packages:
       - libgtk-4-dev
@@ -75,21 +105,17 @@ parts:
       - liblcms2-2
     override-build: |
       set -eu
-      # The rust plugin runs `cargo install --locked --root $CRAFT_PART_INSTALL`,
-      # which leaves the binary in bin/.
-      craftctl default
+      export RUSTUP_HOME=/opt/rust/rustup
+      export CARGO_HOME=/opt/rust/cargo
+      export PATH="/opt/rust/cargo/bin:$PATH"
 
-      # Then install the full set of data files through the same script the
-      # .deb and AppImage builds use, so the three cannot disagree about what a
-      # complete installation contains. That divergence is what left every
-      # channel shipping zero translation catalogs before 1.3.0.
-      SUPERSHOT_BINARY="$CRAFT_PART_INSTALL/bin/supershot" \
-        ./scripts/install.sh "$CRAFT_PART_INSTALL"
+      cargo build --release --locked
 
-      # The binary now lives at usr/bin/supershot; drop the plugin's copy
-      # rather than shipping it twice.
-      rm -f "$CRAFT_PART_INSTALL/bin/supershot"
-      rmdir "$CRAFT_PART_INSTALL/bin" 2>/dev/null || true
+      # Install through the same script the .deb and AppImage builds use, so the
+      # three cannot disagree about what a complete installation contains. That
+      # divergence is what left every channel shipping zero translation
+      # catalogs before 1.3.0.
+      ./scripts/install.sh "$CRAFT_PART_INSTALL"
 
       glib-compile-schemas "$CRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/"
     parse-info: [usr/share/metainfo/com.github.axpnet.SuperShot.metainfo.xml]

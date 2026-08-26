@@ -194,8 +194,9 @@ environments and distributions.
 - `ashpd` builds with `default-features = false` and only `screenshot` and
   `tokio`. The `gtk4_wayland` and `gtk4_x11` features existed solely to
   construct a `WindowIdentifier`, which SuperShot cannot use (see above).
-- `rust-version = "1.83"` declared, replacing the README's inaccurate claim of
-  1.70.
+- `rust-version = "1.92"` declared, replacing the README's inaccurate claim of
+  1.70. The figure is the real floor imposed by the dependency tree —
+  `gtk4-sys` 0.11.4 and the pango crates require 1.92 — not an estimate.
 
 ### Audit
 
