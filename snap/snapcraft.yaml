@@ -47,12 +47,26 @@ platforms:
   armhf:
   riscv64:
 
+# SuperShot is a GApplication, so it claims its application ID as a well-known
+# name on the session bus. snapd only lets a snap own names derived from the
+# snap's own name, and this one is a reverse-DNS app ID; without this slot the
+# registration is refused by AppArmor policy and the process exits immediately
+# with "not allowed to own the service ... due to AppArmor policy", never
+# showing a window.
+slots:
+  dbus-supershot:
+    interface: dbus
+    bus: session
+    name: com.github.axpnet.SuperShot
+
 apps:
   supershot:
     command: usr/bin/supershot
     common-id: com.github.axpnet.SuperShot
     desktop: usr/share/applications/com.github.axpnet.SuperShot.desktop
     extensions: [gnome]
+    slots:
+      - dbus-supershot
     plugs:
       - home
       - desktop
