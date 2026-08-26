@@ -60,26 +60,36 @@ apps:
 
 parts:
   supershot:
-    plugin: nil
+    plugin: rust
     source: .
     build-packages:
       - libgtk-4-dev
       - libadwaita-1-dev
       - pkg-config
       - libglib2.0-dev
+      # msgfmt, for compiling the translation catalogs.
       - gettext
-    build-snaps:
-      - rustup
     stage-packages:
       - libgtk-4-1
       - libadwaita-1-0
       - liblcms2-2
     override-build: |
-      rustup default stable
-      cargo build --release --locked
-      # One installer shared with the .deb, Flatpak and AppImage builds, so the
-      # four cannot disagree about what a complete installation contains — the
-      # bug that left every channel shipping zero translation catalogs.
-      ./scripts/install.sh "$CRAFT_PART_INSTALL"
+      set -eu
+      # The rust plugin runs `cargo install --locked --root $CRAFT_PART_INSTALL`,
+      # which leaves the binary in bin/.
+      craftctl default
+
+      # Then install the full set of data files through the same script the
+      # .deb and AppImage builds use, so the three cannot disagree about what a
+      # complete installation contains. That divergence is what left every
+      # channel shipping zero translation catalogs before 1.3.0.
+      SUPERSHOT_BINARY="$CRAFT_PART_INSTALL/bin/supershot" \
+        ./scripts/install.sh "$CRAFT_PART_INSTALL"
+
+      # The binary now lives at usr/bin/supershot; drop the plugin's copy
+      # rather than shipping it twice.
+      rm -f "$CRAFT_PART_INSTALL/bin/supershot"
+      rmdir "$CRAFT_PART_INSTALL/bin" 2>/dev/null || true
+
       glib-compile-schemas "$CRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/"
     parse-info: [usr/share/metainfo/com.github.axpnet.SuperShot.metainfo.xml]

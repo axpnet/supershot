@@ -1,5 +1,10 @@
 /target
 /build
+
+# snapcraft --destructive-mode work directories
+/parts
+/stage
+/prime
 **/*.rs.bk
 *.swp
 *.swo
