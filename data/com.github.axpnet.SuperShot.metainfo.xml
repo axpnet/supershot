@@ -87,6 +87,15 @@
   </screenshots>
 
   <releases>
+    <release version="1.3.1" date="2026-09-25">
+      <description>
+        <p>Fixed a startup crash on machines that had ever built SuperShot
+        from source.</p>
+        <ul>
+          <li>A development schema left in ~/.local/share/glib-2.0/schemas by an older cargo build outranked the schema shipped by the installed package, and the app aborted at startup with "Settings schema ... does not contain a key named 'capture-mode'". The app now resolves its own schema from its installation prefix first and ignores stale schemas instead of crashing</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.3.0" date="2026-08-26">
       <description>
         <p>Annotation, redaction and cross-desktop compatibility.</p>
