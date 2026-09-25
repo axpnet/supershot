@@ -8,8 +8,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  # A build must never depend on the developer's home directory.
-  SUPERSHOT_NO_DEV_SCHEMA: "1"
 
 jobs:
   build:
@@ -51,6 +49,9 @@ jobs:
         run: cargo test --locked
 
       - name: Build
+        # build.rs compiles the GSettings schema and the translation catalogs
+        # into OUT_DIR and writes nothing into $HOME, so a build never depends
+        # on the developer's home directory.
         run: cargo build --release --locked
 
       - name: Validate desktop entry

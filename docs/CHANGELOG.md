@@ -9,6 +9,22 @@ Version numbering adheres to [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Startup crash with a stale GSettings schema.** A development schema left
+  in `~/.local/share/glib-2.0/schemas` by an older `cargo` build outranks the
+  schema shipped by the installed package, and `gio::Settings` treats a
+  missing key as a fatal abort, so the app died with
+  "Settings schema ... does not contain a key named 'capture-mode'" on any
+  machine that had ever built an earlier release from source. The app now
+  resolves its own schema from its installation prefix first and validates
+  that every key it reads exists, ignoring stale versions instead of crashing.
+- **`build.rs` no longer writes anything into `$HOME`.** The development
+  schema is now compiled into the target directory (like the translation
+  catalogs already were), so development builds neither pollute the home
+  directory nor can later shadow a packaged schema. `SUPERSHOT_NO_DEV_SCHEMA`
+  is gone.
+
 ---
 
 ## [1.3.0] -- 2026-08-26

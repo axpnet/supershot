@@ -2,21 +2,31 @@
 // Copyright (c) 2026 axpnet <https://github.com/axpnet>
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Two jobs:
+// Two jobs, both scoped to OUT_DIR so nothing is ever written into $HOME:
 //
 //   1. Compile the gettext catalogs in po/*.po into binary .mo files under
 //      OUT_DIR/locale/<lang>/LC_MESSAGES/supershot.mo. Packaging scripts copy
 //      that tree into <prefix>/share/locale; `cargo run` picks it up directly
 //      via the SUPERSHOT_LOCALEDIR variable emitted below.
 //
-//   2. For development builds only, install and compile the GSettings XML
-//      schema into the user's local schema directory so `cargo run` works
-//      without a system-wide installation step.
+//   2. Compile the GSettings XML schema into OUT_DIR/schemas/ so `cargo run`
+//      works without a system-wide installation step, via the
+//      SUPERSHOT_BUILD_SCHEMADIR variable emitted below.
 //
-// Job 2 is deliberately skipped for release builds and whenever
-// SUPERSHOT_NO_DEV_SCHEMA is set: writing into $HOME during a build makes the
-// build non-reproducible and pollutes the user's home in distro packaging,
-// Flatpak and Snap build environments, which all run with a synthetic HOME.
+// The schema is compiled into OUT_DIR even for release builds: an installed
+// build resolves its own prefix at runtime and never consults OUT_DIR, but a
+// developer still using plain `cargo run` needs the schema available no matter
+// the profile.
+//
+// Historically the development schema was installed into
+// $HOME/.local/share/glib-2.0/schemas instead. That directory outranks the
+// system schema sources, so a dev build from an older release silently
+// shadowed the freshly installed packaging schema and the application aborted
+// with "Settings schema ... does not contain a key named '...'" because gio
+// treats a missing key as a fatal error. Writing into $HOME during a build
+// also made the build non-reproducible and polluted the home in distro
+// packaging, Flatpak and Snap build environments, which all run with a
+// synthetic HOME.
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -37,7 +47,6 @@ fn main() {
         }
     }
     println!("cargo:rerun-if-changed=data/com.github.axpnet.SuperShot.gschema.xml");
-    println!("cargo:rerun-if-env-changed=SUPERSHOT_NO_DEV_SCHEMA");
 
     let out_dir = PathBuf::from(std::env::var("OUT_DIR").expect("OUT_DIR is always set by cargo"));
     let locale_root = out_dir.join("locale");
@@ -47,13 +56,17 @@ fn main() {
     // Point the running binary at the freshly compiled catalogs. This makes
     // translations work under `cargo run` without installing anything; an
     // installed build resolves its own prefix at runtime instead.
-    println!("cargo:rustc-env=SUPERSHOT_BUILD_LOCALEDIR={}", locale_root.display());
+    println!(
+        "cargo:rustc-env=SUPERSHOT_BUILD_LOCALEDIR={}",
+        locale_root.display()
+    );
 
-    if std::env::var("PROFILE").as_deref() == Ok("debug")
-        && std::env::var_os("SUPERSHOT_NO_DEV_SCHEMA").is_none()
-    {
-        install_dev_schema();
-    }
+    let schema_root = out_dir.join("schemas");
+    compile_schema(&schema_root);
+    println!(
+        "cargo:rustc-env=SUPERSHOT_BUILD_SCHEMADIR={}",
+        schema_root.display()
+    );
 }
 
 /// Compile every catalog listed in po/LINGUAS into OUT_DIR/locale.
@@ -123,36 +136,53 @@ fn compile_catalogs(locale_root: &Path) {
     }
 }
 
-/// Development convenience: make `cargo run` find the GSettings schema.
-fn install_dev_schema() {
-    let Ok(home) = std::env::var("HOME") else {
-        return;
-    };
-
+/// Compile the GSettings schema into `schema_dir`, producing a
+/// `gschemas.compiled` the running binary can load directly.
+///
+/// A missing `glib-compile-schemas` or a broken XML is a warning, not an error:
+/// the application falls back gracefully at runtime when no compiled schema is
+/// available, so a deficient build toolchain must not break the build.
+fn compile_schema(schema_dir: &Path) {
     let schema_src = "data/com.github.axpnet.SuperShot.gschema.xml";
     if !Path::new(schema_src).exists() {
         println!("cargo:warning=GSettings schema not found at {}", schema_src);
         return;
     }
 
-    let schema_dir = PathBuf::from(home).join(".local/share/glib-2.0/schemas");
-    if let Err(e) = std::fs::create_dir_all(&schema_dir) {
-        println!("cargo:warning=Failed to create schema directory {}: {}", schema_dir.display(), e);
+    if let Err(e) = std::fs::create_dir_all(schema_dir) {
+        println!(
+            "cargo:warning=cannot create {}: {}",
+            schema_dir.display(),
+            e
+        );
         return;
     }
 
-    let dest = schema_dir.join("com.github.axpnet.SuperShot.gschema.xml");
-    if let Err(e) = std::fs::copy(schema_src, &dest) {
-        println!("cargo:warning=Failed to copy schema to {}: {}", dest.display(), e);
+    let copied = schema_dir.join("com.github.axpnet.SuperShot.gschema.xml");
+    if let Err(e) = std::fs::copy(schema_src, &copied) {
+        println!(
+            "cargo:warning=cannot copy schema to {}: {}",
+            copied.display(),
+            e
+        );
         return;
     }
 
-    match Command::new("glib-compile-schemas").arg(&schema_dir).status() {
-        Ok(s) if !s.success() => {
-            println!("cargo:warning=glib-compile-schemas exited with status {}", s);
+    match Command::new("glib-compile-schemas")
+        .arg(schema_dir)
+        .status()
+    {
+        Ok(status) if !status.success() => {
+            println!(
+                "cargo:warning=glib-compile-schemas exited with status {}",
+                status
+            );
         }
         Err(e) => {
-            println!("cargo:warning=glib-compile-schemas not found or failed: {}", e);
+            println!(
+                "cargo:warning=glib-compile-schemas not found or failed: {}",
+                e
+            );
         }
         _ => {}
     }

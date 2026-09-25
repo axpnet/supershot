@@ -493,15 +493,67 @@ impl SuperShotWindow {
         glib::Object::builder().property("application", app).build()
     }
 
-    /// Attempt to load the GSettings schema from the system or user schema directories.
+    /// Keys the UI reads through `gio::Settings`, either directly or via
+    /// `bind()`. A schema missing any of them is from an older release: picking
+    /// it up and then touching a nonexistent key would abort the process with a
+    /// fatal `GLib-GIO-ERROR`, so such sources are refused wholesale.
+    const REQUIRED_SCHEMA_KEYS: &[&str] = &[
+        "capture-mode",
+        "delay",
+        "format",
+        "jpeg-quality",
+        "preview",
+        "save-directory",
+        "watermark",
+        "watermark-color",
+        "watermark-format",
+        "watermark-position",
+        "watermark-text",
+    ];
+
+    /// Attempt to load the GSettings schema shipped with this build.
     ///
-    /// Returns `None` if the schema is not installed, which allows the
+    /// The app's own prefix is searched before the process-wide default source,
+    /// so a stale schema left in a higher-priority user directory (e.g.
+    /// `~/.local/share/glib-2.0/schemas` from an old `cargo` build) can never
+    /// shadow the packaged one. Every candidate is validated against
+    /// [`REQUIRED_SCHEMA_KEYS`] before being accepted.
+    ///
+    /// Returns `None` if no usable schema is installed, which allows the
     /// application to function with widget defaults instead of crashing — the
     /// behaviour `gio::Settings::new()` would produce.
     fn try_load_settings() -> Option<gio::Settings> {
-        let schema_source = gio::SettingsSchemaSource::default()?;
-        let schema = schema_source.lookup(crate::config::APP_ID, true)?;
-        Some(gio::Settings::new_full(&schema, None::<&gio::SettingsBackend>, None))
+        for dir in crate::config::schema_dir_candidates() {
+            // `g_settings_schema_source_new_from_directory` reads a compiled
+            // `gschemas.compiled`; skip directories that have none (a source
+            // checkout without a build step, or a directory holding only XML).
+            let compiled = dir.join("gschemas.compiled");
+            if !compiled.is_file() {
+                continue;
+            }
+            let Ok(source) = gio::SettingsSchemaSource::from_directory(&dir, None, true) else {
+                continue;
+            };
+            if let Some(settings) = Self::settings_from_source(&source) {
+                return Some(settings);
+            }
+        }
+
+        // Fall back to the process-wide search path (system + user schema
+        // directories). Still requires the keys to match, so a stale schema is
+        // ignored here too rather than made fatal.
+        let default_source = gio::SettingsSchemaSource::default()?;
+        Self::settings_from_source(&default_source)
+    }
+
+    /// Build a `gio::Settings` from `source`, refusing schemas that predate
+    /// this version of the app.
+    fn settings_from_source(source: &gio::SettingsSchemaSource) -> Option<gio::Settings> {
+        let schema = source.lookup(crate::config::APP_ID, true)?;
+        let complete = Self::REQUIRED_SCHEMA_KEYS
+            .iter()
+            .all(|key| schema.has_key(key));
+        complete.then(|| gio::Settings::new_full(&schema, None::<&gio::SettingsBackend>, None))
     }
 
     /// Enable or disable the capture button.

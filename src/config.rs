@@ -103,6 +103,61 @@ fn locale_candidates() -> Vec<PathBuf> {
     candidates
 }
 
+/// Last-resort schema directory candidates should the prefix-based resolution
+/// and the default source both fail. Only consulted by `window.rs`; the
+/// application is designed to run with widget defaults when no schema can be
+/// found.
+const FALLBACK_SCHEMADIR: &str = "/usr/share/glib-2.0/schemas";
+
+/// Directories that may hold this application's compiled GSettings schema.
+///
+/// Mirrors `locale_candidates()`, in the same order, because the code and data
+/// live in the same prefix in every packaging channel. The compiled schema is
+/// shipped as `gschemas.compiled` inside these directories:
+///
+///   .deb / distro    /usr/share/glib-2.0/schemas (compiled by postinst)
+///   Flatpak          /app/share/glib-2.0/schemas
+///   Snap             $SNAP/usr/share/glib-2.0/schemas (compiled at build)
+///   AppImage         <mountpoint>/usr/share/glib-2.0/schemas
+///   source checkout  <OUT_DIR>/schemas, compiled by build.rs
+///
+/// Unlike the locale candidates, one of these is not automatically enough:
+/// the caller must still verify that the schema it finds actually contains the
+/// keys this version reads. A stale schema in a higher-priority user directory
+/// is exactly the failure this resolution order exists to outrank — see
+/// `window.rs::try_load_settings`.
+pub fn schema_dir_candidates() -> Vec<PathBuf> {
+    let mut candidates = Vec::new();
+
+    if let Some(dir) = std::env::var_os("SUPERSHOT_SCHEMADIR") {
+        candidates.push(PathBuf::from(dir));
+    }
+
+    if is_flatpak() {
+        candidates.push(PathBuf::from("/app/share/glib-2.0/schemas"));
+    }
+
+    if let Some(snap) = std::env::var_os("SNAP") {
+        candidates.push(PathBuf::from(snap).join("usr/share/glib-2.0/schemas"));
+    }
+
+    if let Ok(exe) = std::env::current_exe() {
+        if let Some(bindir) = exe.parent() {
+            if let Some(prefix) = bindir.parent() {
+                candidates.push(prefix.join("share/glib-2.0/schemas"));
+            }
+        }
+    }
+
+    // Compiled by build.rs into OUT_DIR. Probed last among the relocatable
+    // candidates so an installed copy always prefers its own prefix; in
+    // practice this only ever matches under `cargo run`.
+    candidates.push(PathBuf::from(env!("SUPERSHOT_BUILD_SCHEMADIR")));
+
+    candidates.push(PathBuf::from(FALLBACK_SCHEMADIR));
+    candidates
+}
+
 /// Which packaging channel this build is running from.
 pub fn channel() -> &'static str {
     if is_flatpak() {

@@ -130,10 +130,11 @@ cargo build --release
 
 The release binary is produced at `target/release/supershot`.
 
-During development builds `build.rs` installs the GSettings schema into
-`~/.local/share/glib-2.0/schemas/` and compiles it, so `cargo run` works without
-a system-wide installation step. Release builds do not touch `$HOME`; set
-`SUPERSHOT_NO_DEV_SCHEMA=1` to disable it for debug builds too.
+During development `build.rs` compiles the GSettings schema and the translation
+catalogs into the target directory, so `cargo run` works without a system-wide
+installation step. Nothing is ever written into `$HOME`, where an outdated
+development schema could otherwise shadow an installed package's schema and
+crash the app at startup.
 
 ## Installation
 

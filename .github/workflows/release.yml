@@ -10,7 +10,6 @@ permissions:
 
 env:
   CARGO_TERM_COLOR: always
-  SUPERSHOT_NO_DEV_SCHEMA: "1"
 
 jobs:
   version-check:
